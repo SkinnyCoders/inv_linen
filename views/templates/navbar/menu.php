@@ -1,0 +1,162 @@
+<div class="menu">
+    <ul class="list">
+        <li class="header">MENU</li>
+        <?php
+        if ($role == 1) { ?>
+            <li>
+                <a href="index.html">
+                    <i class="material-icons">home</i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0);" class="menu-toggle">
+                    <i class="material-icons">home</i>
+                    <span>Linen</span>
+                </a>
+                <ul class="ml-menu">
+                    <li>
+                        <a href="javascript:void(0);" class="menu-toggle">
+                            <span>Cards</span>
+                        </a>
+                        <ul class="ml-menu">
+                            <li>
+                                <a href="pages/widgets/cards/basic.html">Basic</a>
+                            </li>
+                            <li>
+                                <a href="pages/widgets/cards/colored.html">Colored</a>
+                            </li>
+                            <li>
+                                <a href="pages/widgets/cards/no-header.html">No Header</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        <?php
+        //menu admin IT
+        } elseif ($role == 2) { ?>
+            <li>
+                <a href="<?=$base_url?>admin/dashboard/">
+                    <i class="material-icons">home</i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0);" class="menu-toggle">
+                    <i class="material-icons">home</i>
+                    <span>Data Linen</span>
+                </a>
+                <ul class="ml-menu">
+                    <li>
+                        <a href="<?php echo $base_url ?>admin/linen/list/">Daftar Linen</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $base_url ?>admin/linen/kategori/">Kategori Linen</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="<?php echo $base_url ?>admin/user/list/">
+                    <i class="material-icons">home</i>
+                    <span>Pengguna</span>
+                </a>
+            </li>
+            <li>
+                <a href="<?php echo $base_url ?>admin/ruang_kelas/">
+                    <i class="material-icons">home</i>
+                    <span>Ruang & Kelas</span>
+                </a>
+            </li>
+            <li>
+                <a href="pages/typography.html">
+                    <i class="material-icons">text_fields</i>
+                    <span>Peralatan</span>
+                </a>
+            </li>
+             <?php
+
+        }elseif ($role == 3) { ?>
+            <li>
+                <a href="<?=$base_url?>laundry/dashboard/">
+                    <i class="material-icons">home</i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="<?=$base_url?>laundry/linen-kotor/">
+                    <i class="material-icons">home</i>
+                    <span>Data Linen Kotor</span>
+                </a>
+            </li>
+             <li>
+                <a href="<?=$base_url?>laundry/pencucian/">
+                    <i class="material-icons">home</i>
+                    <span>Data Pencucian Linen</span>
+                </a>
+            </li>
+            <li>
+                <a href="<?php echo $base_url ?>laundry/linen-bersih/">
+                    <i class="material-icons">home</i>
+                    <span>Data Linen Bersih</span>
+                </a>
+            </li>
+            <li>
+                <a href="<?php echo $base_url ?>perawat/linen-bersih/">
+                    <i class="material-icons">home</i>
+                    <span>Data Linen Reject atau Hilang</span>
+                </a>
+            </li>
+        
+        <?php
+
+        }elseif ($role == 4) { ?>
+            <li>
+                <a href="<?=$base_url?>perawat/dashboard/">
+                    <i class="material-icons">home</i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0);" class="menu-toggle">
+                    <i class="material-icons">home</i>
+                    <span>Data Permintaan</span>
+                </a>
+                <ul class="ml-menu">
+                    <li>
+                        <a href="<?php echo $base_url ?>perawat/permintaan/linen/">Permintaan Linen</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $base_url ?>perawat/permintaan/perlengkapan/">Permintaan Perlengkapan</a>
+                    </li>
+                </ul>
+            </li>
+             <li>
+                <a href="javascript:void(0);" class="menu-toggle">
+                    <i class="material-icons">home</i>
+                    <span>Data Penerimaan</span>
+                </a>
+                <ul class="ml-menu">
+                    <li>
+                        <a href="<?php echo $base_url ?>perawat/penerimaan/linen/">Penerimaan Linen</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $base_url ?>perawat/penerimaan/perlengkapan/">Penerimaan Perlengkapan</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="<?php echo $base_url ?>perawat/linen-bersih/">
+                    <i class="material-icons">home</i>
+                    <span>Penerimaan Linen Bersih</span>
+                </a>
+            </li>
+
+        <?php
+        }
+
+        ?>
+
+
+    </ul>
+</div>
