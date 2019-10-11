@@ -2,8 +2,8 @@
 
 require 'controller/config/connection.php';
 
-if (@$_POST) {
-	$id_ruang = $_POST['id'];
+if (@$_GET['id']) {
+	$id_ruang = $_GET['id'];
 
 	$delete_user = $conn->prepare("DELETE FROM `ruang` WHERE `id_ruang` =?");
 	$delete_user->bind_param('s', $id_ruang);

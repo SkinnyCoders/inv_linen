@@ -339,7 +339,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                 }, function() {
                                     $.ajax({
                                         method: "POST",
-                                        url: "<?= $base_url ?>controller/admin/ruang-kelas/delete_ruang/",
+                                        url: "<?= $base_url ?>controller/admin/ruang-kelas/delete_ruang/?id="+dataId,
                                         data: {
                                             'id_ruang': dataId
                                         },
