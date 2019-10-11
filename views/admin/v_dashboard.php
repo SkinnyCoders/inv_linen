@@ -3,7 +3,6 @@ session_start();
 
 if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
     if (isset($_SESSION['role']) && $_SESSION['role'] == '2') {
-        var_dump($_SESSION);
 
         include_once 'views/templates/head.php';
         require 'controller/config/connection.php';

@@ -109,7 +109,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                         <td><?= $no++ ?></td>
                                                         <td><?= ucwords($data_kategori['nama_ruang']) ?></td>
                                                         <td class="text-nowrap"><a href="javascript:void(0)" id="<?=$data_kategori['id_ruang']?>" data-toggle="modal" data-target="#modalRuangEdit" class="btn btn-info waves-effect m-r-20 edit"> EDIT</a>
-                                                            <a href="javascript:void(0)" id="<?=$data_kategori['id_ruang']?>" class="btn btn-danger waves-effect delete_kat">HAPUS</a></td>
+                                                            <a href="javascript:void(0)" id="<?=$data_kategori['id_ruang']?>" class="btn btn-danger waves-effect delete_ruang">HAPUS</a></td>
                                                     </tr>
                                                 <?php
                                                     }
@@ -316,6 +316,32 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                         url: "<?= $base_url ?>controller/admin/ruang-kelas/delete_kelas/",
                                         data: {
                                             'id_kelas': dataId
+                                        },
+                                        success: function(respone) {
+                                            window.location.href = "<?= $base_url ?>admin/ruang_kelas/?message_success";
+                                        },
+                                        error: function(request, error) {
+                                            window.location.href = "<?= $base_url ?>admin/ruang_kelas/?message_failed";
+                                        },
+                                    })
+                                });
+                            });
+                            $('.delete_ruang').click(function() {
+                                var dataId = this.id;
+                                swal({
+                                    title: "Apakah benar akan menghapus data ruang?",
+                                    text: "Jika anda menekan Ya, Maka data akan terhapus secara permanen oleh sistem.",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonColor: "#ef5350",
+                                    confirmButtonText: "Ya, hapus!",
+                                    cancelButtonText: "Batal"
+                                }, function() {
+                                    $.ajax({
+                                        method: "POST",
+                                        url: "<?= $base_url ?>controller/admin/ruang-kelas/delete_ruang/",
+                                        data: {
+                                            'id_ruang': dataId
                                         },
                                         success: function(respone) {
                                             window.location.href = "<?= $base_url ?>admin/ruang_kelas/?message_success";
