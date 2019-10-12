@@ -202,7 +202,7 @@ switch ($uri[0]) {
 		require __DIR__ . '/controller/UnitLaundry/process_wash.php';
 		break;
 
-	case '/dev/laundry/linen-bersih/':
+	case '/dev/':
 		require __DIR__ . '/views/petugasLaundry/linen_bersih/linen_bersih.php';
 		break;
 
