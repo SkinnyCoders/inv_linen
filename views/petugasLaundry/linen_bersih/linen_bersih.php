@@ -213,7 +213,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                             <form id="form_validation" action="<?php echo $base_url ?>controller/laundry/linen-bersih/reject/" method="POST">
                                                 <div class="form-group">
                                                     <div class="form-line">
-                                                        <input type="hidden" name="id_cuci_reject" id="id_cuci_reject" value="" required>
+                                                        <input type="hidden" name="id_reject" id="id_cuci_reject" value="" required>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -310,7 +310,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                         data : {'id_linen' : id_linen},
                         dataType : "json",
                         success : function(data){
-                            $('#id_cuci_reject').val(data.id_linen);
+                            $('#id_cuci_reject').val(data.id_cuci);
                             $('#nama_linen_reject').text(data.nama_linen);
                             $('#kelas_reject').text(data.ruang_kelas);
                         },
