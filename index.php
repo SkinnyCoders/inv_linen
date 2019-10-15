@@ -202,7 +202,7 @@ switch ($uri[0]) {
 		require __DIR__ . '/controller/UnitLaundry/process_wash.php';
 		break;
 
-	case '/dev/':
+	case '/dev/laundry/linen-bersih/':
 		require __DIR__ . '/views/petugasLaundry/linen_bersih/linen_bersih.php';
 		break;
 
@@ -220,6 +220,14 @@ switch ($uri[0]) {
 
 	case '/dev/controller/laundry/linen-bersih/reject/':
 		require __DIR__ . '/controller/UnitLaundry/proses_reject.php';
+		break;
+
+	case '/dev/laundry/permintaan/perlengkapan/':
+		require __DIR__ . '/views/petugasLaundry/perlengkapan/permintaan_perlengkapan.php';
+		break;
+
+	case '/dev/laundry/penerimaan/perlengkapan/':
+		require __DIR__ . '/views/petugasLaundry/perlengkapan/penerimaan_perlengkapan.php';
 		break;
 
 	/* end laundry */

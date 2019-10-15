@@ -21,7 +21,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
     <section class="content">
         <div class="container-fluid">
             <div class="block-header">
-                <h2>PENGGUNA</h2>
+                <h2>PERAWAT</h2>
                 <ol class="breadcrumb align-right">
                     <li class="active">Dashboard</li>
                 </ol>
