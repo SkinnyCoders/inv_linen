@@ -1,4 +1,4 @@
-<!-- Page Loader -->
+Page Loader -->
 <div class="page-loader-wrapper">
     <div class="loader">
         <div class="preloader">
@@ -43,7 +43,7 @@
                 <li><a href="javascript:void(0);" class="js-search" data-close="true"><i class="material-icons">search</i></a></li>
                 <!-- #END# Call Search -->
                 <!-- Notifications -->
-                <li class="dropdown">
+                <!-- <li class="dropdown">
                     <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
                         <i class="material-icons">notifications</i>
                         <span class="label-count">7</span>
@@ -149,10 +149,10 @@
                             <a href="javascript:void(0);">View All Notifications</a>
                         </li>
                     </ul>
-                </li>
+                </li> -->
                 <!-- #END# Notifications -->
             </ul>
         </div>
     </div>
 </nav>
-<!-- #Top Bar -->
+<!-- #Top Bar
