@@ -26,14 +26,14 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                         <h2>PENCUCIAN LINEN KOTOR</h2>
                         <ol class="breadcrumb align-right">
                             <li><a href="javascript:void(0);">Dashboard</a></li>
-                            <li><a href="javascript:void(0);">Linen Kotor</a></li>
-                            <li class="active">Daftar Linen Kotor</li>
+                            <li><a href="javascript:void(0);">Pencucian Linen</a></li>
+                            <li class="active">Daftar Pencucian Linen</li>
                         </ol>
                         <?php if (isset($_GET['message_success'])) { ?>
                             <!-- alert success -->
                             <div class="alert alert-success alert-dismissible" role="alert">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                Selamat, Data linen kotor berhasil ditambahkan!
+                                Selamat, Linen kotor berhasil ditambahkan keproses pencucian!
                             </div>
                             <!-- end alert success -->
                         <?php } elseif (isset($_GET['message_failed'])) { ?>
@@ -50,7 +50,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="card">
                                 <div class="header">
-                                    <a href="javascript:void(0)" class="btn btn-primary waves-effect pull-right" data-toggle="modal" data-target="#modalAdd">Tambah Linen Kotor</a>
+                                    <a href="javascript:void(0)" class="btn btn-primary waves-effect pull-right" data-toggle="modal" data-target="#modalAdd">Tambah Proses Cuci</a>
                                     <h2>
                                         DAFTAR LINEN DICUCI - <?=date('d F Y')?>
                                     </h2>
