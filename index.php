@@ -248,6 +248,10 @@ switch ($uri[0]) {
 	case '/dev/coba/':
 		require __DIR__ . '/controller/auth/c_login.php';
 		break;
+
+	case 'coba2':
+		require __DIR__ . '/controller/auth/c_login.php';
+		break;
 		/* end login page */
 	default:
 		require 'views/404.php';
