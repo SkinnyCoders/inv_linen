@@ -69,9 +69,9 @@
                 </a>
             </li>
             <li>
-                <a href="pages/typography.html">
+                <a href="<?php echo $base_url ?>admin/perlengkapan/">
                     <i class="material-icons">text_fields</i>
-                    <span>Peralatan</span>
+                    <span>Perlengkapan</span>
                 </a>
             </li>
              <?php
