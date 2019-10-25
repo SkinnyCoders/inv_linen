@@ -19,9 +19,9 @@ if (isset($_POST['simpan'])) {
 		$insert_data->bind_param('s', $nama_kategori);
 		if ($insert_data->execute()) {
 			$insert_data->close();
-			header('location:' . $base_url . 'admin/linen/kategori/?message_success');
+			header('location:' . $base_url . 'admin/linen/kategori/?message_success=Selamat. Data Kategori Berhasil Ditambahkan!.');
 		}else{
-			header('location:' . $base_url . 'admin/linen/kategori/?message_failed');
+			header('location:' . $base_url . 'admin/linen/kategori/?message_failed=Maaf, Data Perlengkapan gagal ditambahkan!, harap periksa lagi informasi yang diinputkan!.');
 		}
 	}
 }

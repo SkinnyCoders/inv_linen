@@ -21,9 +21,9 @@ if (isset($_POST['simpan'])) {
 		$insert_data->bind_param('sss', $nama_perlengkapan, $jenis, $manfaat);
 		if ($insert_data->execute()) {
 			$insert_data->close();
-			header('location:' . $base_url . 'admin/perlengkapan/?message_success');
+			header('location:' . $base_url . 'admin/perlengkapan/?message_success=Selamat, Data Perlengkapan berhasil ditambahkan!.');
 		}else{
-			header('location:' . $base_url . 'admin/perlengkapan/?message_failed');
+			header('location:' . $base_url . 'admin/perlengkapan/?message_failed=Maaf, Data Perlengkapan gagal ditambahkan!, harap periksa lagi informasi yang diinputkan!.');
 		}
 	}
 }

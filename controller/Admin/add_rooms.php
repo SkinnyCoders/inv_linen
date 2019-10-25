@@ -17,10 +17,10 @@ if ($insertRuang) {
 		$konfigRuang = mysqli_query($conn, "INSERT INTO `ruang_kelas`(`id_kelas`, `id_ruang`) VALUES ($k,$id_ruang)");
 	}
 
-	header('location:'.$base_url.'admin/ruang_kelas/?message_success');
+	header('location:'.$base_url.'admin/ruang_kelas/?message_success=Selamat, Data Ruang Kelas Berhasil Ditambahkan!.');
 	
 }else{
-	header('location:'.$base_url.'admin/ruang_kelas/?message_failed');
+	header('location:'.$base_url.'admin/ruang_kelas/?message_failed=  Maaf, Data Ruang Kelas gagal ditambahkan!, harap periksa lagi informasi yang diinputkan!.');
 }
 
 

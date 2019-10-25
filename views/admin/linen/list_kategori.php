@@ -32,14 +32,14 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                             <!-- alert success -->
                             <div class="alert alert-success alert-dismissible" role="alert">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                Selamat, Data kategori linen berhasil ditambahkan!
+                                <?php echo $_GET['message_success'] ?>
                             </div>
                             <!-- end alert success -->
                         <?php } elseif (isset($_GET['message_failed'])) { ?>
                             <!-- alert failed -->
                             <div class="alert alert-danger alert-dismissible" role="alert">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                Maaf, Data kategori linen gagal ditambahkan!, harap periksa lagi informasi yang diinputkan!.
+                                <?php echo $_GET['message_failed'] ?>
                             </div>
                             <!-- end alert failed -->
                         <?php } ?>
@@ -49,6 +49,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="card">
                                 <div class="header">
+                                     <a href="javascript:void(0)" class="btn btn-primary waves-effect pull-right" data-toggle="modal" data-target="#modalAdd">Tambah Kategori</a>
                                     <h2>
                                         DAFTAR KATEGORI LINEN
                                     </h2>
@@ -88,6 +89,35 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                     </div>
                     <!-- #END# Basic Examples -->
 
+                    <!-- Default Size -->
+                    <div class="modal fade" id="modalAdd" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="defaultModalLabel">TAMBAH KATEGORI</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Basic Validation -->
+                                    <div class="row clearfix">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <form id="form_validation" action="<?php echo $base_url ?>controller/admin/linen/tambah_kategori/" method="POST">
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        <input type="text" class="form-control" name="kategori" placeholder="Nama Kategori" required>
+                                                    </div>
+                                                </div>  
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                                <button type="submit" name="simpan" class="btn btn-primary waves-effect">SIMPAN</button>
+                                            </form>
+                                    <button type="button" class="btn btn-link waves-effect waves-red" data-dismiss="modal" style="color:red">TUTUP</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end modal -->
                     <!-- Default Size -->
                     <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog">
                         <div class="modal-dialog" role="document">
