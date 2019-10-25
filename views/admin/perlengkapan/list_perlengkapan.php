@@ -111,13 +111,15 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                         <input type="text" class="form-control" name="perlengkapan" placeholder="Nama perlengkapan" required>
                                                     </div>
                                                 </div>
-                                                <div class="form-group form-float">
+                                                <div class="form-group">
+                                                    <label for="jenis" class="form-label">Pilih Jenis</label>
                                                     <div class="form-line">
                                                         <select class="form-control show-tick m-t-20 id_ruang1" name="jenis" id="jenis" required>
+                                                            <option value="">Pilih Jenis</option>
                                                             <option value="cair">Cair</option>
                                                             <option value="bubuk">Bubuk</option>
                                                         </select>
-                                                        <label for="jenis" class="form-label">Pilih Jenis</label>
+                                                        
                                                     </div>
                                                 </div>
                                                 <div class="form-group">

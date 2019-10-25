@@ -25,8 +25,8 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                         <h2>PENGGUNA</h2>
                         <ol class="breadcrumb align-right">
                             <li><a href="javascript:void(0);">Dashboard</a></li>
-                            <li><a href="javascript:void(0);">User</a></li>
-                            <li class="active">Tambah User</li>
+                            <li><a href="javascript:void(0);">Ruang & Kelas</a></li>
+                            <li class="active">Tambah Ruang & Kelas</li>
                         </ol>
                         <?php if (isset($_GET['message_success'])) { ?>
                             <!-- alert success -->
