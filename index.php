@@ -91,6 +91,10 @@ switch ($uri[0]) {
 		require __DIR__ . '/controller/Admin/add_rooms.php';
 		break;
 
+	case '/dev/controller/admin/ruang-kelas/update_ruang/':
+		require __DIR__ . '/controller/Admin/edit_room.php';
+		break;
+
 	case '/dev/controller/admin/linen/ambil_kelas/':
 		require __DIR__ . '/controller/Admin/get_classRooms.php';
 		break;

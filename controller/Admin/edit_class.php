@@ -19,9 +19,9 @@ if (!empty($_POST['id_kelas'])) {
         $insert_new_kelas->bind_param('ss', $kelas, $id_kelas);
         if ($insert_new_kelas->execute()) {
             $insert_new_kelas->close();
-            header('location:' . $base_url . 'admin/ruang_kelas/?message_success');
+            header('location:' . $base_url . 'admin/ruang_kelas/?message_success=Data Kelas Berhasil Diedit!.');
         } else {
-            header('location:' . $base_url . 'admin/ruang_kelas/?message_failed');
+            header('location:' . $base_url . 'admin/ruang_kelas/?message_failed=Data Kelas Gagal Diedit!.');
         }
     }
 }else{

@@ -21,9 +21,9 @@ if (!empty($_POST['id_perlengkapan'])) {
         $update_perlengkapan->bind_param('ssss', $nama_perlengkapan, $jenis, $manfaat, $id_perlengkapan);
         if ($update_perlengkapan->execute()) {
             $update_perlengkapan->close();
-            header('location:' . $base_url . 'admin/perlengkapan/?message_success=Data Berhasil Diedit');
+            header('location:' . $base_url . 'admin/perlengkapan/?message_success=Selamat, Data Perlengkapan Berhasil Diedit');
         } else {
-            header('location:' . $base_url . 'admin/perlengkapan/?message_failed');
+            header('location:' . $base_url . 'admin/perlengkapan/?message_failed=Maaf, Data Perlengkapan gagal Diedit!.');
         }
     }
 }else{

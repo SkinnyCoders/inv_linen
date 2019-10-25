@@ -5,7 +5,7 @@
         <div class="user-info">
             <!-- image of youser-->
             <div class="image">
-                <img src="<?= $base_url ?>vendors/images/logo_rs.jpg" width="48" height="48" alt="User" />
+                <img src="<?= $base_url ?>vendors/images/logo-rsiy.jpg" width="48" height="48" alt="User" />
             </div>
             <div class="info-container">
                 <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo $nama ?></div>

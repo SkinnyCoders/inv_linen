@@ -31,16 +31,15 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                             <!-- alert success -->
                             <div class="alert alert-success alert-dismissible" role="alert">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <?php
-                                    echo $_GET['message_success'];
-                                ?>
+                                <?php echo $_GET['message_success']; ?>
                             </div>
                             <!-- end alert success -->
-                        <?php } elseif (isset($_GET['message_failed'])) { ?>
+                        <?php } elseif (isset($_GET['message_failed'
+                        ])) { ?>
                             <!-- alert failed -->
                             <div class="alert alert-danger alert-dismissible" role="alert">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                Maaf, Data perlengkapan gagal ditambahkan!, harap periksa lagi informasi yang diinputkan!.
+                                  <?php echo $_GET['message_failed']; ?>
                             </div>
                             <!-- end alert failed -->
                         <?php } ?>
@@ -262,10 +261,10 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                             'id_perlengkapan': dataId
                                         },
                                         success: function(respone) {
-                                            window.location.href = "<?= $base_url ?>admin/perlengkapan/?message_success";
+                                            window.location.href = "<?= $base_url ?>admin/perlengkapan/?message_success=Selamat, Data Perlengkapan Berhasil Dihapus!.";
                                         },
                                         error: function(request, error) {
-                                            window.location.href = "<?= $base_url ?>admin/perlengkapan/?message_failed";
+                                            window.location.href = "<?= $base_url ?>admin/perlengkapan/?message_failed=Maaf, Data Perlengkapan Gagal Dihapus!.";
                                         },
                                     })
                                 });

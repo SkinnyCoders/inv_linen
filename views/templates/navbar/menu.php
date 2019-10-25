@@ -133,10 +133,7 @@
                 </a>
                 <ul class="ml-menu">
                     <li>
-                        <a href="<?php echo $base_url ?>perawat/permintaan/linen/">Permintaan Linen</a>
-                    </li>
-                    <li>
-                        <a href="<?php echo $base_url ?>perawat/permintaan/perlengkapan/">Permintaan Perlengkapan</a>
+                        <a href="<?php echo $base_url ?>perawat/permintaan/linen/">Permintaan Linen Baru</a>
                     </li>
                 </ul>
             </li>
@@ -147,10 +144,7 @@
                 </a>
                 <ul class="ml-menu">
                     <li>
-                        <a href="<?php echo $base_url ?>perawat/penerimaan/linen/">Penerimaan Linen</a>
-                    </li>
-                    <li>
-                        <a href="<?php echo $base_url ?>perawat/penerimaan/perlengkapan/">Penerimaan Perlengkapan</a>
+                        <a href="<?php echo $base_url ?>perawat/penerimaan/linen/">Penerimaan Linen Baru</a>
                     </li>
                 </ul>
             </li>

@@ -8,9 +8,9 @@ if (isset($_POST['simpan'])) {
 	//insert data
 	$sql_insert = mysqli_query($conn, "INSERT INTO `kelas`(`nama_kelas`) VALUES ('$kelas')");
 	if ($sql_insert) {
-		header('location:'.$base_url.'admin/ruang_kelas/?message_success');
+		header('location:'.$base_url.'admin/ruang_kelas/?message_success=Selamat, Data Kelas Berhasil Ditambahkan!.');
 	}else{
-		header('location:'.$base_url.'admin/ruang_kelas/?message_failed='.mysqli_error($conn));
+		header('location:'.$base_url.'admin/ruang_kelas/?message_failed=  Maaf, Data Kelas gagal ditambahkan!, harap periksa lagi informasi yang diinputkan!.'.mysqli_error($conn));
 	}
 }
 
