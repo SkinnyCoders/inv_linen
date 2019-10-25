@@ -2,8 +2,6 @@
 require 'controller/config/connection.php';
 include 'librarys/functionFilter.php';
 
-var_dump($_POST); die();
-
 $petugas = $_POST['id_petugas'];
 $ruang = $_POST['ruang'];
 $ambil = $_POST['ambil'];
