@@ -254,6 +254,18 @@ switch ($uri[0]) {
 		require __DIR__ . '/views/petugasLaundry/perlengkapan/penerimaan_perlengkapan.php';
 		break;
 
+	case '/dev/laundry/formula/':
+		require __DIR__ . '/views/petugasLaundry/perlengkapan/formula.php';
+		break;
+
+	case '/dev/controller/laundry/formula/add/':
+		require __DIR__ . '/controller/UnitLaundry/add_formula.php';
+		break;
+
+	case '/dev/controller/laundry/pencucian/ambil_formula/':
+		require __DIR__ . '/controller/UnitLaundry/get_formula.php';
+		break;
+
 	/* end laundry */
 
 		/* login page */

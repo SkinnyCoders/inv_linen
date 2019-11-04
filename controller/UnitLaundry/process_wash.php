@@ -6,7 +6,7 @@ $petugas = $_POST['id_petugas'];
 $id_proses = $_POST['id_proses'];
 $jenis_cuci = $_POST['jenis'];
 $perlengkapan = $_POST['perlengkapan'];
-$jml_perlengkapan = $_POST['jumlah_perlengkapan'];
+$id_formula = $_POST['formula'];
 $ambil = $_POST['ambil'];
 $jumlah = 10;
 
@@ -20,7 +20,7 @@ if (isset($ambil)) {
 
 	if ($insertLinen) {
 		//inser ke proses pencucian
-		$insertProses = mysqli_query($conn, "INSERT INTO `jumlah_proses_pencucian`(`id_proses_cuci`, `jenis_pencucian`) VALUES ($id_proses, '$jenis_cuci')");
+		$insertProses = mysqli_query($conn, "INSERT INTO `jumlah_proses_pencucian`(`id_proses_cuci`, `jenis_pencucian`,`id_formula`) VALUES ($id_proses, '$jenis_cuci', $id_formula)");
 		//get last insert id
 		$lastId = mysqli_query($conn, "SELECT LAST_INSERT_ID()");
 		while ($d = mysqli_fetch_array($lastId)) {

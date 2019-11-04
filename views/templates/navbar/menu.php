@@ -95,6 +95,9 @@
                     <li>
                         <a href="<?php echo $base_url ?>laundry/penerimaan/perlengkapan/">Penerimaan Perlengkapan</a>
                     </li>
+                    <li>
+                        <a href="<?php echo $base_url ?>laundry/formula/">Formula Perlengkapan</a>
+                    </li>
                 </ul>
             </li>
             <li>

@@ -164,32 +164,13 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                     </tbody>
                                                 </table>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-md-8">
-                                                        <div class="form-group form-float" id="perlengkapan" style="display: none">
-                                                            <div class="form-line">
-                                                                <select class="form-control show-tick m-t-20" name="perlengkapan" id="ruang_linen" required>
-                                                                    <option>Pilih Perlengkapan</option>
-                                                                    <?php 
-                                                                    $getPerlengkapan = mysqli_query($conn, "SELECT `id_perlengkapan`, `nama_perlengkapan` FROM `perlengkapan` WHERE 1 ORDER BY `nama_perlengkapan` ASC");
-                                                                    while ($data = mysqli_fetch_assoc($getPerlengkapan)) {
-                                                                    
-                                                                     ?>
-                                                                    <option value="<?=$data['id_perlengkapan']?>"><?=ucwords($data['nama_perlengkapan'])?></option>
-                                                                <?php } ?>
-                                                                   
-                                                                </select>
-                                                                <label for="ruang_linen" class="form-label">Pilih Perlengkapan</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                         <div class="form-group form-float" id="jml_perlengkapan" style="display: none;">
-                                                            <div class="form-line">
-                                                                <label>Jumlah Perlengkapan</label>
-                                                                <input type="text" class="form-control" name="jumlah_perlengkapan">
-                                                            </div>
-                                                        </div>
+                                                <div class="form-group form-float" id="perlengkapan" style="display: none">
+                                                    <div class="form-line">
+                                                        <select class="form-control show-tick m-t-20" name="formula" id="formula_perlengkapan" required>
+                                                            <option>Pilih Formula</option>
+                                                            
+                                                        </select>
+                                                        <label for="ruang_linen" class="form-label">Pilih Formula</label>
                                                     </div>
                                                 </div>
                                         </div>
@@ -314,7 +295,6 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                 $('#ruang_linen').on('change', function(){
                     $('#linen_kotor').show();
                     $('#perlengkapan').show();
-                    $('#jml_perlengkapan').show();
 
                     var id_ruang = $('#ruang_linen').val();
 
@@ -334,6 +314,23 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                             }
                             console.log(html);
                             $(".table_kotor").html(html);
+                        }
+                    });
+
+                    $.ajax({
+                        type : "POST",
+                        url : "<?=$base_url?>controller/laundry/pencucian/ambil_formula/",
+                        data : {'id_ruang' : id_ruang},
+                        async : false,
+                        dataType : "json",
+                        success : function(data){
+                            var html = '';
+                            var i;
+
+                            for(i=0; i<data.length; i++){
+                            html += '<option value="'+data[i].id_formula+'">'+data[i].nama_formula+'</option>';
+                            }
+                            $("#formula_perlengkapan").html(html);
                         }
                     })
                 });

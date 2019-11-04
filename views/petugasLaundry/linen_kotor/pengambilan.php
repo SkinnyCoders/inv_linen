@@ -72,15 +72,15 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                 <?php
                                                 $no = 1;
                                                 $tanggal = date('Y-m-d');
-                                                    $getLinenKotor = mysqli_query($conn, "SELECT linen_kotor.id_linen_kotor AS id, linen.nama_linen, kategori.nama_kategori, ruang.nama_ruang, kelas.nama_kelas, linen_kotor.jml_linen_kotor, linen_kotor.jenis_linen_kotor FROM `linen_kotor` INNER JOIN linen ON linen.id_linen=linen_kotor.id_linen INNER JOIN kategori ON kategori.id_kategori=linen.id_kategori INNER JOIN ruang ON ruang.id_ruang=linen.id_ruang INNER JOIN kelas ON kelas.id_kelas=linen.id_kelas WHERE `status` = 'kotor' AND DATE(tgl_pengambilan) = '$tanggal' ORDER BY linen.nama_linen ASC");
+                                                    $getLinenKotor = mysqli_query($conn, "SELECT kotor.id_linen_kotor AS id, linen.nama_linen, kategori.nama_kategori, ruang.nama_ruang, kelas.nama_kelas, jenis.jumlah, jenis.jenis FROM `linen_kotor` as kotor INNER JOIN jenis_linen_kotor AS jenis ON jenis.id_linen_kotor=kotor.id_linen_kotor INNER JOIN linen ON linen.id_linen=kotor.id_linen INNER JOIN kategori ON kategori.id_kategori=linen.id_kategori INNER JOIN ruang ON ruang.id_ruang=linen.id_ruang INNER JOIN kelas on kelas.id_kelas=linen.id_kelas WHERE `status` = 'kotor' AND DATE(tgl_pengambilan) = '$tanggal' ORDER BY linen.nama_linen ASC");
                                                     while ($data_linen = mysqli_fetch_assoc($getLinenKotor)) {
                                                 ?>
                                                     <tr>
                                                         <td><?= $no++ ?></td>
                                                         <td><?= ucwords($data_linen['nama_linen']) . ' - ' . ucwords($data_linen['nama_kategori']); ?></td>
                                                         <td><?= ucwords($data_linen['nama_ruang']) ?> - <?=ucwords($data_linen['nama_kelas'])?></td>
-                                                        <td><?=$data_linen['jml_linen_kotor']?></td>
-                                                        <td><?= $data_linen['jenis_linen_kotor']?></td>
+                                                        <td><?=$data_linen['jumlah']?></td>
+                                                        <td><?= $data_linen['jenis']?></td>
                                                         <td class="text-nowrap"><a href="javascript:void(0)" onclick='getKelas("<?=$data_linen['id_ruang']?>")' id="<?=$data_linen['id']?>" data-toggle="modal" data-target="#modalEdit" class="btn btn-info waves-effect m-r-20 edit_linen"> EDIT</a>
                                                             <a href="javascript:void(0)" id="<?=$data_linen['id']?>" class="btn btn-danger waves-effect delete_linen">HAPUS</a></td>
                                                     </tr>
@@ -144,13 +144,17 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                             <th style="width: 30%;" class="text-nowrap">Nama Linen - Kategori</th>
                                                             <th style="width: 15%;" class="text-nowrap">Kelas</th>
                                                             <th style="width: 10%;" class="text-nowrap">jumlah</th>
-                                                            <th style="width: 35%;">Jenis Linen</th>
+                                                            <th style="width: 17%;">Inveksius</th>
+                                                            <th style="width: 17%">Non Inveksius</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody class="table_kotor">
                                                         
                                                     </tbody>
                                                 </table>
+                                            </div>
+                                            <div class="form-group form-float">
+                                                <input type="checkbox" name="tepat" id="tepat" value="tepat" class="filled-in chk-col-blue"> <label for="tepat">Ketepatan Pengambilan (<b>Tepat</b>)</label>
                                             </div>
                                         </div>
                                     </div>
@@ -262,7 +266,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                             var no = 1;
 
                             for(i=0; i<data.length; i++){
-                            html += '<tr><td> <input type="checkbox" name="ambil[]" id="ambil'+i+'" value="'+i+'" class="filled-in chk-col-pink"> <label for="ambil'+i+'"></label><input type="hidden" name="id_linen'+i+'" value="'+data[i].id_linen+'"></td><td>'+data[i].linen+' - '+data[i].kategori+'</td><td>'+data[i].kelas+'</td><td><input type="number" class="form-control" name="jumlah'+i+'"></td><td><div class="form-group"><input type="radio" name="jenis_linen'+i+'" id="infek'+i+'" value="infeksius" class="with-gap"><label for="infek'+i+'">Infeksius</label><input type="radio" name="jenis_linen'+i+'" id="noninfek'+i+'" value="non infeksius" class="with-gap"><label for="noninfek'+i+'" class="m-l-20">Non Infeksius</label></div></td></tr>';
+                            html += '<tr><td> <input type="checkbox" name="ambil[]" id="ambil'+i+'" value="'+i+'" class="filled-in chk-col-pink"> <label for="ambil'+i+'"></label><input type="hidden" name="id_linen'+i+'" value="'+data[i].id_linen+'"></td><td>'+data[i].linen+' - '+data[i].kategori+'</td><td>'+data[i].kelas+'</td><td>'+data[i].jumlah+'</td><td><input type="number" class="form-control" name="infeksius'+i+'"></td><td><input type="number" class="form-control" name="noninfeksius'+i+'"></td></tr>';
                             }
                             console.log(html);
                             $(".table_kotor").html(html);
