@@ -39,7 +39,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                             <!-- alert failed -->
                             <div class="alert alert-danger alert-dismissible" role="alert">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                              <?php echo ['message_failed']?>
+                              <?php echo $_GET['message_failed']?>
                             </div>
                             <!-- end alert failed -->
                         <?php } ?>
@@ -81,12 +81,48 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                             </div>
                         </div>
 
+                        <div class="row clearfix">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="card">
+                                <div class="header">
+                                    <h2>
+                                        DAFTAR RUANG
+                                    </h2>
+                                </div>
+                                <div class="body">
+                                    <form id="form_validation" action="<?=$base_url?>controller/admin/ruang-kelas/tambah_ruang/" method="POST">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input type="text" id="username" class="form-control" name="kelas_name" placeholder="Nama Ruang" required>
+                                            </div>
+                                        </div>
+                                        <div class="align-right">
+                                            <button type="submit" name="simpan" class="btn btn-sm btn-primary waves-effect align-right">SIMPAN</button>
+                                        </div>
+                                        
+                                    </form>
+                                    <hr>
+                                    <p class="text-muted"><span style="color: red">* </span>Dibawah ini adalah <span style="color: red">daftar ruang</span> yang sudah diinputkan</p>
+
+                                        <?php 
+                                        $sqlRuang = mysqli_query($conn, "SELECT * FROM ruang WHERE 1 ORDER BY id_ruang ASC");
+                                        while ($dataRuang = mysqli_fetch_assoc($sqlRuang)) { ?>
+                                            
+                                            <a class="label bg-teal update-kelas m-t-40" id="<?=$dataRuang['id_ruang']?>" data-toggle="modal" data-target="#modalEditKelas" href="javascript:void(0)"><span data-toggle="tooltip" data-placement="top" title="klik untuk update"><?php echo $dataRuang['nama_ruang']?></span></a>
+                                       
+                                        <?php }
+                                         ?>
+                                      
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                             <div class="card">
                                 <div class="header">
                                     <a href="javascript:void(0)" class="btn btn-primary waves-effect pull-right" data-toggle="modal" data-target="#modalRuang">Tambah Ruang</a>
                                     <h2>
-                                        DAFTAR RUANG
+                                        DAFTAR RUANG KELAS
                                     </h2>
                                 </div>
                                 <div class="body">
@@ -203,13 +239,13 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title" id="defaultModalLabel">Edit Konfigurasi Ruang</h4>
+                                    <h4 class="modal-title" id="defaultModalLabel">Edit Ruang</h4>
                                 </div>
                                 <div class="modal-body">
                                     <!-- Basic Validation -->
                                     <div class="row clearfix">
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <form id="form_validation" action="<?php echo $base_url ?>controller/admin/ruang-kelas/tambah_ruang/" method="POST">
+                                            <form id="form_validation" action="<?php echo $base_url ?>controller/admin/ruang-kelas/update-ruang/" method="POST">
                                                 <div class="form-group">
                                                     <div class="form-line">
                                                         <input type="text" id="nama_user" class="form-control" name="ruang" placeholder="Nama Ruang" required>
@@ -318,10 +354,10 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                             'id_kelas': dataId
                                         },
                                         success: function(respone) {
-                                            window.location.href = "<?= $base_url ?>admin/ruang_kelas/?message_success";
+                                            window.location.href = "<?= $base_url ?>admin/ruang_kelas/?message_success=Selamat, Data Kelas Berhasil Dihapus!.";
                                         },
                                         error: function(request, error) {
-                                            window.location.href = "<?= $base_url ?>admin/ruang_kelas/?message_failed";
+                                            window.location.href = "<?= $base_url ?>admin/ruang_kelas/?message_failed=Maaf, Data Kelas Gagal Dihapus!.";
                                         },
                                     })
                                 });
@@ -344,10 +380,10 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                             'id_ruang': dataId
                                         },
                                         success: function(respone) {
-                                            window.location.href = "<?= $base_url ?>admin/ruang_kelas/?message_success";
+                                            window.location.href = "<?= $base_url ?>admin/ruang_kelas/?message_success=Selamat, Data Ruang Berhasil Ditambahkan!.";
                                         },
                                         error: function(request, error) {
-                                            window.location.href = "<?= $base_url ?>admin/ruang_kelas/?message_failed";
+                                            window.location.href = "<?= $base_url ?>admin/ruang_kelas/?message_failed=Maaf Data Ruang Gagal Dihapus!.";
                                         },
                                     })
                                 });
@@ -366,6 +402,21 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                         type : "POST",
                         url : "<?=$base_url?>controller/admin/ruang-kelas/get_kelas/",
                         data : {'id_kelas' : user_id},
+                        dataType : "json",
+                        success : function(data){
+                            $('#id_kelas_update').val(data.id_kelas);
+                            $('#nama_kelas_update').val(data.kelas);
+                            $('.hapus_kelas').attr('id', data.id_kelas);
+                        },
+                    })
+                })
+
+                 $('.update-ruang').on('click', function(){
+                    var user_id = this.id;
+                    $.ajax({
+                        type : "POST",
+                        url : "<?=$base_url?>controller/admin/ruang-kelas/get_ruang/",
+                        data : {'id_ruang' : user_id},
                         dataType : "json",
                         success : function(data){
                             $('#id_kelas_update').val(data.id_kelas);

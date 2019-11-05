@@ -83,6 +83,10 @@ switch ($uri[0]) {
 		require __DIR__ . '/controller/Admin/delete_class.php';
 		break;
 
+	case '/dev/controller/admin/ruang-kelas/get_ruang/':
+		require __DIR__ . '/controller/Admin/get_room.php';
+		break;
+
 	case '/dev/controller/admin/ruang-kelas/delete_ruang/':
 		require __DIR__ . '/controller/Admin/delete_room.php';
 		break;
