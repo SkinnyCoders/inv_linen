@@ -23,9 +23,9 @@ if (!empty($_POST['gender'])) {
         $insert_new_user->bind_param('ssssss', $full_name, $user_name, $email, $as_user, $gender, $id_user);
         if ($insert_new_user->execute()) {
             $insert_new_user->close();
-            header('location:' . $base_url . 'admin/user/list/?message_success');
+            header('location:' . $base_url . 'admin/user/list/?message_success=Data Pengguna Berhasi Diedit!.');
         } else {
-            header('location:' . $base_url . 'admin/user/list/?message_failed');
+            header('location:' . $base_url . 'admin/user/list/?message_failed=Data Pengguna Gagal Diedit!.');
         }
     }
 }else{

@@ -29,9 +29,9 @@ if (isset($_POST['add_user'])) {
             $insert_new_user->bind_param('ssssss', $full_name, $user_name, $email, $encypt_password, $as_user, $gender);
             if ($insert_new_user->execute()) {
                 $insert_new_user->close();
-                header('location:' . $base_url . 'admin/user/list/?message_success');
+                header('location:' . $base_url . 'admin/user/list/?message_success=Selamat, Data Pengguna Berhasil Ditambahkan!.');
             } else {
-                header('location:' . $base_url . 'admin/user/tambah/?message_failed');
+                header('location:' . $base_url . 'admin/user/tambah/?message_failed=Maaf, Data Pengguna Gagal Ditambahkan!. Harap periksa lagi informasi yang diinputkan!.');
             }
         }
     }
