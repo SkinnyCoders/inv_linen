@@ -21,7 +21,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
     <section class="content">
         <div class="container-fluid">
             <div class="block-header">
-                <h2>ADMINISTRATOR</h2>
+                <h2>DASHBOARD ADMIN</h2>
                 <ol class="breadcrumb align-right">
                     <li class="active">Dashboard</li>
                 </ol>
@@ -42,48 +42,67 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                 <?php } ?>
             </div>
             <!-- Basic Validation -->
+            <?php 
+            //ambil data linen
+            //linen kotor
+            $sqlLinen = mysqli_query($conn, "SELECT id_linen FROM linen  WHERE 1 ");
+            $totalLinen = mysqli_num_rows($sqlLinen);
+
+            //linen dicuci
+            $sqlUsers = mysqli_query($conn, "SELECT `id_user` FROM `user` WHERE 1");
+            $totalUsers = mysqli_num_rows($sqlUsers);
+
+            $sqlRuang = mysqli_query($conn, "SELECT `id_ruang` FROM `ruang` WHERE 1");
+            $totalRuang = mysqli_num_rows($sqlRuang);
+
+            $sqlKelas = mysqli_query($conn, "SELECT `id_kelas` FROM kelas WHERE 1");
+            $totalKelas = mysqli_num_rows($sqlKelas);
+
+            $sqlPerlengkapan = mysqli_query($conn, "SELECT id_perlengkapan FROM perlengkapan WHERE 1");
+            $totalPerlengkapan = mysqli_num_rows($sqlPerlengkapan);
+             ?>
             <div class="row clearfix">
-               <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="info-box bg-pink hover-expand-effect">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box-3 bg-orange hover-zoom-effect">
                         <div class="icon">
-                            <i class="material-icons">playlist_add_check</i>
+                            <i class="material-icons">menu</i>
                         </div>
                         <div class="content">
                             <div class="text">DATA LINEN</div>
-                            <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20"></div>
+                            <div class="number"><?=$totalLinen?></div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="info-box bg-cyan hover-expand-effect">
+                    <div class="info-box-3 bg-blue hover-zoom-effect">
                         <div class="icon">
-                            <i class="material-icons">help</i>
+                            <i class="material-icons">group</i>
                         </div>
                         <div class="content">
-                            <div class="text">DATA PENGGUNA </div>
-                            <div class="number count-to" data-from="0" data-to="257" data-speed="1000" data-fresh-interval="20"></div>
+                            <div class="text">PENGGUNA</div>
+                            <div class="number"><?=$totalUsers?></div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="info-box bg-light-green hover-expand-effect">
+                    <div class="info-box-3 bg-gray hover-zoom-effect">
                         <div class="icon">
-                            <i class="material-icons">forum</i>
+                            <i class="material-icons">location_city</i>
                         </div>
                         <div class="content">
-                            <div class="text"></div>
-                            <div class="number count-to" data-from="0" data-to="243" data-speed="1000" data-fresh-interval="20"></div>
+                            <div class="text">RUANG & KELAS</div>
+                            <div class="number"><?=$totalRuang.' & '.$totalKelas?></div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="info-box bg-orange hover-expand-effect">
+                    <div class="info-box-3 bg-green hover-zoom-effect">
                         <div class="icon">
-                            <i class="material-icons">person_add</i>
+                            <i class="material-icons">beenhere</i>
                         </div>
                         <div class="content">
-                            <div class="text">DATA PERLENGKAPAN</div>
-                            <div class="number count-to" data-from="0" data-to="1225" data-speed="1000" data-fresh-interval="20"></div>
+                            <div class="text">PERLENGKAPAN</div>
+                            <div class="number"><?=$totalPerlengkapan?></div>
                         </div>
                     </div>
                 </div>

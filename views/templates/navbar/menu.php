@@ -44,7 +44,7 @@
             </li>
             <li>
                 <a href="javascript:void(0);" class="menu-toggle">
-                    <i class="material-icons">home</i>
+                    <i class="material-icons">menu</i>
                     <span>Data Linen</span>
                 </a>
                 <ul class="ml-menu">
@@ -58,19 +58,19 @@
             </li>
             <li>
                 <a href="<?php echo $base_url ?>admin/user/list/">
-                    <i class="material-icons">home</i>
+                    <i class="material-icons">group</i>
                     <span>Pengguna</span>
                 </a>
             </li>
             <li>
                 <a href="<?php echo $base_url ?>admin/ruang_kelas/">
-                    <i class="material-icons">home</i>
+                    <i class="material-icons">location_city</i>
                     <span>Ruang & Kelas</span>
                 </a>
             </li>
             <li>
                 <a href="<?php echo $base_url ?>admin/perlengkapan/">
-                    <i class="material-icons">text_fields</i>
+                    <i class="material-icons">beenhere</i>
                     <span>Perlengkapan</span>
                 </a>
             </li>

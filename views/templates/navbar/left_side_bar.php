@@ -8,7 +8,7 @@
                 <img src="<?= $base_url ?>vendors/images/logo-rsiy.jpg" width="48" height="48" alt="User" />
             </div>
             <div class="info-container">
-                <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo $nama ?></div>
+                <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo 'Hi, '.$nama ?></div>
                 <div class="email"><?= ucwords($_SESSION['jabatan']) ?></div>
                 <div class="btn-group user-helper-dropdown">
                     <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
