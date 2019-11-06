@@ -25,8 +25,8 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                         <h2>FORMULA PERLENGKAPAN</h2>
                         <ol class="breadcrumb align-right">
                             <li><a href="javascript:void(0);">Dashboard</a></li>
-                            <li><a href="javascript:void(0);">Linen</a></li>
-                            <li class="active">Daftar Linen</li>
+                            <li><a href="javascript:void(0);">Perlengkapan</a></li>
+                            <li class="active">Daftar Formula Perlengkapan</li>
                         </ol>
                         <?php if (isset($_GET['message_success'])) { ?>
                             <!-- alert success -->
@@ -67,15 +67,30 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                    <tr>
-                                                        <td>1</td>
-                                                        <td>Formula 1</td>
-                                                        <td>Infeksius</td>
-                                                        <td>30 ML</td>
+                                                <?php 
+                                                $no = 1;
+                                                $sqlFormula = mysqli_query($conn, "SELECT formula_perlengkapan.nama_formula, formula_perlengkapan.jenis_formula, formula_perlengkapan.id_formula, SUM(takaran_formula.jumlah) AS jumlah FROM `formula_perlengkapan` INNER JOIN takaran_formula ON takaran_formula.id_formula=formula_perlengkapan.id_formula WHERE 1 GROUP BY formula_perlengkapan.id_formula");
+                                                if (mysqli_num_rows($sqlFormula) > 0) {
+                                                    while ($dataFormula = mysqli_fetch_assoc($sqlFormula)) { 
+                                                        ?>
+                                                     <tr>
+                                                        <td><?=$no++?></td>
+                                                        <td><?=ucwords($dataFormula['nama_formula'])?></td>
+                                                        <td><?=ucwords($dataFormula['jenis_formula'])?></td>
+
+                                                        <td>
+                                                            <?=$dataFormula['jumlah'].' ML'?>
+                                                        </td>
                                                         
-                                                        <td class="text-nowrap"><a href="javascript:void(0)" id="1" data-toggle="modal" data-target="#modalEdit" class="btn btn-info waves-effect m-r-20 edit_permintaan"> EDIT</a>
-                                                            <a href="javascript:void(0)" id="1" class="btn btn-danger waves-effect delete_permintaan">HAPUS</a></td>
+                                                        <td class="text-nowrap"><!-- <a href="javascript:void(0)" id="<?=$dataFormula['id_formula']?>" data-toggle="modal" data-target="#modalEdit" class="btn btn-info waves-effect m-r-20 edit_permintaan"> EDIT</a> -->
+                                                            <a href="javascript:void(0)" id="<?=$dataFormula['id_formula']?>" class="btn btn-danger waves-effect delete_formula">HAPUS</a></td>
                                                     </tr>
+                                                    <?php
+
+                                                    }
+                                                }
+                                                 ?>
+                                                   
                                             </tbody>
                                         </table>
                                     </div>
@@ -171,95 +186,6 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                                 <input type="text" class="form-control" name="jumlah_perlengkapan[]" placeholder="Jumlah (ML)">
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                                <button type="submit" name="simpan" class="btn btn-primary waves-effect">SIMPAN</button>
-                                            </form>
-                                    <button type="button" class="btn btn-link waves-effect waves-red" data-dismiss="modal" style="color:red">TUTUP</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end modal -->
-
-                    <!-- Modal update data -->
-                    <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title" id="defaultModalLabel">EDIT PERMINTAAN LINEN BARU</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <!-- Basic Validation -->
-                                    <div class="row clearfix">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <form id="form_validation" action="<?php echo $base_url ?>controller/perawat/permintaan/linen/ubah/" method="POST">
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        <input type="text" class="form-control" name="linen_baru" id="update_nama_linen" placeholder="* Nama Linen Baru" required>
-                                                        <input type="hidden" name="id_permintaan" id="update_id" value="" required>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group form-float">
-                                                    <div class="form-line">
-                                                        <select class="form-control show-tick m-t-20" name="kategori" id="update_kategori" required>
-                                                            <?php 
-                                                            $sqlKelas = mysqli_query($conn, "SELECT * FROM kategori WHERE 1 ORDER BY id_kategori ASC");
-                                                            while ($dataKelas = mysqli_fetch_assoc($sqlKelas)) {
-                                                             ?>
-                                                            <option value="<?=$dataKelas['id_kategori']?>"><?=$dataKelas['nama_kategori']?></option>
-                                                            <?php } ?>
-                                                        </select>
-                                                        <label for="kategori" class="form-label">* Pilih Kategori</label>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group form-float">
-                                                    <div class="form-line">
-                                                        <select class="form-control show-tick m-t-20 update_ruang" name="ruang" id="ruang_linen" required>
-                                                            <?php 
-                                                            $sqlKelas = mysqli_query($conn, "SELECT * FROM ruang WHERE 1 ORDER BY id_ruang ASC");
-                                                            while ($dataKelas = mysqli_fetch_assoc($sqlKelas)) {
-                                                             ?>
-                                                            <option value="<?=$dataKelas['id_ruang']?>"><?=$dataKelas['nama_ruang']?></option>
-                                                            <?php } ?>
-                                                        </select>
-                                                        <label for="ruang_linen" class="form-label">* Linen Untuk Ruang</label>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group form-float" id="kelas_linen_update" style="display: none;">
-                                                    <div class="form-line">
-                                                        <select class="form-control show-tick m-t-20 kelas_ruang_select" name="kelas" id="kelas_ruang_select_update">
-                                                          
-                                                        </select>
-                                                        <label for="kelas_ruang_select" class="form-label">* Linen Untuk Kelas</label>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        <input type="number" min="1" class="form-control" name="jumlah_linen" id="update_jumlah" placeholder="* Jumlah Linen" required>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group form-float">
-                                                    <div class="form-line">
-                                                        <select class="form-control show-tick m-t-20" name="diajukan" id="update_kategori" id="kategori" required>
-                                                            <?php 
-                                                            $sqlPerawat = mysqli_query($conn, "SELECT `id_user`,`nama_user` FROM `user` WHERE `id_level`=4");
-                                                            while ($dataPerawat = mysqli_fetch_assoc($sqlPerawat)) {
-                                                             ?>
-
-                                                            <option value="<?=$dataPerawat['id_user']?>" <?php if($dataPerawat['id_user'] == $_SESSION['id_user']){ echo 'selected="true"';}?>><?=$dataPerawat['nama_user']?></option>
-                                                            <?php } ?>
-                                                        </select>
-                                                        <label for="kategori" class="form-label">* Diajukan Oleh</label>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        <input type="text" class="form-control" name="keterangan" id="update_keterangan" placeholder="* Keterangan Pengajuan" required>
                                                     </div>
                                                 </div>
                                         </div>
@@ -409,10 +335,10 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                     "use strict";
                     var SweetAlert = function() {};
                     SweetAlert.prototype.init = function() {
-                            $('.delete_permintaan').click(function() {
+                            $('.delete_formula').click(function() {
                                 var dataId = this.id;
                                 swal({
-                                    title: "Apakah benar akan menghapus data permintaan linen baru?",
+                                    title: "Apakah benar akan menghapus data formula perlengkapan?",
                                     text: "Jika anda menekan Ya, Maka data akan terhapus secara permanen oleh sistem.",
                                     type: "warning",
                                     showCancelButton: true,
@@ -422,15 +348,15 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                 }, function() {
                                     $.ajax({
                                         type: "POST",
-                                        url: "<?= $base_url ?>controller/perawat/permintaan/linen/hapus_permintaan/",
+                                        url: "<?= $base_url ?>controller/laundry/formula/hapus/",
                                         data: {
-                                            'id_permintaan': dataId
+                                            'id_formula': dataId
                                         },
                                         success: function(respone) {
-                                            window.location.href = "<?= $base_url ?>perawat/permintaan/linen/?message_success";
+                                            window.location.href = "<?= $base_url ?>laundry/formula/?message_success";
                                         },
                                         error: function(request, error) {
-                                            window.location.href = "<?= $base_url ?>perawat/permintaan/linen/?message_failed";
+                                            window.location.href = "<?= $base_url ?>laundry/formula/?message_failed";
                                         },
                                     })
                                 });

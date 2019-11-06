@@ -81,7 +81,6 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                             </div>
                         </div>
 
-                        <div class="row clearfix">
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                             <div class="card">
                                 <div class="header">
@@ -108,7 +107,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                         $sqlRuang = mysqli_query($conn, "SELECT * FROM ruang WHERE 1 ORDER BY id_ruang ASC");
                                         while ($dataRuang = mysqli_fetch_assoc($sqlRuang)) { ?>
                                             
-                                            <a class="label bg-teal update-kelas m-t-40" id="<?=$dataRuang['id_ruang']?>" data-toggle="modal" data-target="#modalEditKelas" href="javascript:void(0)"><span data-toggle="tooltip" data-placement="top" title="klik untuk update"><?php echo $dataRuang['nama_ruang']?></span></a>
+                                            <a class="label bg-teal update-ruang m-t-40" id="<?=$dataRuang['id_ruang']?>" data-toggle="modal" data-target="#modalEditRuang" href="javascript:void(0)"><span data-toggle="tooltip" data-placement="top" title="klik untuk update"><?php echo $dataRuang['nama_ruang']?></span></a>
                                        
                                         <?php }
                                          ?>
@@ -116,11 +115,13 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="row clearfix">
+                        <div class="col-lg-12 col-md-12 col-sm-6 col-xs-6">
                             <div class="card">
                                 <div class="header">
-                                    <a href="javascript:void(0)" class="btn btn-primary waves-effect pull-right" data-toggle="modal" data-target="#modalRuang">Tambah Ruang</a>
+                                    <a href="javascript:void(0)" class="btn btn-primary waves-effect pull-right" data-toggle="modal" data-target="#modalRuang">Tambah Konfigurasi Ruang & Kelas</a>
                                     <h2>
                                         DAFTAR RUANG KELAS
                                     </h2>
@@ -131,8 +132,9 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                             <thead>
                                                 <tr>
                                                     <th style="width: 10%;" class="text-nowrap">No</th>
-                                                    <th style="width: 60%;" class="text-nowrap">Nama Ruang</th>
-                                                    <th style="width: 30%;" class="text-nowrap">Aksi</th>
+                                                    <th style="width: 50%;" class="text-nowrap">Nama Ruang</th>
+                                                    <th style="width: 30">Nama Kelas</th>
+                                                    <th style="width: 10%;" class="text-nowrap">Aksi</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -144,6 +146,15 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                     <tr>
                                                         <td><?= $no++ ?></td>
                                                         <td><?= ucwords($data_kategori['nama_ruang']) ?></td>
+                                                        <td>
+                                                            <?php 
+                                                            $id_ruang = $data_kategori['id_ruang'];
+                                                            $sqlKelas = mysqli_query($conn, "SELECT kelas.nama_kelas FROM `ruang_kelas` INNER JOIN kelas ON kelas.id_kelas=ruang_kelas.id_kelas WHERE `id_ruang` = $id_ruang");
+                                                            while ($dataKelas = mysqli_fetch_assoc($sqlKelas)) {
+                                                                echo '<span class="label label-success m-l-10">'.$dataKelas["nama_kelas"].'</span>';
+                                                            }
+                                                             ?>
+                                                        </td>
                                                         <td class="text-nowrap"><a href="javascript:void(0)" id="<?=$data_kategori['id_ruang']?>" data-toggle="modal" data-target="#modalRuangEdit" class="btn btn-info waves-effect m-r-20 edit"> EDIT</a>
                                                             <a href="javascript:void(0)" id="<?=$data_kategori['id_ruang']?>" class="btn btn-danger waves-effect delete_ruang">HAPUS</a></td>
                                                     </tr>
@@ -157,8 +168,9 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                 </div>
                             </div>
                     </div>
+                    </div>
                     <!-- #END# Basic Examples -->
-
+                    <!-- modal edit kelas -->
                     <div class="modal fade" id="modalEditKelas" tabindex="-1" role="dialog">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -187,7 +199,37 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                 </div>
                             </div>
                         </div>
-                        
+                    </div>
+
+                    <!-- modal edit ruang single -->
+                    <div class="modal fade" id="modalEditRuang" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="defaultModalLabel">Edit Ruang</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row clearfix">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <form id="form_validation" action="<?=$base_url?>controller/admin/ruang-kelas/update_ruang/" method="POST">
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        <input type="text" id="nama_ruang_update" class="form-control" value="" name="ruang" placeholder="Nama Ruang" required>
+                                                        <input type="hidden" id="id_ruang_update" name="id_ruang" value="" required>
+                                                    </div>
+                                                </div>
+                                                <div class="align-right">
+                                                    <button type="submit" class="btn btn-sm btn-primary waves-effect align-right">SIMPAN</button>
+                                                    <a class="btn btn-sm btn-danger waves-effect align-right hapus_kelas" id="" href="javascript:void(0)">HAPUS</a>
+                                                </div>
+                                                
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Default Size -->
@@ -205,7 +247,15 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                             <form id="form_validation" action="<?php echo $base_url ?>controller/admin/ruang-kelas/tambah_ruang/" method="POST">
                                                 <div class="form-group">
                                                     <div class="form-line">
-                                                        <input type="text" id="nama_user" class="form-control" name="ruang" placeholder="Nama Ruang" required>
+                                                        <select class="form-control show-tick m-t-20" name="ruang" id="as_user">
+                                                            <?php 
+                                                            $sqlKelas = mysqli_query($conn, "SELECT * FROM ruang WHERE 1 ORDER BY id_ruang ASC");
+                                                            while ($dataKelas = mysqli_fetch_assoc($sqlKelas)) {
+                                                             ?>
+                                                            <option value="<?=$dataKelas['id_ruang']?>"><?=$dataKelas['nama_ruang']?></option>
+                                                            <?php } ?>
+                                                        </select>
+                                                        <label for="as_user" class="form-label">Pilih Ruang</label>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -239,7 +289,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title" id="defaultModalLabel">Edit Ruang</h4>
+                                    <h4 class="modal-title" id="defaultModalLabel">Edit Ruang </h4>
                                 </div>
                                 <div class="modal-body">
                                     <!-- Basic Validation -->
@@ -419,9 +469,9 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                         data : {'id_ruang' : user_id},
                         dataType : "json",
                         success : function(data){
-                            $('#id_kelas_update').val(data.id_kelas);
-                            $('#nama_kelas_update').val(data.kelas);
-                            $('.hapus_kelas').attr('id', data.id_kelas);
+                            $('#id_ruang_update').val(data.id_ruang);
+                            $('#nama_ruang_update').val(data.ruang);
+                            $('.hapus_ruang').attr('id', data.id_ruang);
                         },
                     })
                 })

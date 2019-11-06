@@ -73,7 +73,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                 <?php
                                                 $no = 1;
                                                 $tanggal = date('Y-m-d');
-                                                    $getLinenKotor = mysqli_query($conn, "SELECT pencucian.id_pencucian AS id, pencucian.id_proses_cuci, linen.nama_linen, kelas.nama_kelas, ruang.nama_ruang, kategori.nama_kategori, linen_kotor.jml_linen_kotor, linen_kotor.jenis_linen_kotor FROM `pencucian` INNER JOIN linen_kotor ON linen_kotor.id_linen_kotor=pencucian.id_linen_kotor INNER JOIN linen ON linen.id_linen=linen_kotor.id_linen INNER JOIN kategori ON kategori.id_kategori=linen.id_kategori INNER JOIN kelas ON kelas.id_kelas=linen.id_kelas INNER JOIN ruang ON ruang.id_ruang=linen.id_ruang WHERE DATE(`tgl_cuci`) = '$tanggal' AND pencucian.`status` = 'cuci' ORDER BY linen.nama_linen ASC");
+                                                    $getLinenKotor = mysqli_query($conn, "SELECT pencucian.id_pencucian AS id, pencucian.id_proses_cuci, linen.nama_linen, kategori.nama_kategori, ruang.nama_ruang, kelas.nama_kelas, jenis.jumlah, jenis.jenis FROM `pencucian` INNER JOIN linen_kotor AS kotor ON kotor.id_linen_kotor=pencucian.id_linen_kotor INNER JOIN jenis_linen_kotor AS jenis ON jenis.id_linen_kotor=kotor.id_linen_kotor INNER JOIN linen ON linen.id_linen=kotor.id_linen INNER JOIN kategori ON kategori.id_kategori=linen.id_kategori INNER JOIN ruang ON ruang.id_ruang=linen.id_ruang INNER JOIN kelas ON kelas.id_kelas=linen.id_kelas WHERE DATE(`tgl_cuci`) = '$tanggal' AND pencucian.`status` = 'cuci' ORDER BY linen.nama_linen ASC");
                                                     while ($data_linen = mysqli_fetch_assoc($getLinenKotor)) {
                                                 ?>
                                                     <tr>
@@ -82,8 +82,8 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                         <td><?= ucwords($data_linen['nama_linen']) . ' - ' . ucwords($data_linen['nama_kategori']); ?></td>
                                                         
                                                         <td><?= ucwords($data_linen['nama_ruang']) ?> - <?=ucwords($data_linen['nama_kelas'])?></td>
-                                                        <td><?=$data_linen['jml_linen_kotor']?></td>
-                                                        <td><?= $data_linen['jenis_linen_kotor']?></td>
+                                                        <td><?=$data_linen['jumlah']?></td>
+                                                        <td><?= $data_linen['jenis']?></td>
                                                         <td class="text-nowrap">
                                                             <a href="javascript:void(0)" id="<?=$data_linen['id']?>" class="btn btn-danger waves-effect delete_linen">HAPUS</a></td>
                                                     </tr>

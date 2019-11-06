@@ -81,7 +81,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                         <td><?= ucwords($data_linen['nama_ruang']) ?> - <?=ucwords($data_linen['nama_kelas'])?></td>
                                                         <td><?=$data_linen['jumlah']?></td>
                                                         <td><?= $data_linen['jenis']?></td>
-                                                        <td class="text-nowrap"><a href="javascript:void(0)" onclick='getKelas("<?=$data_linen['id_ruang']?>")' id="<?=$data_linen['id']?>" data-toggle="modal" data-target="#modalEdit" class="btn btn-info waves-effect m-r-20 edit_linen"> EDIT</a>
+                                                        <td class="text-nowrap"><!-- <a href="javascript:void(0)" onclick='getKelas("<?=$data_linen['id_ruang']?>")' id="<?=$data_linen['id']?>" data-toggle="modal" data-target="#modalEdit" class="btn btn-info waves-effect m-r-20 edit_linen"> EDIT</a> -->
                                                             <a href="javascript:void(0)" id="<?=$data_linen['id']?>" class="btn btn-danger waves-effect delete_linen">HAPUS</a></td>
                                                     </tr>
                                                 <?php
@@ -191,14 +191,6 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                     <div class="form-line">
                                                         <input type="number" id="jml_linen" min="5" class="form-control jumlah" name="jumlah_linen" placeholder="Jumlah Linen" required>
                                                     </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Jenis Linen</label><br>
-                                                    <input type="radio" name="jenis_update" id="infek_update" value="infeksius" class="with-gap">
-                                                    <label for="infek_update">Infeksius</label>
-
-                                                    <input type="radio" name="jenis_update" id="noninfek_update" value="non infeksius" class="with-gap">
-                                                    <label for="noninfek_update" class="m-l-20">Non Infeksius</label>
                                                 </div>
                                         </div>
                                     </div>

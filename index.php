@@ -254,8 +254,28 @@ switch ($uri[0]) {
 		require __DIR__ . '/views/petugasLaundry/perlengkapan/permintaan_perlengkapan.php';
 		break;
 
+	case '/dev/controller/laundry/permintaan/perlengkapan/tambah/':
+		require __DIR__ . '/controller/UnitLaundry/add_permintaan_perlengkapan.php';
+		break;
+
+	case '/dev/controller/laundry/permintaan/linen/hapus_permintaan/':
+		require __DIR__ . '/controller/UnitLaundry/delete_permintaan_perlengkapan.php';
+		break;
+
 	case '/dev/laundry/penerimaan/perlengkapan/':
 		require __DIR__ . '/views/petugasLaundry/perlengkapan/penerimaan_perlengkapan.php';
+		break;
+
+	case '/dev/controller/laundry/penerimaan/perlengkapan/tambah/':
+		require __DIR__ . '/controller/UnitLaundry/add_penerimaan_perlengkapan.php';
+		break;
+
+	case '/dev/controller/laundry/penerimaan/perlengkapan/ambil_permintaan/':
+		require __DIR__ . '/controller/UnitLaundry/get_permintaan_perlengkapan.php';
+		break;
+
+	case '/dev/controller/laundry/penerimaan/perlengkapan/hapus_penerimaan/':
+		require __DIR__ . '/controller/UnitLaundry/delete_penerimaan_perlengkapan.php';
 		break;
 
 	case '/dev/laundry/formula/':
@@ -264,6 +284,10 @@ switch ($uri[0]) {
 
 	case '/dev/controller/laundry/formula/add/':
 		require __DIR__ . '/controller/UnitLaundry/add_formula.php';
+		break;
+
+	case '/dev/controller/laundry/formula/hapus/':
+		require __DIR__ . '/controller/UnitLaundry/delete_formula.php';
 		break;
 
 	case '/dev/controller/laundry/pencucian/ambil_formula/':
