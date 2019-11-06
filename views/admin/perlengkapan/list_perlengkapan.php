@@ -60,9 +60,10 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                             <thead>
                                                 <tr>
                                                     <th style="width: 10%;" class="text-nowrap">No</th>
-                                                    <th style="width: 60%;" class="text-nowrap">Nama Perlengkapan</th>
+                                                    <th style="width: 30%;" class="text-nowrap">Nama Perlengkapan</th>
                                                     <th style="width: 30%;" class="text-nowrap">Jenis</th>
                                                      <th style="width: 30%;" class="text-nowrap">Manfaat</th>
+                                                     <th style="width: 30%;" class="text-nowrap">Jumlah</th>
                                                       <th style="width: 30%;" class="text-nowrap">Aksi</th>
                                                 </tr>
                                             </thead>
@@ -77,6 +78,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                         <td><?= ucwords($data_perlengkapan['nama_perlengkapan']) ?></td>
                                                         <td><?= ucwords($data_perlengkapan['jenis']) ?></td>
                                                         <td><?= ucwords($data_perlengkapan['manfaat']) ?></td>
+                                                        <td><?= $data_perlengkapan['jumlah'] ?></td>
                                                         <td class="text-nowrap"><a href="javascript:void(0)" id="<?=$data_perlengkapan['id_perlengkapan']?>" data-toggle="modal" data-target="#modalEdit" class="btn btn-info waves-effect m-r-20 edit"> EDIT</a>
                                                             <a href="javascript:void(0)" id="<?=$data_perlengkapan['id_perlengkapan']?>" class="btn btn-danger waves-effect delete_perlengkapan">HAPUS</a></td>
                                                     </tr>
@@ -126,6 +128,11 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                         <input type="text" class="form-control" name="manfaat" placeholder="Manfaat" required>
                                                     </div>
                                                 </div>
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        <input type="number" class="form-control" name="jumlah" placeholder="Jumlah perlengkapan (ML)" required>
+                                                    </div>
+                                                </div>
                                         </div>
                                     </div>
                                 </div>
@@ -168,6 +175,11 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                 <div class="form-group">
                                                     <div class="form-line">
                                                         <input type="text" class="form-control" name="manfaat" placeholder="Manfaat" id="manfaat-update" required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        <input type="number" class="form-control" name="jumlah" id="jumlah-update" placeholder="Jumlah perlengkapan" required>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -289,6 +301,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                             $('#nama_perlengkapan').val(data.perlengkapan);
                             $('#jenis-update').val(data.jenis);
                             $('#manfaat-update').val(data.manfaat);
+                            $('#jumlah-update').val(data.jumlah);
                         
                         },
                     })
