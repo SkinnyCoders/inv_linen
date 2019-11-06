@@ -2,16 +2,15 @@
 require 'controller/config/connection.php';
 include 'librarys/functionFilter.php';
 
-$kelas = $_POST['ruang_kelas'];
-$id_ruang = trim(filterString($_POST['ruang']));
+$ruang = trim(filterString($_POST['ruang_name']));
 
-	foreach ($kelas as $k) {
-		$konfigRuang = mysqli_query($conn, "INSERT INTO `ruang_kelas`(`id_kelas`, `id_ruang`) VALUES ($k,$id_ruang)");
-	}
+if (!empty($ruang)) {
+	//insert data
+	$insert = mysqli_query($conn, "INSERT INTO `ruang`(`nama_ruang`) VALUES ('$ruang')");
 
-	if ($konfigRuang) {
+	if ($insert) {
 		header('location:'.$base_url.'admin/ruang_kelas/?message_success=Selamat, Data Ruang Kelas Berhasil Ditambahkan!.');
 	}else{
 		header('location:'.$base_url.'admin/ruang_kelas/?message_failed=  Maaf, Data Ruang Kelas gagal ditambahkan!, harap periksa lagi informasi yang diinputkan!.');
 	}
- ?>
+}

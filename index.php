@@ -95,12 +95,24 @@ switch ($uri[0]) {
 		require __DIR__ . '/controller/Admin/add_rooms.php';
 		break;
 
+	case '/dev/controller/admin/ruang-kelas/tambah_ruang_single/':
+		require __DIR__ . '/controller/Admin/add_room.php';
+		break;
+
+	case '/dev/controller/admin/ruang-kelas/update-ruang-kelas/':
+		require __DIR__ . '/controller/Admin/edit_room_class.php';
+		break;
+
 	case '/dev/controller/admin/ruang-kelas/update_ruang/':
 		require __DIR__ . '/controller/Admin/edit_room.php';
 		break;
 
 	case '/dev/controller/admin/linen/ambil_kelas/':
 		require __DIR__ . '/controller/Admin/get_classRooms.php';
+		break;
+
+	case '/dev/controller/admin/ruang-kelas/get_ruang_kelas/':
+		require __DIR__ . '/controller/Admin/get_ruang_kelas.php';
 		break;
 
 	case '/dev/controller/admin/linen/tambah_linen/':

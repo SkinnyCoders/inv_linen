@@ -89,10 +89,10 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                     </h2>
                                 </div>
                                 <div class="body">
-                                    <form id="form_validation" action="<?=$base_url?>controller/admin/ruang-kelas/tambah_ruang/" method="POST">
+                                    <form id="form_validation" action="<?=$base_url?>controller/admin/ruang-kelas/tambah_ruang_single/" method="POST">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" id="username" class="form-control" name="kelas_name" placeholder="Nama Ruang" required>
+                                                <input type="text" id="username" class="form-control" name="ruang_name" placeholder="Nama Ruang" required>
                                             </div>
                                         </div>
                                         <div class="align-right">
@@ -155,7 +155,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                             }
                                                              ?>
                                                         </td>
-                                                        <td class="text-nowrap"><a href="javascript:void(0)" id="<?=$data_kategori['id_ruang']?>" data-toggle="modal" data-target="#modalRuangEdit" class="btn btn-info waves-effect m-r-20 edit"> EDIT</a>
+                                                        <td class="text-nowrap"><a href="javascript:void(0)" id="<?=$data_kategori['id_ruang']?>" data-toggle="modal" data-target="#modalRuangEdit" class="btn btn-info waves-effect m-r-20 update-ruang-kelas"> EDIT</a>
                                                             <a href="javascript:void(0)" id="<?=$data_kategori['id_ruang']?>" class="btn btn-danger waves-effect delete_ruang">HAPUS</a></td>
                                                     </tr>
                                                 <?php
@@ -289,21 +289,18 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title" id="defaultModalLabel">Edit Ruang </h4>
+                                    <h4 class="modal-title" id="defaultModalLabel">Edit Konfigurasi Ruang <span id="nama_ruang_update2"></span></h4>
                                 </div>
                                 <div class="modal-body">
                                     <!-- Basic Validation -->
                                     <div class="row clearfix">
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <form id="form_validation" action="<?php echo $base_url ?>controller/admin/ruang-kelas/update-ruang/" method="POST">
+                                            <form id="form_validation" action="<?php echo $base_url ?>controller/admin/ruang-kelas/update-ruang-kelas/" method="POST">
                                                 <div class="form-group">
                                                     <div class="form-line">
-                                                        <input type="text" id="nama_user" class="form-control" name="ruang" placeholder="Nama Ruang" required>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        <select class="form-control show-tick m-t-20" name="ruang_kelas[]" id="as_user" multiple>
+                                                        <input type="hidden" name="id_ruang" id="id_ruang_update_input" value="">
+
+                                                        <select class="form-control m-t-20" name="ruang_kelas[]" id="ruang_kelas_update" multiple>
                                                             <?php 
                                                             $sqlKelas = mysqli_query($conn, "SELECT * FROM kelas WHERE 1 ORDER BY id_kelas ASC");
                                                             while ($dataKelas = mysqli_fetch_assoc($sqlKelas)) {
@@ -311,7 +308,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                             <option value="<?=$dataKelas['id_kelas']?>"><?=$dataKelas['nama_kelas']?></option>
                                                             <?php } ?>
                                                         </select>
-                                                        <label for="as_user" class="form-label">Pilih Kelas</label>
+                                                        <label for="ruang_kelas_update" class="form-label">Pilih Kelas</label>
                                                     </div>
                                                 </div>
                                         </div>
@@ -473,6 +470,21 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                             $('#nama_ruang_update').val(data.ruang);
                             $('.hapus_ruang').attr('id', data.id_ruang);
                         },
+                    })
+                })
+
+                $('.update-ruang-kelas').on('click', function(){
+                    var id_ruang = this.id;
+                    $.ajax({
+                        type : "POST",
+                        url : "<?=$base_url?>controller/admin/ruang-kelas/get_ruang_kelas/",
+                        data : {'id_ruang' : id_ruang},
+                        dataType : "json",
+                        success : function(data){
+                            $('#ruang_kelas_update').val(data.id_kelas).trigger("change");
+                            $('#nama_ruang_update2').text(data.nama_ruang);
+                            $('#id_ruang_update_input').val(data.id_ruang);
+                        }
                     })
                 })
             </script>
