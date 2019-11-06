@@ -233,10 +233,10 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                             'id_user': dataId
                                         },
                                         success: function(respone) {
-                                            window.location.href = "<?= $base_url ?>admin/user/list/?message_success";
+                                            window.location.href = "<?= $base_url ?>admin/user/list/?message_success=Data Pengguna Berhasil Dihapus!.";
                                         },
                                         error: function(request, error) {
-                                            window.location.href = "<?= $base_url ?>admin/user/list/?message_failed";
+                                            window.location.href = "<?= $base_url ?>admin/user/list/?message_failed=Data Pengguna Gagal Dihapus!.";
                                         },
                                     })
                                 });
