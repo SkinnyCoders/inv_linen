@@ -62,7 +62,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                     <th style="width: 3%;" class="text-nowrap">No</th>
                                                     <th style="width: 22%;" class="text-nowrap">Nama Formula</th>
                                                     <th style="width: 15%;" class="text-nowrap">Jenis Formula</th>
-                                                    <th style="width: 20%;" class="text-nowrap">Takaran</th>
+                                                    <th style="width: 20%;" class="text-nowrap">Komposisi Formula</th>
                                                     <th style="width: 15%;" class="text-nowrap">Aksi</th>
                                                 </tr>
                                             </thead>
@@ -72,6 +72,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                 $sqlFormula = mysqli_query($conn, "SELECT formula_perlengkapan.nama_formula, formula_perlengkapan.jenis_formula, formula_perlengkapan.id_formula, SUM(takaran_formula.jumlah) AS jumlah FROM `formula_perlengkapan` INNER JOIN takaran_formula ON takaran_formula.id_formula=formula_perlengkapan.id_formula WHERE 1 GROUP BY formula_perlengkapan.id_formula");
                                                 if (mysqli_num_rows($sqlFormula) > 0) {
                                                     while ($dataFormula = mysqli_fetch_assoc($sqlFormula)) { 
+                                                        
                                                         ?>
                                                      <tr>
                                                         <td><?=$no++?></td>
@@ -79,7 +80,16 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                         <td><?=ucwords($dataFormula['jenis_formula'])?></td>
 
                                                         <td>
-                                                            <?=$dataFormula['jumlah'].' ML'?>
+                                                            <?php 
+                                                            //get komposisi
+                                                            $id_formula = $dataFormula['id_formula'];
+                                                            $sqlKomposisi = mysqli_query($conn, "SELECT perlengkapan.nama_perlengkapan, takaran_formula.jumlah FROM `takaran_formula` INNER JOIN perlengkapan ON perlengkapan.id_perlengkapan=takaran_formula.id_perlengkapan WHERE id_formula = $id_formula");
+                                                            if (mysqli_num_rows($sqlKomposisi) > 0) {
+                                                                while ($dataKomposisi = mysqli_fetch_assoc($sqlKomposisi)) {
+                                                                    echo '<span class="label label-success m-l-10">'.$dataKomposisi["nama_perlengkapan"].' '.$dataKomposisi['jumlah'].'ML</span>';
+                                                                }
+                                                            }
+                                                             ?>
                                                         </td>
                                                         
                                                         <td class="text-nowrap"><!-- <a href="javascript:void(0)" id="<?=$dataFormula['id_formula']?>" data-toggle="modal" data-target="#modalEdit" class="btn btn-info waves-effect m-r-20 edit_permintaan"> EDIT</a> -->
