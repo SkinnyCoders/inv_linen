@@ -64,6 +64,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                     <th style="width: 20%;" class="text-nowrap">Tanggal</th>
                                                     <th style="width: 10%;" class="text-nowrap">Diajukan Oleh</th>
                                                     <th style="width: 10%;" class="text-nowrap">jumlah</th>
+                                                    <th style="width: 10%;" class="text-nowrap">Status</th>
                                                     <th style="width: 15%;" class="text-nowrap">Aksi</th>
                                                 </tr>
                                             </thead>
@@ -73,18 +74,26 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                     $getLinen = mysqli_query($conn, "SELECT * FROM `permintaan_perlengkapan` INNER JOIN user ON user.id_user=permintaan_perlengkapan.id_user WHERE 1");
                                                     while ($data_linen = mysqli_fetch_assoc($getLinen)) {
                                                         if ($data_linen['status'] == 'tidak setuju') {
-                                                            $style = "style='color:red;'";
+                                                            $style = "label-danger";
+                                                            $status = "Ditolak";
+                                                        }else if ($data_linen['status'] == 'belum') {
+                                                            $style = 'label-warning';
+                                                            $status = "Belum";
                                                         }else{
-                                                            $style = '';
+                                                            $style = 'label-success';
+                                                            $status = "Disetujui";
                                                         }
+
+                                                        $tgl = DateTime::createFromFormat('Y-m-d H:i:s', $data_linen['tgl_permintaan'])->format('d F Y');
                                                 ?>
                                                     <tr>
                                                         <td><?= $no++ ?></td>
                                                         <td <?=$style?>><?= ucwords($data_linen['nama_perlengkapan']) ?></td>
-                                                        <td><?= ucwords($data_linen['tgl_permintaan']) ?></td>
+                                                        <td><?= ucwords($tgl) ?></td>
                                                         <td><?= ucwords($data_linen['nama_user']) ?></td>
                                                         <td><?= $data_linen['jml_permintaan']?></td>
-                                                        <td class="text-nowrap"><a href="javascript:void(0)" onclick='getKelas("<?=$data_linen['id_permintaan_perlengkapan']?>")' id="<?=$data_linen['id_permintaan_perlengkapan']?>" data-toggle="modal" data-target="#modalEdit" class="btn btn-info waves-effect m-r-20 edit_permintaan"> EDIT</a>
+                                                        <td><h4><span class="label <?=$style?>"><?=$status?></span></h4></label></td>
+                                                        <td class="text-nowrap"><a href="javascript:void(0)" id="<?=$data_linen['id_permintaan_perlengkapan']?>" data-toggle="modal" data-target="#modalEdit" class="btn btn-info waves-effect m-r-20 edit_permintaan"> EDIT</a>
                                                             <a href="javascript:void(0)" id="<?=$data_linen['id_permintaan_perlengkapan']?>" class="btn btn-danger waves-effect delete_permintaan">HAPUS</a></td>
                                                     </tr>
                                                 <?php
@@ -174,29 +183,21 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                     <!-- Basic Validation -->
                                     <div class="row clearfix">
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <form id="form_validation" action="<?php echo $base_url ?>controller/laundry/permintaan/perlengkapan/tambah/" method="POST">
+                                            <form id="form_validation" action="<?php echo $base_url ?>controller/laundry/permintaan/perlengkapan/update/" method="POST">
                                                 <div class="form-group">
                                                     <div class="form-line">
-                                                        <input type="text" class="form-control" name="perlengkapan_baru" placeholder="* Nama Perlengkapan" required>
+                                                        <input type="text" class="form-control" name="perlengkapan_baru" id="update_nama_perlengkapan" placeholder="* Nama Perlengkapan" required>
+                                                    </div>
+                                                </div>
+                                               
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        <input type="number" min="1" class="form-control" id="jumlah_update" name="jumlah_perlengkapan" placeholder="* Jumlah Perlengkapan" required>
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-float">
                                                     <div class="form-line">
-                                                        <select class="form-control show-tick m-t-20" name="kategori" id="kategori" required>
-                                                            <option value=cair>Cair</option>
-                                                            <option value="bubuk">Bubuk</option>
-                                                        </select>
-                                                        <label for="kategori" class="form-label">* Pilih Jenis</label>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        <input type="number" min="1" class="form-control" name="jumlah_perlengkapan" placeholder="* Jumlah Perlengkapan" required>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group form-float">
-                                                    <div class="form-line">
-                                                        <select class="form-control show-tick m-t-20" name="diajukan" id="kategori" required>
+                                                        <select class="form-control show-tick m-t-20" name="diajukan" id="pengaju" required>
                                                             <?php 
                                                             $sqlLaundry = mysqli_query($conn, "SELECT `id_user`,`nama_user` FROM `user` WHERE `id_level`=3");
                                                             while ($dataLaundry = mysqli_fetch_assoc($sqlLaundry)) {
@@ -210,7 +211,9 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="form-line">
-                                                        <input type="text" class="form-control" name="keterangan" placeholder="* Keterangan Pengajuan" required>
+                                                        <input type="text" class="form-control" name="keterangan" id="keterangan_update" placeholder="* Keterangan Pengajuan" required>
+                                                        <input type="hidden" name="status" id="status_update" value="">
+                                                        <input type="hidden" id="id_update" name="id_permintaan" value="">
                                                     </div>
                                                 </div>
                                         </div>
@@ -322,16 +325,17 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
 
                     $.ajax({
                         type : "POST",
-                        url : "<?=$base_url?>controller/perawat/permintaan/linen/ambil_data_permintaan/",
-                        data : {'id_permintaan' : id_minta},
+                        url : "<?=$base_url?>controller/laundry/permintaan/perlengkapan/get_data/?id="+id_minta,
+                        data : {'id_minta' : id_minta},
                         dataType : "json",
                         success : function(data){
-                           $('#update_nama_linen').val(data.nama_linen);
-                           $('.update_ruang').val(data.id_ruang);
-                           $('#update_kategori').val(data.id_kategori);
-                           $('#update_jumlah').val(data.jumlah);
-                           $('#update_keterangan').val(data.keterangan);
-                           $('#update_id').val(data.id);
+                           $('#update_nama_perlengkapan').val(data.perlengkapan);
+                           $('#jumlah_update').val(data.jumlah);
+                           $('#pengaju').val(data.pengaju);
+                           $('#keterangan_update').val(data.keterangan);
+                           $('#status_update').val(data.status);
+                           $('#id_update').val(data.id);
+                      
                         },
                     })
                 });

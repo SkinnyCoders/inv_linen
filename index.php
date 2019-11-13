@@ -199,6 +199,18 @@ switch ($uri[0]) {
 		require __DIR__ .'/controller/Perawat/delete_penerimaan.php';
 		break;
 
+	case '/dev/controller/perawat/penerimaan/linen/ambil_penerimaan/':
+		require __DIR__ .'/controller/Perawat/get_penerimaan_linen.php';
+		break;
+
+	case '/dev/controller/perawat/penerimaan/linen/ubah/':
+		require __DIR__ . '/controller/Perawat/update_penerimaan.php';
+		break;
+
+	case '/dev/perawat/linen/hilang-rusak/':
+		require __DIR__ . '/views/perawat/hilangDanRusak/linen_hilang_rusak.php';
+		break;
+
 	/* end Perawat */
 
 	/* Laundry */
@@ -274,6 +286,14 @@ switch ($uri[0]) {
 		require __DIR__ . '/controller/UnitLaundry/delete_permintaan_perlengkapan.php';
 		break;
 
+	case '/dev/controller/laundry/permintaan/perlengkapan/get_data/':
+		require __DIR__ . '/controller/UnitLaundry/get_permintaan_perlengkapan1.php';
+		break;
+
+	case '/dev/controller/laundry/permintaan/perlengkapan/update/':
+		require __DIR__ . '/controller/UnitLaundry/edit_permintaan_perlengkapan.php';
+		break;
+
 	case '/dev/laundry/penerimaan/perlengkapan/':
 		require __DIR__ . '/views/petugasLaundry/perlengkapan/penerimaan_perlengkapan.php';
 		break;
@@ -284,6 +304,14 @@ switch ($uri[0]) {
 
 	case '/dev/controller/laundry/penerimaan/perlengkapan/ambil_permintaan/':
 		require __DIR__ . '/controller/UnitLaundry/get_permintaan_perlengkapan.php';
+		break;
+
+	case '/dev/controller/laundry/penerimaan/perlengkapan/ambil_permintaan_edit/':
+		require __DIR__ . '/controller/UnitLaundry/get_permintaan_perlengkapan_edit.php';
+		break;
+
+	case '/dev/controller/laundry/penerimaan/perlengkapan/ubah_penerimaan/':
+		require __DIR__ . '/controller/UnitLaundry/edit_penerimaan_perlengkapan.php';
 		break;
 
 	case '/dev/controller/laundry/penerimaan/perlengkapan/hapus_penerimaan/':
