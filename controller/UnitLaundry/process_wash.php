@@ -13,8 +13,9 @@ if (isset($ambil)) {
 	foreach ($ambil as $a) {
 		// $jumlah = $_POST['jumlah'.$a];
 		$id_linen_kotor = $_POST['id_linen'.$a];
+		$id_jenis_linen_kotor = $_POST['id_jenis_linen'.$a];
 
-		$insertLinen = mysqli_query($conn, "INSERT INTO `pencucian`(`id_proses_cuci`, `id_linen_kotor`) VALUES ($id_proses, $id_linen_kotor)");
+		$insertLinen = mysqli_query($conn, "INSERT INTO `pencucian`(`id_proses_cuci`, `id_linen_kotor`,`id_jenis_linen_kotor`) VALUES ($id_proses, $id_linen_kotor, $id_jenis_linen_kotor)");
 	}
 
 	if ($insertLinen) {

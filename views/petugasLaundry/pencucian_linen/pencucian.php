@@ -73,7 +73,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                 <?php
                                                 $no = 1;
                                                 $tanggal = date('Y-m-d');
-                                                    $getLinenKotor = mysqli_query($conn, "SELECT pencucian.id_pencucian AS id, pencucian.id_proses_cuci, linen.nama_linen, kategori.nama_kategori, ruang.nama_ruang, kelas.nama_kelas, jenis.jumlah, jenis.jenis FROM `pencucian` INNER JOIN linen_kotor AS kotor ON kotor.id_linen_kotor=pencucian.id_linen_kotor INNER JOIN jenis_linen_kotor AS jenis ON jenis.id_linen_kotor=kotor.id_linen_kotor INNER JOIN linen ON linen.id_linen=kotor.id_linen INNER JOIN kategori ON kategori.id_kategori=linen.id_kategori INNER JOIN ruang ON ruang.id_ruang=linen.id_ruang INNER JOIN kelas ON kelas.id_kelas=linen.id_kelas WHERE DATE(`tgl_cuci`) = '$tanggal' AND pencucian.`status` = 'cuci' ORDER BY linen.nama_linen ASC");
+                                                    $getLinenKotor = mysqli_query($conn, "SELECT pencucian.id_pencucian AS id, pencucian.id_proses_cuci, linen.nama_linen, kategori.nama_kategori, ruang.nama_ruang, kelas.nama_kelas, jenis.jumlah, jenis.jenis FROM `pencucian` INNER JOIN linen_kotor AS kotor ON kotor.id_linen_kotor=pencucian.id_linen_kotor INNER JOIN jenis_linen_kotor AS jenis ON jenis.id_jenis_linen_kotor=pencucian.id_jenis_linen_kotor INNER JOIN linen ON linen.id_linen=kotor.id_linen INNER JOIN kategori ON kategori.id_kategori=linen.id_kategori INNER JOIN ruang ON ruang.id_ruang=linen.id_ruang INNER JOIN kelas ON kelas.id_kelas=linen.id_kelas WHERE DATE(`tgl_cuci`) = '$tanggal' AND pencucian.`status` = 'cuci' ORDER BY linen.nama_linen ASC");
                                                     while ($data_linen = mysqli_fetch_assoc($getLinenKotor)) {
                                                 ?>
                                                     <tr>
@@ -310,7 +310,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                             var no = 1;
 
                             for(i=0; i<data.length; i++){
-                            html += '<tr><td> <input type="checkbox" name="ambil[]" id="ambil'+i+'" value="'+i+'" class="filled-in chk-col-pink"> <label for="ambil'+i+'"></label><input type="hidden" name="id_linen'+i+'" value="'+data[i].id_linen_kotor+'"></td><td>'+data[i].linen+' - '+data[i].kategori+'</td><td>'+data[i].ruang+' - '+data[i].kelas+'</td><td>'+data[i].jumlah+'</td></tr>';
+                            html += '<tr><td> <input type="checkbox" name="ambil[]" id="ambil'+i+'" value="'+i+'" class="filled-in chk-col-pink"> <label for="ambil'+i+'"></label><input type="hidden" name="id_linen'+i+'" value="'+data[i].id_linen_kotor+'"> <input type="hidden" name="id_jenis_linen'+i+'" value="'+data[i].id_jenis_linen_kotor+'"></td><td>'+data[i].linen+' - '+data[i].kategori+'</td><td>'+data[i].ruang+' - '+data[i].kelas+'</td><td>'+data[i].jumlah+'</td></tr>';
                             }
                             console.log(html);
                             $(".table_kotor").html(html);

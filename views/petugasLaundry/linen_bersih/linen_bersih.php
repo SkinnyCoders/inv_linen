@@ -23,24 +23,24 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
             <section class="content">
                 <div class="container-fluid">
                     <div class="block-header">
-                        <h2>LINEN KOTOR</h2>
+                        <h2>LINEN BERSIH</h2>
                         <ol class="breadcrumb align-right">
                             <li><a href="javascript:void(0);">Dashboard</a></li>
-                            <li><a href="javascript:void(0);">Linen Kotor</a></li>
-                            <li class="active">Daftar Linen Kotor</li>
+                            <li><a href="javascript:void(0);">Linen Bersih</a></li>
+                            <li class="active">Daftar Linen Bersih</li>
                         </ol>
                         <?php if (isset($_GET['message_success'])) { ?>
                             <!-- alert success -->
                             <div class="alert alert-success alert-dismissible" role="alert">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                Selamat, Data linen kotor berhasil ditambahkan!
+                                Selamat, Data linen bersih berhasil ditambahkan!
                             </div>
                             <!-- end alert success -->
                         <?php } elseif (isset($_GET['message_failed'])) { ?>
                             <!-- alert failed -->
                             <div class="alert alert-danger alert-dismissible" role="alert">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                Maaf, Data linen kotor gagal ditambahkan!, harap periksa lagi informasi yang diinputkan!.
+                                Maaf, Data linen bersih gagal ditambahkan!, harap periksa lagi informasi yang diinputkan!.
                             </div>
                             <!-- end alert failed -->
                         <?php } ?>
@@ -73,7 +73,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                 <?php
                                                 $no = 1;
                                                 $tanggal = date('Y-m-d');
-                                                    $getLinenKotor = mysqli_query($conn, "SELECT bersih.id_linen_bersih AS id, linen.nama_linen, kategori.nama_kategori, kelas.nama_kelas, ruang.nama_ruang, bersih.jml_linen_bersih, kotor.jenis_linen_kotor, pencucian.id_proses_cuci FROM linen_bersih AS bersih INNER JOIN pencucian ON pencucian.id_pencucian=bersih.id_pencucian INNER JOIN linen_kotor AS kotor ON kotor.id_linen_kotor=pencucian.id_linen_kotor INNER JOIN linen ON linen.id_linen=kotor.id_linen INNER JOIN kelas ON kelas.id_kelas=linen.id_kelas INNER JOIN ruang ON ruang.id_ruang=linen.id_ruang INNER JOIN kategori ON kategori.id_kategori=linen.id_kategori WHERE DATE(bersih.tgl) = '$tanggal' AND bersih.status = 'bersih' ORDER BY linen.nama_linen ASC");
+                                                    $getLinenKotor = mysqli_query($conn, "SELECT bersih.id_linen_bersih AS id, linen.nama_linen, kategori.nama_kategori, kelas.nama_kelas, ruang.nama_ruang, bersih.jml_linen_bersih, jenis_linen_kotor.jenis, pencucian.id_proses_cuci FROM linen_bersih AS bersih INNER JOIN pencucian ON pencucian.id_pencucian=bersih.id_pencucian INNER JOIN linen_kotor AS kotor ON kotor.id_linen_kotor=pencucian.id_linen_kotor INNER JOIN linen ON linen.id_linen=kotor.id_linen INNER JOIN kelas ON kelas.id_kelas=linen.id_kelas INNER JOIN ruang ON ruang.id_ruang=linen.id_ruang INNER JOIN kategori ON kategori.id_kategori=linen.id_kategori INNER JOIN jenis_linen_kotor ON jenis_linen_kotor.id_jenis_linen_kotor=pencucian.id_jenis_linen_kotor WHERE DATE(bersih.tgl) = '$tanggal' AND bersih.status = 'bersih' ORDER BY linen.nama_linen ASC");
                                                     while ($data_linen = mysqli_fetch_assoc($getLinenKotor)) {
                                                 ?>
                                                     <tr>
@@ -81,7 +81,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                         <td><?= ucwords($data_linen['nama_linen']) . ' - ' . ucwords($data_linen['nama_kategori']); ?></td>
                                                         <td><?= ucwords($data_linen['nama_ruang']) ?> - <?=ucwords($data_linen['nama_kelas'])?></td>
                                                         <td><?=$data_linen['jml_linen_bersih']?></td>
-                                                        <td><?= $data_linen['jenis_linen_kotor']?></td>
+                                                        <td><?= $data_linen['jenis']?></td>
                                                         <td>#PROSES-<?=$data_linen['id_proses_cuci']?></td>
                                                         <td class="text-nowrap">
                                                             <a href="javascript:void(0)" id="<?=$data_linen['id']?>" class="btn btn-danger waves-effect delete_linen"><i class="material-icons">clear</i></a></td>
@@ -293,7 +293,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                             var i;
 
                             for(i=0; i<data.length; i++){
-                            html += '<tr><td> <input type="checkbox" name="ambil[]" id="ambil'+i+'" value="'+i+'" class="filled-in chk-col-pink"> <label for="ambil'+i+'"></label><initput type="hidden" name="id_cuci'+i+'" value="'+data[i].id_cuci+'"></td><td>'+data[i].linen+' - '+data[i].kategori+'</td><td>'+data[i].kelas+'</td><td>'+data[i].jml_linen+' <input type="hidden" name="jumlah'+i+'" value="'+data[i].jml_linen+'"></td><td>Infeksius</td><td>#PROSES-'+data[i].proses_cuci+'</td><td class="text-nowrap"><a href="javascript:void(0)" onclick="reject('+data[i].id_cuci+')" id="'+data[i].id_cuci+'" class="btn btn-danger btn-sm waves-effect data_reject" data-toggle="modal" data-target="#modalReject"><i class="material-icons">clear</i></a></td></tr>';
+                            html += '<tr><td> <input type="checkbox" name="ambil[]" id="ambil'+i+'" value="'+i+'" class="filled-in chk-col-pink"> <label for="ambil'+i+'"></label><input type="hidden" name="id_cuci'+i+'" value="'+data[i].id_cuci+'"></td><td>'+data[i].linen+' - '+data[i].kategori+'</td><td>'+data[i].kelas+'</td><td>'+data[i].jml_linen+' <input type="hidden" name="jumlah'+i+'" value="'+data[i].jml_linen+'"></td><td>Infeksius</td><td>#PROSES-'+data[i].proses_cuci+'</td><td class="text-nowrap"><a href="javascript:void(0)" onclick="reject('+data[i].id_cuci+')" id="'+data[i].id_cuci+'" class="btn btn-danger btn-sm waves-effect data_reject" data-toggle="modal" data-target="#modalReject"><i class="material-icons">clear</i></a></td></tr>';
                             }
                             $(".table_bersih").html(html);
                         }
@@ -343,7 +343,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                             $('.delete_linen').click(function() {
                                 var dataId = this.id;
                                 swal({
-                                    title: "Apakah benar akan menghapus data Linen Kotor?",
+                                    title: "Apakah benar akan menghapus data Linen Bersih?",
                                     text: "Jika anda menekan Ya, Maka data akan terhapus secara permanen oleh sistem.",
                                     type: "warning",
                                     showCancelButton: true,
