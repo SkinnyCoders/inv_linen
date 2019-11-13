@@ -112,7 +112,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                         <select class="form-control show-tick m-t-20" name="id_permintaan_linen" id="permintaan" required>
                                                             <option></option>
                                                             <?php 
-                                                            $sqlLinen = mysqli_query($conn, "SELECT `id_permintaan_linen_baru`,`nama_linen_baru`,`nama_kategori` FROM `permintaan_linen_baru` INNER JOIN kategori ON kategori.id_kategori=permintaan_linen_baru.id_kategori WHERE permintaan_linen_baru.`status` = 'setuju'");
+                                                            $sqlLinen = mysqli_query($conn, "SELECT `id_permintaan_linen_baru`,`nama_linen_baru`,`nama_kategori` FROM `permintaan_linen_baru` INNER JOIN kategori ON kategori.id_kategori=permintaan_linen_baru.id_kategori WHERE permintaan_linen_baru.`status` = 'setuju' AND NOT EXISTS (SELECT * FROM penerimaan_linen_baru WHERE id_permintaan_linen_baru = permintaan_linen_baru.id_permintaan_linen_baru)");
                                                             while ($dataLinen = mysqli_fetch_assoc($sqlLinen)) {
                                                              ?>
                                                             <option value="<?=$dataLinen['id_permintaan_linen_baru']?>"><?=$dataLinen['nama_linen_baru']?> - <?=$dataLinen['nama_kategori']?></option>
@@ -187,51 +187,38 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title" id="defaultModalLabel">UBAH DATA LINEN</h4>
+                                    <h4 class="modal-title" id="defaultModalLabel">UBAH DATA PENERIMAAN LINEN</h4>
                                 </div>
                                 <div class="modal-body">
                                     <!-- Basic Validation -->
                                     <div class="row clearfix">
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <form id="form_validation" action="<?php echo $base_url ?>controller/admin/linen/update_linen/" method="POST">
+                                            <form id="form_validation" action="<?php echo $base_url ?>controller/perawat/penerimaan/linen/ubah/" method="POST">
                                                 <div class="form-group">
                                                     <div class="form-line">
-                                                        <input type="hidden" name="id_linen" id="id_linen" value="" required>
-                                                        <input type="text" class="form-control" id="nama_linen" name="linen" placeholder="Nama Linen" required>
+                                                        <input type="hidden" name="id_penerimaan_linen" id="id_penerimaan_linen" value="" required>
+                                                        <input type="text" class="form-control" id="nama_linen" name="linen" placeholder="Nama Linen" required disabled>
                                                     </div>
                                                 </div>
-                                                <div class="form-group form-float">
-                                                    <div class="form-line">
-                                                        <select class="form-control show-tick m-t-20 id_kategori" name="kategori" id="kategori" required>
-                                                            <?php 
-                                                            $sqlKelas = mysqli_query($conn, "SELECT * FROM kategori WHERE 1 ORDER BY id_kategori ASC");
-                                                            while ($dataKelas = mysqli_fetch_assoc($sqlKelas)) {
-                                                             ?>
-                                                            <option value="<?=$dataKelas['id_kategori']?>"><?=$dataKelas['nama_kategori']?></option>
-                                                            <?php } ?>
-                                                        </select>
-                                                        <label for="kategori" class="form-label">Pilih Kategori</label>
-                                                    </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="form-line">
+                                                                <input type="text" id="permintaan_ruang" class="form-control nama_ruang" name="penerimaan_ruang" placeholder="* Ruang" required disabled>
+                                                            </div>
+                                                        </div>
+                                                    </div> 
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="form-line">
+                                                                <input type="text" id="permintaan_kelas" class="form-control nama_kelas" name="penerimaan_kelas" placeholder="* Kelas" required disabled>
+                                                            </div>
+                                                        </div>
+                                                    </div>    
                                                 </div>
-                                                <div class="form-group form-float">
+                                                <div class="form-group">
                                                     <div class="form-line">
-                                                        <select class="form-control show-tick m-t-20 id_ruang1" name="ruang" id="ruang_linen_update" required>
-                                                            <?php 
-                                                            $sqlKelas = mysqli_query($conn, "SELECT * FROM ruang WHERE 1 ORDER BY id_ruang ASC");
-                                                            while ($dataKelas = mysqli_fetch_assoc($sqlKelas)) {
-                                                             ?>
-                                                            <option value="<?=$dataKelas['id_ruang']?>"><?=$dataKelas['nama_ruang']?></option>
-                                                            <?php } ?>
-                                                        </select>
-                                                        <label for="ruang_linen_update" class="form-label">Pilih Ruang</label>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group" id="kelas_linen">
-                                                    <div class="form-line">
-                                                        <select class="form-control show-tick m-t-20 id_kelas" name="kelas" id="kelas_ruang_select_update" required>
-                                                            <option ></option>
-                                                        </select>
-                                                        
+                                                        <input type="text" class="form-control oleh" id="permintaan_oleh" name="diajukan" placeholder="* Diajukan Oleh" required disabled>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -314,26 +301,6 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
             </script>
 
             <script>
-                function getKelas(id_ruang){
-                    console.log(id_ruang);
-                    $.ajax({
-                        type : "POST",
-                        url : "<?=$base_url?>controller/admin/linen/ambil_kelas/",
-                        data : {'id_ruang' : id_ruang},
-                        async : false,
-                        dataType : "json",
-                        success : function(data){
-                            var html = '';
-                            var i;
-
-                            for(i=0; i<data.length; i++){
-                            html += '<option value="'+data[i].id_kelas+'">'+data[i].kelas+'</option>';
-                            }
-                            console.log(html);
-                            $("#kelas_ruang_select_update").html(html);
-                        }
-                    })
-                };
 
                 //memunculkan pilihan kelas
                 $('#ruang_linen_update').on('change', function(){
@@ -418,20 +385,20 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                 }(window.jQuery);
 
                 $('.edit_linen').on('click', function(){
-                    var id_linen = this.id;
+                    var id = this.id;
 
                     $.ajax({
                         type : "POST",
-                        url : "<?=$base_url?>controller/admin/linen/ambil_linen/",
-                        data : {'id_linen' : id_linen},
+                        url : "<?=$base_url?>controller/perawat/penerimaan/linen/ambil_penerimaan/",
+                        data : {'id_penerimaan' : id},
                         dataType : "json",
                         success : function(data){
-                            $('#id_linen').val(data.id_linen);
+                            $('#id_penerimaan_linen').val(data.id_penerimaan);
                             $('#nama_linen').val(data.nama_linen);
                             $('.jumlah').val(data.jumlah);
-                            $('.id_ruang1').val(data.id_ruang);
-                            $('.id_kelas').val(data.id_kelas);
-                            $('.id_kategori').val(data.id_kategori).trigger();
+                            $('.nama_ruang').val(data.ruang);
+                            $('.nama_kelas').val(data.kelas);
+                            $('.oleh').val(data.oleh);
                         },
                     })
                 });

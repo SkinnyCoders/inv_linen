@@ -157,6 +157,12 @@
                     <span>Penerimaan Linen Bersih</span>
                 </a>
             </li>
+            <li>
+                <a href="<?php echo $base_url ?>perawat/linen/hilang-rusak/">
+                    <i class="material-icons">home</i>
+                    <span>Data Linen Hilang & Rusak<span>
+                </a>
+            </li>
 
         <?php
         }

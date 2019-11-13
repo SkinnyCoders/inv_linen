@@ -6,7 +6,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
 
         include_once 'views/templates/head.php';
         require 'controller/config/connection.php';
-        $role = $_SESSION['role'];
+        $role = $_SESSION['role']; 
         $nama = $_SESSION['nama_user'];
 
         ?>
@@ -26,7 +26,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                         <ol class="breadcrumb align-right">
                             <li><a href="javascript:void(0);">Dashboard</a></li>
                             <li><a href="javascript:void(0);">Perawat</a></li>
-                            <li class="active">Daftar Permintaan Linen Baru</li>
+                            <li class="active">Daftar Linen Hilang & Rusak</li>
                         </ol>
                         <?php if (isset($_GET['message_success'])) { ?>
                             <!-- alert success -->
@@ -51,7 +51,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                 <div class="header">
                                     <a href="javascript:void(0)" class="btn btn-primary waves-effect pull-right" data-toggle="modal" data-target="#modalAdd">Tambah Data</a>
                                     <h2>
-                                        DAFTAR PERMINTAAN LINEN
+                                        DAFTAR LINEN HILANG & RUSAK
                                     </h2>
                                 </div>
                                 <div class="body">
@@ -63,7 +63,6 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                     <th style="width: 22%;" class="text-nowrap">Nama Linen</th>
                                                     <th style="width: 15%;" class="text-nowrap">Kategori</th>
                                                     <th style="width: 20%;" class="text-nowrap">Ruang - Kelas</th>
-                                                    <th style="width: 10%;" class="text-nowrap">Diajukan</th>
                                                     <th style="width: 10%;" class="text-nowrap">jumlah</th>
                                                     <th style="width: 10%;" class="text-nowrap">Status</th>
                                                     <th style="width: 15%;" class="text-nowrap">Aksi</th>
@@ -76,10 +75,10 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                     while ($data_linen = mysqli_fetch_assoc($getLinen)) {
                                                         if ($data_linen['status'] == 'tidak setuju') {
                                                             $style = "label-danger";
-                                                            $status = "Ditolak";
+                                                            $status = "Hilang";
                                                         }else{
-                                                            $style = 'label-success';
-                                                            $status = "Setuju";
+                                                            $style = 'label-warning';
+                                                            $status = "Rusak";
                                                         }
                                                 ?>
                                                     <tr>
@@ -87,7 +86,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                         <td <?=$style?>><?= ucwords($data_linen['nama_linen_baru']) ?></td>
                                                         <td><?= ucwords($data_linen['nama_kategori']) ?></td>
                                                         <td><?= ucwords($data_linen['nama_ruang']) ?> - <?=ucwords($data_linen['nama_kelas'])?></td>
-                                                        <td><?= ucwords($data_linen['nama_user']) ?></td>
+                                                        
                                                         <td><?= $data_linen['jml_permintaan']?></td>
                                                         <td><h4><span class="label <?=$style?>"><?=$status?></span></h4></label></td>
                                                         <td class="text-nowrap"><a href="javascript:void(0)" onclick='getKelas("<?=$data_linen['id_permintaan_linen_baru']?>")' id="<?=$data_linen['id_permintaan_linen_baru']?>" data-toggle="modal" data-target="#modalEdit" class="btn btn-info waves-effect m-r-20 edit_permintaan"> EDIT</a>

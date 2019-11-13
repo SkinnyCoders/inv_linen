@@ -42,48 +42,49 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                 <?php } ?>
             </div>
             <!-- Basic Validation -->
+            <?php 
+            //get permintaan linen
+            $sqlPermintaan = mysqli_query($conn, "SELECT `id_permintaan_linen_baru` FROM `permintaan_linen_baru` WHERE 1");
+            $totalPermintaan = mysqli_num_rows($sqlPermintaan);
+
+            //get penerimaan linen
+            $sqlPenerimaan = mysqli_query($conn, "SELECT `id_penerimaan_linen_baru` FROM `penerimaan_linen_baru` WHERE 1");
+            $totalPenerimaan = mysqli_num_rows($sqlPenerimaan);
+
+             ?>
+
+
             <div class="row clearfix">
-               <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="info-box bg-pink hover-expand-effect">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <div class="info-box-3 bg-orange hover-zoom-effect">
                         <div class="icon">
-                            <i class="material-icons">playlist_add_check</i>
+                            <i class="material-icons">pan_tool</i>
                         </div>
                         <div class="content">
-                            <div class="text">PERMINTAAN LINEN BARU</div>
-                            <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20"></div>
+                            <div class="text">PERMINTAAN LINEN</div>
+                            <div class="number"><?=$totalPermintaan?></div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="info-box bg-cyan hover-expand-effect">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <div class="info-box-3 bg-blue hover-zoom-effect">
                         <div class="icon">
-                            <i class="material-icons">help</i>
+                            <i class="material-icons">cached</i>
                         </div>
                         <div class="content">
-                            <div class="text">PENERIMAAN LINEN BARU</div>
-                            <div class="number count-to" data-from="0" data-to="257" data-speed="1000" data-fresh-interval="20"></div>
+                            <div class="text">PENERIMAAN LINEN</div>
+                            <div class="number"><?=$totalPenerimaan?></div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="info-box bg-light-green hover-expand-effect">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <div class="info-box-3 bg-gray hover-zoom-effect">
                         <div class="icon">
-                            <i class="material-icons">forum</i>
+                            <i class="material-icons">watch_later</i>
                         </div>
                         <div class="content">
-                            <div class="text">PENERIMAAN LINEN BERSIH</div>
-                            <div class="number count-to" data-from="0" data-to="243" data-speed="1000" data-fresh-interval="20"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="info-box bg-orange hover-expand-effect">
-                        <div class="icon">
-                            <i class="material-icons">person_add</i>
-                        </div>
-                        <div class="content">
-                            <div class="text">NEW VISITORS</div>
-                            <div class="number count-to" data-from="0" data-to="1225" data-speed="1000" data-fresh-interval="20"></div>
+                            <div class="text">LINEN BERSIH</div>
+                            <div class="number">20</div>
                         </div>
                     </div>
                 </div>
