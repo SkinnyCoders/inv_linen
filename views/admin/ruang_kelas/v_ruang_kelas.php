@@ -140,7 +140,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                             <tbody>
                                                 <?php
                                                 $no = 1;
-                                                    $getKategori = mysqli_query($conn, "SELECT * FROM `ruang` WHERE 1 ORDER BY nama_ruang ASC");
+                                                    $getKategori = mysqli_query($conn, "SELECT * FROM `ruang` WHERE 1 AND EXISTS ( SELECT id_ruang FROM ruang_kelas WHERE ruang_kelas.id_ruang=ruang.id_ruang) ORDER BY nama_ruang ASC");
                                                     while ($data_kategori = mysqli_fetch_assoc($getKategori)) {
                                                 ?>
                                                     <tr>
@@ -300,7 +300,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                     <div class="form-line">
                                                         <input type="hidden" name="id_ruang" id="id_ruang_update_input" value="">
 
-                                                        <select class="form-control m-t-20" name="ruang_kelas[]" id="ruang_kelas_update" multiple>
+                                                        <select class="form-control m-t-20 show-tick" name="ruang_kelas[]" id="ruang_kelas_update" multiple>
                                                             <?php 
                                                             $sqlKelas = mysqli_query($conn, "SELECT * FROM kelas WHERE 1 ORDER BY id_kelas ASC");
                                                             while ($dataKelas = mysqli_fetch_assoc($sqlKelas)) {

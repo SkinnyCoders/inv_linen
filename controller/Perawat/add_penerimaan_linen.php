@@ -41,7 +41,14 @@ $keterangan = trim(strtolower(filterString($_POST['keterangan'])));
 			//proses update jumlah linen
 			$updateLinen = mysqli_query($conn, "UPDATE `linen` SET `id_penerimaan_linen_baru`=$id, `jml_linen`=$jumlahTotal WHERE `nama_linen` = '$nama_linen' AND `id_ruang` = $id_ruang AND `id_kelas` = $id_kelas AND `id_kategori` = $id_kategori");
 			if ($updateLinen) {
-				header('location:'.$base_url.'perawat/penerimaan/linen/?message_success');
+				//update permintaan
+				$sqlUpdatePermintaan = mysqli_query($conn, "UPDATE permintaan_linen_baru SET status = 'diterima' WHERE id_permintaan_linen_baru = $id_permintaan_linen");
+				if ($sqlUpdatePermintaan) {
+					header('location:'.$base_url.'perawat/penerimaan/linen/?message_success');
+				}else{
+					header('location:'.$base_url.'perawat/penerimaan/linen/?message_failed');
+				}
+				
 			}else{
 				header('location:'.$base_url.'perawat/penerimaan/linen/?message_failed');
 			}
@@ -49,7 +56,13 @@ $keterangan = trim(strtolower(filterString($_POST['keterangan'])));
 			//insert data baru jika tidak ada data yang sesuai dengan linen yang diterima
 			$insertLinenBaru = mysqli_query($conn, "INSERT INTO `linen`(`nama_linen`, `id_ruang`, `id_kelas`, `id_penerimaan_linen_baru`, `id_kategori`, `jml_linen`) VALUES ('$nama_linen',$id_ruang,$id_kelas,$id,$id_kategori,$jumlah)");
 			if ($insertLinenBaru) {
-				header('location:'.$base_url.'perawat/penerimaan/linen/?message_success');
+				//update permintaan
+				$sqlUpdatePermintaan = mysqli_query($conn, "UPDATE permintaan_linen_baru SET status = 'diterima' WHERE id_permintaan_linen_baru = $id_permintaan_linen");
+				if ($sqlUpdatePermintaan) {
+					header('location:'.$base_url.'perawat/penerimaan/linen/?message_success');
+				}else{
+					header('location:'.$base_url.'perawat/penerimaan/linen/?message_failed');
+				}
 			}else{
 				header('location:'.$base_url.'perawat/penerimaan/linen/?message_failed');
 			}

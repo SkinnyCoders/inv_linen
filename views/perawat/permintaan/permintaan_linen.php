@@ -77,6 +77,9 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                         if ($data_linen['status'] == 'tidak setuju') {
                                                             $style = "label-danger";
                                                             $status = "Ditolak";
+                                                        }else if ($data_linen['status'] == 'belum') {
+                                                            $style = 'label-warning';
+                                                            $status = "Belum";
                                                         }else{
                                                             $style = 'label-success';
                                                             $status = "Setuju";
