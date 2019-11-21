@@ -131,7 +131,7 @@
             </li>
             <li>
                 <a href="javascript:void(0);" class="menu-toggle">
-                    <i class="material-icons">home</i>
+                    <i class="material-icons">menu</i>
                     <span>Data Permintaan</span>
                 </a>
                 <ul class="ml-menu">
@@ -142,7 +142,7 @@
             </li>
              <li>
                 <a href="javascript:void(0);" class="menu-toggle">
-                    <i class="material-icons">home</i>
+                    <i class="material-icons">menu</i>
                     <span>Data Penerimaan</span>
                 </a>
                 <ul class="ml-menu">
@@ -152,14 +152,8 @@
                 </ul>
             </li>
             <li>
-                <a href="<?php echo $base_url ?>perawat/linen-bersih/">
-                    <i class="material-icons">home</i>
-                    <span>Penerimaan Linen Bersih</span>
-                </a>
-            </li>
-            <li>
                 <a href="<?php echo $base_url ?>perawat/linen/hilang-rusak/">
-                    <i class="material-icons">home</i>
+                    <i class="material-icons">menu</i>
                     <span>Data Linen Hilang & Rusak<span>
                 </a>
             </li>

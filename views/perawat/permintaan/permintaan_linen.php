@@ -435,7 +435,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                             'id_permintaan': dataId
                                         },
                                         success: function(respone) {
-                                            window.location.href = "<?= $base_url ?>perawat/permintaan/linen/?message_success";
+                                            window.location.href = "<?= $base_url ?>perawat/permintaan/linen/?message_success= Selamat, Permintaan Linen Berhasil Dihapus!!!";
                                         },
                                         error: function(request, error) {
                                             window.location.href = "<?= $base_url ?>perawat/permintaan/linen/?message_failed";

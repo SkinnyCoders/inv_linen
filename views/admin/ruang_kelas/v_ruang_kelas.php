@@ -299,7 +299,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                 <div class="form-group">
                                                     <div class="form-line">
                                                         <input type="hidden" name="id_ruang" id="id_ruang_update_input" value="">
-
+                                                        
                                                         <select class="form-control m-t-20" name="ruang_kelas[]" id="ruang_kelas_update" multiple>
                                                             <?php 
                                                             $sqlKelas = mysqli_query($conn, "SELECT * FROM kelas WHERE 1 ORDER BY id_kelas ASC");
