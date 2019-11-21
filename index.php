@@ -131,26 +131,6 @@ switch ($uri[0]) {
 		require __DIR__ . '/controller/Admin/edit_linen.php';
 		break;
 
-	case '/dev/admin/perlengkapan/':
-		require __DIR__ . '/views/admin/perlengkapan/list_perlengkapan.php';
-		break;
-
-	case '/dev/controller/admin/perlengkapan/tambah_perlengkapan/':
-		require __DIR__ . '/controller/Admin/add_perlengkapan.php';
-		break;
-
-	case '/dev/controller/admin/perlengkapan/ambil_perlengkapan/':
-		require __DIR__.'/controller/Admin/get_perlengkapan.php';
-		break;
-
-	case '/dev/controller/admin/perlengkapan/edit_perlengkapan/':
-		require __DIR__ . '/controller/Admin/edit_perlengkapan.php';
-		break;
-
-	case '/dev/controller/admin/perlengkapan/delete_perlengkapan/':
-		require __DIR__ . '/controller/Admin/delete_perlengkapan.php';
-		break;
-
 	/* end admin */
 
 	/* Perawat */
@@ -332,6 +312,26 @@ switch ($uri[0]) {
 
 	case '/dev/controller/laundry/pencucian/ambil_formula/':
 		require __DIR__ . '/controller/UnitLaundry/get_formula.php';
+		break;
+
+	case '/dev/laundry/perlengkapan/':
+		require __DIR__ . '/views/petugasLaundry/perlengkapan/list_perlengkapan.php';
+		break;
+
+	case '/dev/controller/laundry/perlengkapan/tambah_perlengkapan/':
+		require __DIR__ . '/controller/UnitLaundry/add_perlengkapan.php';
+		break;
+
+	case '/dev/controller/laundry/perlengkapan/ambil_perlengkapan/':
+		require __DIR__.'/controller/UnitLaundry/get_perlengkapan.php';
+		break;
+
+	case '/dev/controller/laundry/perlengkapan/edit_perlengkapan/':
+		require __DIR__ . '/controller/UnitLaundry/edit_perlengkapan.php';
+		break;
+
+	case '/dev/controller/laundry/perlengkapan/delete_perlengkapan/':
+		require __DIR__ . '/controller/UnitLaundry/delete_perlengkapan.php';
 		break;
 
 	/* end laundry */

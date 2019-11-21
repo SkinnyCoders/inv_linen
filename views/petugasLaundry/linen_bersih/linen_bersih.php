@@ -219,7 +219,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                 <div class="form-group">
                                                     <label>Jumlah Linen Rejeck</label>
                                                     <div class="form-line">
-                                                        <input type="number" id="jml_linen" min="5" class="form-control jumlah" name="jumlah_linen" placeholder="Jumlah Linen" required>
+                                                        <input type="number" id="jml_linen" min="1" class="form-control jumlah" name="jumlah_linen" placeholder="Jumlah Linen" required>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">

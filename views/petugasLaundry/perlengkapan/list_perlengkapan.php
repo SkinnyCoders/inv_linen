@@ -22,24 +22,24 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
             <section class="content">
                 <div class="container-fluid">
                     <div class="block-header">
-                        <h2>PERMINTAAN PERLENGKAPAN</h2>
+                        <h2>Unit Laundry</h2>
                         <ol class="breadcrumb align-right">
-                            <li><a href="javascript:void(0);">Dashboard</a></li>
-                            <li><a href="javascript:void(0);">Perlengkapan</a></li>
-                            <li class="active">Permintaan Perlangkapan</li>
+                            <li><a href="javascript:void(0);">Data Perlengkapan</a></li>
+                            <li class="active">List Perlengkapan</li>
                         </ol>
                         <?php if (isset($_GET['message_success'])) { ?>
                             <!-- alert success -->
                             <div class="alert alert-success alert-dismissible" role="alert">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                Selamat, Data linen berhasil ditambahkan!
+                                <?php echo $_GET['message_success']; ?>
                             </div>
                             <!-- end alert success -->
-                        <?php } elseif (isset($_GET['message_failed'])) { ?>
+                        <?php } elseif (isset($_GET['message_failed'
+                        ])) { ?>
                             <!-- alert failed -->
                             <div class="alert alert-danger alert-dismissible" role="alert">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                Maaf, Data linen gagal ditambahkan!, harap periksa lagi informasi yang diinputkan!.
+                                  <?php echo $_GET['message_failed']; ?>
                             </div>
                             <!-- end alert failed -->
                         <?php } ?>
@@ -49,9 +49,9 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="card">
                                 <div class="header">
-                                    <a href="javascript:void(0)" class="btn btn-primary waves-effect pull-right" data-toggle="modal" data-target="#modalAdd">Tambah Data</a>
+                                    <a href="javascript:void(0)" class="btn btn-primary waves-effect pull-right" data-toggle="modal" data-target="#modalAdd">Tambah Perlengkapan</a>
                                     <h2>
-                                        DAFTAR PERMINTAAN PERLENGKAPAN
+                                        DAFTAR PERLENGKAPAN
                                     </h2>
                                 </div>
                                 <div class="body">
@@ -59,42 +59,28 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                         <table id="table_user_list" class="table table-striped table-hover" style="width: 100%">
                                             <thead>
                                                 <tr>
-                                                    <th style="width: 3%;" class="text-nowrap">No</th>
-                                                    <th style="width: 22%;" class="text-nowrap">Nama Perlengkapan</th>
-                                                    <th style="width: 20%;" class="text-nowrap">Tanggal</th>
-                                                    <th style="width: 10%;" class="text-nowrap">Diajukan Oleh</th>
-                                                    <th style="width: 10%;" class="text-nowrap">jumlah</th>
-                                                    <th style="width: 10%;" class="text-nowrap">Status</th>
-                                                    <th style="width: 15%;" class="text-nowrap">Aksi</th>
+                                                    <th style="width: 10%;" class="text-nowrap">No</th>
+                                                    <th style="width: 30%;" class="text-nowrap">Nama Perlengkapan</th>
+                                                    <th style="width: 30%;" class="text-nowrap">Jenis</th>
+                                                     <th style="width: 30%;" class="text-nowrap">Manfaat</th>
+                                                     <th style="width: 30%;" class="text-nowrap">Jumlah</th>
+                                                      <th style="width: 30%;" class="text-nowrap">Aksi</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php
                                                 $no = 1;
-                                                    $getLinen = mysqli_query($conn, "SELECT * FROM `permintaan_perlengkapan` INNER JOIN user ON user.id_user=permintaan_perlengkapan.id_user WHERE 1 AND NOT EXISTS (SELECT * FROM penerimaan_perlengkapan WHERE penerimaan_perlengkapan.id_permintaan_perlengkapan=permintaan_perlengkapan.id_permintaan_perlengkapan)");
-                                                    while ($data_linen = mysqli_fetch_assoc($getLinen)) {
-                                                        if ($data_linen['status'] == 'tidak setuju') {
-                                                            $style = "label-danger";
-                                                            $status = "Ditolak";
-                                                        }else if ($data_linen['status'] == 'belum') {
-                                                            $style = 'label-warning';
-                                                            $status = "Belum";
-                                                        }else{
-                                                            $style = 'label-success';
-                                                            $status = "Disetujui";
-                                                        }
-
-                                                        $tgl = DateTime::createFromFormat('Y-m-d H:i:s', $data_linen['tgl_permintaan'])->format('d F Y');
+                                                    $getPerlengkapan = mysqli_query($conn, "SELECT * FROM `perlengkapan` WHERE 1 ORDER BY nama_perlengkapan ASC");
+                                                    while ($data_perlengkapan = mysqli_fetch_assoc($getPerlengkapan)) {
                                                 ?>
                                                     <tr>
                                                         <td><?= $no++ ?></td>
-                                                        <td <?=$style?>><?= ucwords($data_linen['nama_perlengkapan']) ?></td>
-                                                        <td><?= ucwords($tgl) ?></td>
-                                                        <td><?= ucwords($data_linen['nama_user']) ?></td>
-                                                        <td><?= $data_linen['jml_permintaan']?></td>
-                                                        <td><h4><span class="label <?=$style?>"><?=$status?></span></h4></label></td>
-                                                        <td class="text-nowrap"><a href="javascript:void(0)" id="<?=$data_linen['id_permintaan_perlengkapan']?>" data-toggle="modal" data-target="#modalEdit" class="btn btn-info waves-effect m-r-20 edit_permintaan"> EDIT</a>
-                                                            <a href="javascript:void(0)" id="<?=$data_linen['id_permintaan_perlengkapan']?>" class="btn btn-danger waves-effect delete_permintaan">HAPUS</a></td>
+                                                        <td><?= ucwords($data_perlengkapan['nama_perlengkapan']) ?></td>
+                                                        <td><?= ucwords($data_perlengkapan['jenis']) ?></td>
+                                                        <td><?= ucwords($data_perlengkapan['manfaat']) ?></td>
+                                                        <td><?= $data_perlengkapan['jumlah'] ?></td>
+                                                        <td class="text-nowrap"><a href="javascript:void(0)" id="<?=$data_perlengkapan['id_perlengkapan']?>" data-toggle="modal" data-target="#modalEdit" class="btn btn-info waves-effect m-r-20 edit"> EDIT</a>
+                                                            <a href="javascript:void(0)" id="<?=$data_perlengkapan['id_perlengkapan']?>" class="btn btn-danger waves-effect delete_perlengkapan">HAPUS</a></td>
                                                     </tr>
                                                 <?php
                                                     }
@@ -109,54 +95,42 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                     </div>
                     <!-- #END# Basic Examples -->
 
-                    <!-- Modal add data -->
+                    <!-- Default Size -->
                     <div class="modal fade" id="modalAdd" tabindex="-1" role="dialog">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title" id="defaultModalLabel">PERMINTAAN PERLENGKAPAN BARU</h4>
+                                    <h4 class="modal-title" id="defaultModalLabel">TAMBAH PERLENGKAPAN</h4>
                                 </div>
                                 <div class="modal-body">
                                     <!-- Basic Validation -->
                                     <div class="row clearfix">
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <form id="form_validation" action="<?php echo $base_url ?>controller/laundry/permintaan/perlengkapan/tambah/" method="POST">
+                                            <form id="form_validation" action="<?php echo $base_url ?>controller/laundry/perlengkapan/tambah_perlengkapan/" method="POST">
                                                 <div class="form-group">
                                                     <div class="form-line">
-                                                        <input type="text" class="form-control" name="perlengkapan_baru" placeholder="* Nama Perlengkapan" required>
+                                                        <input type="text" class="form-control" name="perlengkapan" placeholder="Nama perlengkapan" required>
                                                     </div>
                                                 </div>
-                                                <div class="form-group form-float">
+                                                <div class="form-group">
+                                                    <label for="jenis" class="form-label">Pilih Jenis</label>
                                                     <div class="form-line">
-                                                        <select class="form-control show-tick m-t-20" name="kategori" id="kategori" required>
-                                                            <option value=cair>Cair</option>
+                                                        <select class="form-control show-tick m-t-20 id_ruang1" name="jenis" id="jenis" required>
+                                                            <option value="">Pilih Jenis</option>
+                                                            <option value="cair">Cair</option>
                                                             <option value="bubuk">Bubuk</option>
                                                         </select>
-                                                        <label for="kategori" class="form-label">* Pilih Jenis</label>
+                                                        
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="form-line">
-                                                        <input type="number" min="1" class="form-control" name="jumlah_perlengkapan" placeholder="* Jumlah Perlengkapan" required>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group form-float">
-                                                    <div class="form-line">
-                                                        <select class="form-control show-tick m-t-20" name="diajukan" id="kategori" required>
-                                                            <?php 
-                                                            $sqlLaundry = mysqli_query($conn, "SELECT `id_user`,`nama_user` FROM `user` WHERE `id_level`=3");
-                                                            while ($dataLaundry = mysqli_fetch_assoc($sqlLaundry)) {
-                                                             ?>
-
-                                                            <option value="<?=$dataLaundry['id_user']?>" <?php if($dataLaundry['id_user'] == $_SESSION['id_user']){ echo 'selected';}?>><?=$dataLaundry['nama_user']?></option>
-                                                            <?php } ?>
-                                                        </select>
-                                                        <label for="kategori" class="form-label">* Diajukan Oleh</label>
+                                                        <input type="text" class="form-control" name="manfaat" placeholder="Manfaat" required>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="form-line">
-                                                        <input type="text" class="form-control" name="keterangan" placeholder="* Keterangan Pengajuan" required>
+                                                        <input type="number" class="form-control" name="jumlah" placeholder="Jumlah perlengkapan (ML)" required>
                                                     </div>
                                                 </div>
                                         </div>
@@ -172,49 +146,44 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                     </div>
                     <!-- end modal -->
 
-                    <!-- Modal Edit data -->
+                    <!-- Default Size -->
                     <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title" id="defaultModalLabel">EDIT PERMINTAAN PERLENGKAPAN BARU</h4>
+                                    <h4 class="modal-title" id="defaultModalLabel">UBAH PERLENGKAPAN</h4>
                                 </div>
                                 <div class="modal-body">
                                     <!-- Basic Validation -->
                                     <div class="row clearfix">
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <form id="form_validation" action="<?php echo $base_url ?>controller/laundry/permintaan/perlengkapan/update/" method="POST">
+                                            <form id="form_validation" action="<?php echo $base_url ?>controller/laundry/perlengkapan/edit_perlengkapan/" method="POST">
                                                 <div class="form-group">
                                                     <div class="form-line">
-                                                        <input type="text" class="form-control" name="perlengkapan_baru" id="update_nama_perlengkapan" placeholder="* Nama Perlengkapan" required>
-                                                    </div>
-                                                </div>
-                                               
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        <input type="number" min="1" class="form-control" id="jumlah_update" name="jumlah_perlengkapan" placeholder="* Jumlah Perlengkapan" required>
+                                                        <input type="text" id="nama_perlengkapan" class="form-control" name="nama_perlengkapan" placeholder="Nama Perlengkapan" required>
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-float">
                                                     <div class="form-line">
-                                                        <select class="form-control show-tick m-t-20" name="diajukan" id="pengaju" required>
-                                                            <?php 
-                                                            $sqlLaundry = mysqli_query($conn, "SELECT `id_user`,`nama_user` FROM `user` WHERE `id_level`=3");
-                                                            while ($dataLaundry = mysqli_fetch_assoc($sqlLaundry)) {
-                                                             ?>
-
-                                                            <option value="<?=$dataLaundry['id_user']?>" <?php if($dataLaundry['id_user'] == $_SESSION['id_user']){ echo 'selected';}?>><?=$dataLaundry['nama_user']?></option>
-                                                            <?php } ?>
+                                                        <select class="form-control show-tick m-t-20 id_ruang1" name="jenis" id="jenis-update" required>
+                                                            <option value="cair">Cair</option>
+                                                            <option value="bubuk">Bubuk</option>
                                                         </select>
-                                                        <label for="kategori" class="form-label">* Diajukan Oleh</label>
+                                                        <label for="jenis" class="form-label">Pilih Jenis</label>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="form-line">
-                                                        <input type="text" class="form-control" name="keterangan" id="keterangan_update" placeholder="* Keterangan Pengajuan" required>
-                                                        <input type="hidden" name="status" id="status_update" value="">
-                                                        <input type="hidden" id="id_update" name="id_permintaan" value="">
+                                                        <input type="text" class="form-control" name="manfaat" placeholder="Manfaat" id="manfaat-update" required>
                                                     </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        <input type="number" class="form-control" name="jumlah" id="jumlah-update" placeholder="Jumlah perlengkapan" required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="hidden" id="id_perlengkapan" name="id_perlengkapan" value="" required>
                                                 </div>
                                         </div>
                                     </div>
@@ -286,10 +255,10 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                     "use strict";
                     var SweetAlert = function() {};
                     SweetAlert.prototype.init = function() {
-                            $('.delete_permintaan').click(function() {
+                            $('.delete_perlengkapan').click(function() {
                                 var dataId = this.id;
                                 swal({
-                                    title: "Apakah benar akan menghapus data permintaan perlengkapan baru?",
+                                    title: "Apakah benar akan menghapus data kategori?",
                                     text: "Jika anda menekan Ya, Maka data akan terhapus secara permanen oleh sistem.",
                                     type: "warning",
                                     showCancelButton: true,
@@ -299,15 +268,15 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                 }, function() {
                                     $.ajax({
                                         type: "POST",
-                                        url: "<?= $base_url ?>controller/laundry/permintaan/linen/hapus_permintaan/",
+                                        url: "<?= $base_url ?>controller/laundry/perlengkapan/delete_perlengkapan/",
                                         data: {
-                                            'id_permintaan': dataId
+                                            'id_perlengkapan': dataId
                                         },
                                         success: function(respone) {
-                                            window.location.href = "<?= $base_url ?>laundry/permintaan/perlengkapan/?message_success";
+                                            window.location.href = "<?= $base_url ?>laundry/perlengkapan/?message_success=Selamat, Data Perlengkapan Berhasil Dihapus!.";
                                         },
                                         error: function(request, error) {
-                                            window.location.href = "<?= $base_url ?>laundry/permintaan/perlengkapan/?message_failed";
+                                            window.location.href = "<?= $base_url ?>laundry/perlengkapan/?message_failed=Maaf, Data Perlengkapan Gagal Dihapus!.";
                                         },
                                     })
                                 });
@@ -320,27 +289,23 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                     $.SweetAlert.init()
                 }(window.jQuery);
 
-                $('.edit_permintaan').on('click', function(){
-                    var id_minta = this.id;
-
+                $('.edit').on('click', function(){
+                    var perlengkapan_id = this.id;
                     $.ajax({
                         type : "POST",
-                        url : "<?=$base_url?>controller/laundry/permintaan/perlengkapan/get_data/?id="+id_minta,
-                        data : {'id_minta' : id_minta},
+                        url : "<?=$base_url?>controller/laundry/perlengkapan/ambil_perlengkapan/",
+                        data : {'id_perlengkapan' : perlengkapan_id},
                         dataType : "json",
                         success : function(data){
-                           $('#update_nama_perlengkapan').val(data.perlengkapan);
-                           $('#jumlah_update').val(data.jumlah);
-                           $('#pengaju').val(data.pengaju);
-                           $('#keterangan_update').val(data.keterangan);
-                           $('#status_update').val(data.status);
-                           $('#id_update').val(data.id);
-                      
+                            $('#id_perlengkapan').val(data.id_perlengkapan);
+                            $('#nama_perlengkapan').val(data.perlengkapan);
+                            $('#jenis-update').val(data.jenis);
+                            $('#manfaat-update').val(data.manfaat);
+                            $('#jumlah-update').val(data.jumlah);
+                        
                         },
                     })
-                });
-
-                
+                })
             </script>
 
         </body>

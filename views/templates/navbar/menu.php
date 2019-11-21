@@ -68,12 +68,6 @@
                     <span>Ruang & Kelas</span>
                 </a>
             </li>
-            <li>
-                <a href="<?php echo $base_url ?>admin/perlengkapan/">
-                    <i class="material-icons">beenhere</i>
-                    <span>Perlengkapan</span>
-                </a>
-            </li>
              <?php
             // menu petugas laundry
         }elseif ($role == 3) { ?>
@@ -85,10 +79,13 @@
             </li>
             <li>
                 <a href="javascript:void(0);" class="menu-toggle">
-                    <i class="material-icons">home</i>
+                    <i class="material-icons">beenhere</i>
                     <span>Data Perlengkapan</span>
                 </a>
                 <ul class="ml-menu">
+                    <li>
+                        <a href="<?php echo $base_url ?>laundry/perlengkapan/">Data Perlengkapan</a>
+                    </li>
                     <li>
                         <a href="<?php echo $base_url ?>laundry/permintaan/perlengkapan/">Permintaan Perlengkapan</a>
                     </li>
@@ -150,12 +147,6 @@
                         <a href="<?php echo $base_url ?>perawat/penerimaan/linen/">Penerimaan Linen Baru</a>
                     </li>
                 </ul>
-            </li>
-            <li>
-                <a href="<?php echo $base_url ?>perawat/linen-bersih/">
-                    <i class="material-icons">home</i>
-                    <span>Penerimaan Linen Bersih</span>
-                </a>
             </li>
             <li>
                 <a href="<?php echo $base_url ?>perawat/linen/hilang-rusak/">

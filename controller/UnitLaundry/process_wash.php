@@ -9,6 +9,17 @@ $perlengkapan = $_POST['perlengkapan'];
 $id_formula = $_POST['formula'];
 $ambil = $_POST['ambil'];
 
+//get id perlengkapan dan jumlah dalam takaran untuk dikurangi dengan stok perlengkapan
+$sqlPerlengkapan = mysqli_query($conn, "SELECT id_perlengkapan, jumlah FROM takaran_formula WHERE id_formula = $id_formula");
+if (mysqli_num_rows($sqlPerlengkapan) > 0) {
+	while ($data_takaran = mysqli_fetch_assoc($sqlPerlengkapan)) {
+		$takaran[] = [
+			'id_perlengkapan' => $data_takaran['id_perlengkapan'],
+			'jumlah' => $data_takaran['jumlah']
+		];
+	}
+}
+
 if (isset($ambil)) {
 	foreach ($ambil as $a) {
 		// $jumlah = $_POST['jumlah'.$a];
@@ -26,7 +37,21 @@ if (isset($ambil)) {
 		// while ($d = mysqli_fetch_array($lastId)) {
 		// 	$id = $d[0];
 		// }
+
 		if ($insertProses) {
+			//pengurangan stok perlengkapan
+			foreach ($takaran as $takar) {
+				$id_perlengkapan_takar = $takar['id_perlengkapan'];
+				$jumlah = $takar['jumlah'];
+				//get jumlah actualnya
+				$sqlGetJumlah = mysqli_query($conn, "SELECT jumlah FROM perlengkapan WHERE `id_perlengkapan` = $id_perlengkapan_takar");
+				$jumlahPerlengkapan = mysqli_fetch_assoc($sqlGetJumlah);
+
+				$jumlahTotal = $jumlahPerlengkapan['jumlah'] - $jumlah;
+
+				$sqlUpdatePerlengkapan = mysqli_query($conn, "UPDATE `perlengkapan` SET `jumlah`=$jumlahTotal WHERE `id_perlengkapan` = $id_perlengkapan_takar");
+			}
+
 			header('location:'.$base_url.'laundry/pencucian/?message_success');
 		}else{
 			header('location:'.$base_url.'laundry/pencucian/?message_failed');
