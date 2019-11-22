@@ -62,7 +62,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
             $totalPerlengkapan = mysqli_num_rows($sqlPerlengkapan);
              ?>
             <div class="row clearfix">
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                     <div class="info-box-3 bg-orange hover-zoom-effect">
                         <div class="icon">
                             <i class="material-icons">menu</i>
@@ -73,7 +73,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                     <div class="info-box-3 bg-blue hover-zoom-effect">
                         <div class="icon">
                             <i class="material-icons">group</i>
@@ -84,7 +84,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                     <div class="info-box-3 bg-gray hover-zoom-effect">
                         <div class="icon">
                             <i class="material-icons">location_city</i>
@@ -95,7 +95,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+<!--                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <div class="info-box-3 bg-green hover-zoom-effect">
                         <div class="icon">
                             <i class="material-icons">beenhere</i>
@@ -105,7 +105,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                             <div class="number"><?=$totalPerlengkapan?></div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
             <!-- #END# Basic Validation -->
         </div>
