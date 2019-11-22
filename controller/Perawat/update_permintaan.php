@@ -27,9 +27,9 @@ if (isset($_POST['kelas']) && !empty($_POST['kelas']) ) {
 	$update_permintaan->bind_param('sssssss', $nama_linen, $diajukan, $id_ruang, $jumlah, $id_kategori, $keterangan, $id_permintaan);
 	if ($update_permintaan->execute()) {
 		$update_permintaan->close();
-		header('location:'.$base_url.'perawat/permintaan/linen/?message_success');
+		header('location:'.$base_url.'perawat/permintaan/linen/?message_success=Selamat, Permintaan Linen Baru Berhasil diedit!!!');
 	}else{
-		header('location:'.$base_url.'perawat/permintaan/linen/?message_failed'.mysqli_error($conn));
+		header('location:'.$base_url.'perawat/permintaan/linen/?message_failed=Maaf, Permintaan Linen Baru Gagal diedit!!!'.mysqli_error($conn));
 	}
 }
 	

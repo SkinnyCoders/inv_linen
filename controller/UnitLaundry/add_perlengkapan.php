@@ -18,7 +18,7 @@ if (isset($_POST['simpan'])) {
 		header('location:' . $base_url . 'admin/perlengkapan/?message_failed');
 	}else{
 		//klo gk ada
-		$insert_data = $conn->prepare("INSERT INTO `perlengkapan`(`nama_perlengkapan`, `jenis`, `manfaat`,`jumlah`) VALUES (?,?,?,"")");
+		$insert_data = $conn->prepare("INSERT INTO `perlengkapan`(`nama_perlengkapan`, `jenis`, `manfaat`, `jumlah`) VALUES (?,?,?,?)");
 		$insert_data->bind_param('ssss', $nama_perlengkapan, $jenis, $manfaat, $jumlah);
 		if ($insert_data->execute()) {
 			$insert_data->close();

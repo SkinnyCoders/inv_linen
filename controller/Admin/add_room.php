@@ -9,8 +9,8 @@ if (!empty($ruang)) {
 	$insert = mysqli_query($conn, "INSERT INTO `ruang`(`nama_ruang`) VALUES ('$ruang')");
 
 	if ($insert) {
-		header('location:'.$base_url.'admin/ruang_kelas/?message_success=Selamat, Data Ruang Kelas Berhasil Ditambahkan!.');
+		header('location:'.$base_url.'admin/ruang_kelas/?message_success=Selamat, Data Ruang Berhasil Ditambahkan!.');
 	}else{
-		header('location:'.$base_url.'admin/ruang_kelas/?message_failed=  Maaf, Data Ruang Kelas gagal ditambahkan!, harap periksa lagi informasi yang diinputkan!.');
+		header('location:'.$base_url.'admin/ruang_kelas/?message_failed=  Maaf, Data Ruang gagal ditambahkan!, harap periksa lagi informasi yang diinputkan!.');
 	}
 }

@@ -382,10 +382,10 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                             'id_linen': dataId
                                         },
                                         success: function(respone) {
-                                            window.location.href = "<?= $base_url ?>admin/linen/list/?message_success";
+                                            window.location.href = "<?= $base_url ?>admin/linen/list/?message_success=Linen Berhasil Dihapus!!!";
                                         },
                                         error: function(request, error) {
-                                            window.location.href = "<?= $base_url ?>admin/linen/list/?message_failed";
+                                            window.location.href = "<?= $base_url ?>admin/linen/list/?message_failed=Linen Gagal Dihapus!!!";
                                         },
                                     })
                                 });
