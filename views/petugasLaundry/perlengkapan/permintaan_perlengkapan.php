@@ -111,7 +111,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
 
                     <!-- Modal add data -->
                     <div class="modal fade" id="modalAdd" tabindex="-1" role="dialog">
-                        <div class="modal-dialog" role="document">
+                        <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h4 class="modal-title" id="defaultModalLabel">PERMINTAAN PERLENGKAPAN BARU</h4>
@@ -121,12 +121,55 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                     <div class="row clearfix">
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                             <form id="form_validation" action="<?php echo $base_url ?>controller/laundry/permintaan/perlengkapan/tambah/" method="POST">
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        <input type="text" class="form-control" name="perlengkapan_baru" placeholder="* Nama Perlengkapan" required>
+                                                <div class="row" id="newlink">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <div class="form-line">
+                                                                <input type="text" class="form-control" name="perlengkapan_baru[]" placeholder="* Nama Perlengkapan" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <div class="form-line">
+                                                                <input type="number" min="1" class="form-control" name="jumlah[]" placeholder="* Jumlah Perlengkapan" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <div class="form-line">
+                                                                <input type="text" class="form-control" name="keterangan[]" placeholder="* Keterangan" required>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group form-float">
+                                                <a href="javascript:new_link()" class="mb-3">Tambah inputan!</a>
+                                                <div id="newlinktpl" style="display:none">
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <div class="form-line">
+                                                                    <input type="text" class="form-control" name="perlengkapan_baru[]" placeholder="* Nama Perlengkapan">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <div class="form-line">
+                                                                    <input type="number" min="1" class="form-control" name="jumlah[]" placeholder="* Jumlah Perlengkapan">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <div class="form-group">
+                                                                <div class="form-line">
+                                                                    <input type="text" class="form-control" name="keterangan[]" placeholder="* Keterangan" >
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                </div>
+                                                
+                                 <!--                <div class="form-group form-float">
                                                     <div class="form-line">
                                                         <select class="form-control show-tick m-t-20" name="kategori" id="kategori" required>
                                                             <option value=cair>Cair</option>
@@ -139,7 +182,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                     <div class="form-line">
                                                         <input type="number" min="1" class="form-control" name="jumlah_perlengkapan" placeholder="* Jumlah Perlengkapan" required>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                                 <div class="form-group form-float">
                                                     <div class="form-line">
                                                         <select class="form-control show-tick m-t-20" name="diajukan" id="kategori" required>
@@ -154,11 +197,11 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                         <label for="kategori" class="form-label">* Diajukan Oleh</label>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
+                                          <!--       <div class="form-group">
                                                     <div class="form-line">
                                                         <input type="text" class="form-control" name="keterangan" placeholder="* Keterangan Pengajuan" required>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                         </div>
                                     </div>
                                 </div>
@@ -341,6 +384,30 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                 });
 
                 
+            </script>
+            <script>
+            /*
+            This script is identical to the above JavaScript function.
+            */
+            var ct = 1;
+            function new_link()
+            {
+                ct++;
+                var div1 = document.createElement('div');
+                div1.id = ct;
+                // link to delete extended form elements
+                var delLink = '<a class="btn btn-small btn-danger float-right" href="javascript:delIt('+ ct +')">Del</a>';
+                div1.innerHTML = document.getElementById('newlinktpl').innerHTML;
+                document.getElementById('newlink').appendChild(div1);
+            }
+            // function to delete the newly added set of elements
+            function delIt(eleId)
+            {
+                d = document;
+                var ele = d.getElementById(eleId);
+                var parentEle = d.getElementById('newlink');
+                parentEle.removeChild(ele);
+            }
             </script>
 
         </body>

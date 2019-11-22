@@ -11,7 +11,7 @@ if (isset($ambil)) {
 		$jumlah = $_POST['jumlah'.$a];
 		$id_cuci = $_POST['id_cuci'.$a];
 
-		$insertLinen = mysqli_query($conn, "INSERT INTO `linen_bersih`(`id_pencucian`, `jml_linen_bersih`) VALUES ($id_cuci, $jumlah)");
+		$insertLinen = mysqli_query($conn, "INSERT INTO `linen_bersih`(`id_pencucian`, `jumlah`) VALUES ($id_cuci, $jumlah)");
 
 		if ($insertLinen) {
 			//ubah status dipencucian menjadi bersih

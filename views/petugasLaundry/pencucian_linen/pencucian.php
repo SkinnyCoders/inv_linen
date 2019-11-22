@@ -310,6 +310,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                             var no = 1;
 
                             for(i=0; i<data.length; i++){
+
                             html += '<tr><td> <input type="checkbox" name="ambil[]" id="ambil'+i+'" value="'+i+'" class="filled-in chk-col-pink"> <label for="ambil'+i+'"></label><input type="hidden" name="id_linen'+i+'" value="'+data[i].id_linen_kotor+'"> <input type="hidden" name="id_jenis_linen'+i+'" value="'+data[i].id_jenis_linen_kotor+'"></td><td>'+data[i].linen+' - '+data[i].kategori+'</td><td>'+data[i].ruang+' - '+data[i].kelas+'</td><td>'+data[i].jumlah+'</td></tr>';
                             }
                             console.log(html);
@@ -327,8 +328,17 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                             var html = '';
                             var i;
 
+                            //for(i=0; i<data.length; i++){
+                                // for(j=0; j<data[i].komposisi.length; j++){
+                                //     $html2 += '<span>'+data[i].komposisi[j].jumlah+'</span>';
+                                // }
+                           // }
+
                             for(i=0; i<data.length; i++){
-                            html += '<option value="'+data[i].id_formula+'">'+data[i].nama_formula+'</option>';
+                                html += '<option value="'+data[i].id_formula+'">'+data[i].nama_formula;
+                                for(j=0; j<data[i].komposisi.length; j++){
+                                    html += ' ( '+data[i].komposisi[j].perlengkapan+' - '+data[i].komposisi[j].jumlah+' ML )</option>';
+                                }
                             }
                             $("#formula_perlengkapan").html(html);
                         }

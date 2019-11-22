@@ -17,7 +17,6 @@ if (isset($_POST['simpan'])) {
 	}
 	
 	
-
 	if ($insertFormula) {
 		//insert takaran
 		if (isset($_POST['perlengkapan'])) {
