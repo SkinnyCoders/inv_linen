@@ -1,14 +1,11 @@
 <?php
 session_start();
-
 if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
     if (isset($_SESSION['role']) && $_SESSION['role'] == '2') {
-
         include_once 'views/templates/head.php';
         require 'controller/config/connection.php';
         $role = $_SESSION['role'];
         $nama = $_SESSION['nama_user'];
-
         ?>
 
         <body class="theme-blue">
@@ -377,7 +374,6 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                         'paging': true
                     });
                 });
-
                 /* hapus */
                 ! function($) {
                     "use strict";
@@ -442,7 +438,6 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                     "use strict";
                     $.SweetAlert.init()
                 }(window.jQuery);
-
                 $('.update-kelas').on('click', function(){
                     var user_id = this.id;
                     $.ajax({
@@ -457,7 +452,6 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                         },
                     })
                 })
-
                  $('.update-ruang').on('click', function(){
                     var user_id = this.id;
                     $.ajax({
@@ -472,7 +466,6 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                         },
                     })
                 })
-
                 $('.update-ruang-kelas').on('click', function(){
                     var id_ruang = this.id;
                     $.ajax({

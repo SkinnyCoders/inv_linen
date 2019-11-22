@@ -13,7 +13,7 @@ $keterangan = trim(strtolower(filterString($_POST['keterangan'])));
 
 	$insertLinenPengajuan = mysqli_query($conn, "INSERT INTO `permintaan_linen_baru`(`nama_linen_baru`, `id_user`, `id_ruang`, `id_kelas`,`jml_permintaan`,`id_kategori`, `keterangan`) VALUES ('$nama_linen', $diajukan, $id_ruang, $id_kelas, $jumlah, $id_kategori, '$keterangan')");
 	if ($insertLinenPengajuan) {
-		header('location:'.$base_url.'perawat/permintaan/linen/?message_success');
+		header('location:'.$base_url.'perawat/permintaan/linen/?message_success=Selamat, Permintaan Linen Berhasil ditambahkan!!!');
 	}else{
-		header('location:'.$base_url.'perawat/permintaan/linen/?message_failed'.mysqli_error($conn));
+		header('location:'.$base_url.'perawat/permintaan/linen/?message_failed=Maaf, Permintaan Linen Gagal ditambahkan'.mysqli_error($conn));
 	}

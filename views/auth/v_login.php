@@ -11,13 +11,13 @@ $jam = date("H:i:s");
 <body class="login-page">
     <div class="login-box">
         <div class="logo">
-            <a href="javascript:void(0);">Login<b>Project</b></a>
-            <small>silahkan login terlebih dahulu</small>
+            <a href="javascript:void(0);"><b>Sistem Informasi Monitoring Linen</b></a>
+            <small>Silahkan login terlebih dahulu</small>
         </div>
         <div class="card">
             <div class="body">
                 <form action="<?= $base_url ?>auth/login/" method="POST">
-                    <div class="msg"><?= salam($jam) ?>, silahkan login!</div>
+                    <div class="msg"><?= salam($jam) ?>,Silahkan Login!</div>
                     <div class="input-group">
                         <span class="input-group-addon">
                             <i class="material-icons">person</i>
