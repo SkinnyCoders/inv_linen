@@ -32,14 +32,14 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                             <!-- alert success -->
                             <div class="alert alert-success alert-dismissible" role="alert">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                Selamat, Data linen berhasil ditambahkan!
+                               <?php echo $_GET['message_success']?>
                             </div>
                             <!-- end alert success -->
                         <?php } elseif (isset($_GET['message_failed'])) { ?>
                             <!-- alert failed -->
                             <div class="alert alert-danger alert-dismissible" role="alert">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                Maaf, Data linen gagal ditambahkan!, harap periksa lagi informasi yang diinputkan!.
+                                <?php echo $_GET['message_failed']?>
                             </div>
                             <!-- end alert failed -->
                         <?php } ?>
@@ -77,6 +77,9 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                         if ($data_linen['status'] == 'tidak setuju') {
                                                             $style = "label-danger";
                                                             $status = "Ditolak";
+                                                        }else if ($data_linen['status'] == 'belum') {
+                                                            $style = 'label-warning';
+                                                            $status = "Belum";
                                                         }else{
                                                             $style = 'label-success';
                                                             $status = "Setuju";
@@ -435,10 +438,10 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                             'id_permintaan': dataId
                                         },
                                         success: function(respone) {
-                                            window.location.href = "<?= $base_url ?>perawat/permintaan/linen/?message_success= Selamat, Permintaan Linen Berhasil Dihapus!!!";
+                                            window.location.href = "<?= $base_url ?>perawat/permintaan/linen/?message_success= Selamat, Permintaan Linen Baru Berhasil Dihapus!!!";
                                         },
                                         error: function(request, error) {
-                                            window.location.href = "<?= $base_url ?>perawat/permintaan/linen/?message_failed";
+                                            window.location.href = "<?= $base_url ?>perawat/permintaan/linen/?message_failed=Permintaan Linen Baru gagal Dihapus!!!";
                                         },
                                     })
                                 });
