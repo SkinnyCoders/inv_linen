@@ -114,7 +114,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                         <select class="form-control show-tick m-t-20" name="id_permintaan_perlengkapan" id="permintaan" required>
                                                             <option></option>
                                                             <?php 
-                                                            $sqlLinen = mysqli_query($conn, "SELECT `id_permintaan_perlengkapan`, `nama_perlengkapan`,`jml_permintaan` FROM `permintaan_perlengkapan` WHERE `status` = 'setuju' AND NOT EXISTS (SELECT id_permintaan_perlengkapan FROM penerimaan_perlengkapan WHERE penerimaan_perlengkapan.id_permintaan_perlengkapan=id_permintaan_perlengkapan)");
+                                                            $sqlLinen = mysqli_query($conn, "SELECT `id_permintaan_perlengkapan`, `nama_perlengkapan`,`jml_permintaan` FROM `permintaan_perlengkapan` WHERE `status` = 'setuju' AND NOT EXISTS (SELECT id_permintaan_perlengkapan FROM penerimaan_perlengkapan WHERE penerimaan_perlengkapan.id_permintaan_perlengkapan=permintaan_perlengkapan.id_permintaan_perlengkapan)");
                                                             while ($dataPerlengkapan = mysqli_fetch_assoc($sqlLinen)) {
                                                              ?>
                                                             <option value="<?=$dataPerlengkapan['id_permintaan_perlengkapan']?>"><?=$dataPerlengkapan['nama_perlengkapan']?></option>
