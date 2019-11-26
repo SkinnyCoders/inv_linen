@@ -71,9 +71,9 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                             <tbody>
                                                 <?php
                                                 $no = 1;
-                                                    $getLinen = mysqli_query($conn, "SELECT id_permintaan_linen_baru, nama_linen_baru, kategori.nama_kategori, ruang.nama_ruang, kelas.nama_kelas, user.nama_user, jml_permintaan, permintaan.status FROM `permintaan_linen_baru` AS permintaan INNER JOIN user ON user.id_user=permintaan.id_user INNER JOIN ruang ON ruang.id_ruang=permintaan.id_ruang INNER JOIN kelas ON kelas.id_kelas=permintaan.id_kelas INNER JOIN kategori ON kategori.id_kategori=permintaan.id_kategori WHERE permintaan.status != 'diterima'");
+                                                    $getLinen = mysqli_query($conn, "SELECT linen_hilang.id_linen_hilang AS id,linen.nama_linen, kategori.nama_kategori, ruang.nama_ruang, kelas.nama_kelas, linen_hilang.jumlah, linen_hilang.status FROM `linen_hilang` INNER JOIN linen ON linen.id_linen=linen_hilang.id_linen INNER JOIN kategori ON kategori.id_kategori=linen.id_kategori INNER JOIN ruang ON ruang.id_ruang=linen.id_ruang INNER JOIN kelas ON kelas.id_kelas=linen.id_kelas WHERE 1 ORDER BY tanggal DESC");
                                                     while ($data_linen = mysqli_fetch_assoc($getLinen)) {
-                                                        if ($data_linen['status'] == 'tidak setuju') {
+                                                        if ($data_linen['status'] == 'hilang') {
                                                             $style = "label-danger";
                                                             $status = "Hilang";
                                                         }else{
@@ -83,14 +83,14 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                 ?>
                                                     <tr>
                                                         <td><?= $no++ ?></td>
-                                                        <td <?=$style?>><?= ucwords($data_linen['nama_linen_baru']) ?></td>
+                                                        <td <?=$style?>><?= ucwords($data_linen['nama_linen']) ?></td>
                                                         <td><?= ucwords($data_linen['nama_kategori']) ?></td>
                                                         <td><?= ucwords($data_linen['nama_ruang']) ?> - <?=ucwords($data_linen['nama_kelas'])?></td>
                                                         
-                                                        <td><?= $data_linen['jml_permintaan']?></td>
+                                                        <td><?= $data_linen['jumlah']?></td>
                                                         <td><h4><span class="label <?=$style?>"><?=$status?></span></h4></label></td>
-                                                        <td class="text-nowrap"><a href="javascript:void(0)" onclick='getKelas("<?=$data_linen['id_permintaan_linen_baru']?>")' id="<?=$data_linen['id_permintaan_linen_baru']?>" data-toggle="modal" data-target="#modalEdit" class="btn btn-info waves-effect m-r-20 edit_permintaan"> EDIT</a>
-                                                            <a href="javascript:void(0)" id="<?=$data_linen['id_permintaan_linen_baru']?>" class="btn btn-danger waves-effect delete_permintaan">HAPUS</a></td>
+                                                        <td class="text-nowrap"><a href="javascript:void(0)"  id="<?=$data_linen['id']?>" data-toggle="modal" data-target="#modalEdit" class="btn btn-info waves-effect m-r-20 edit_permintaan"> EDIT</a>
+                                                            <a href="javascript:void(0)" id="<?=$data_linen['id']?>" class="btn btn-danger waves-effect delete_permintaan">HAPUS</a></td>
                                                     </tr>
                                                 <?php
                                                     }
@@ -110,31 +110,13 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title" id="defaultModalLabel">PERMINTAAN LINEN BARU</h4>
+                                    <h4 class="modal-title" id="defaultModalLabel">LINEN HILANG & RUSAK</h4>
                                 </div>
                                 <div class="modal-body">
                                     <!-- Basic Validation -->
                                     <div class="row clearfix">
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <form id="form_validation" action="<?php echo $base_url ?>controller/perawat/permintaan/linen/tambah/" method="POST">
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        <input type="text" class="form-control" name="linen_baru" placeholder="* Nama Linen Baru" required>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group form-float">
-                                                    <div class="form-line">
-                                                        <select class="form-control show-tick m-t-20" name="kategori" id="kategori" required>
-                                                            <?php 
-                                                            $sqlKelas = mysqli_query($conn, "SELECT * FROM kategori WHERE 1 ORDER BY id_kategori ASC");
-                                                            while ($dataKelas = mysqli_fetch_assoc($sqlKelas)) {
-                                                             ?>
-                                                            <option value="<?=$dataKelas['id_kategori']?>"><?=$dataKelas['nama_kategori']?></option>
-                                                            <?php } ?>
-                                                        </select>
-                                                        <label for="kategori" class="form-label">* Pilih Kategori</label>
-                                                    </div>
-                                                </div>
+                                            <form id="form_validation" action="<?php echo $base_url ?>controller/perawat/linen-hilang/tambah/" method="POST">
                                                 <div class="form-group form-float">
                                                     <div class="form-line">
                                                         <select class="form-control show-tick m-t-20" name="ruang" id="ruang_linen" required>
@@ -145,21 +127,25 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                             <option value="<?=$dataKelas['id_ruang']?>"><?=$dataKelas['nama_ruang']?></option>
                                                             <?php } ?>
                                                         </select>
-                                                        <label for="ruang_linen" class="form-label">* Linen Untuk Ruang</label>
+                                                        <label for="ruang_linen" class="form-label">* Pilih Ruang</label>
                                                     </div>
                                                 </div>
-                                                <div class="form-group form-float" id="kelas_linen" style="display: none;">
-                                                    <div class="form-line">
-                                                        <select class="form-control show-tick m-t-20 kelas_ruang_select" name="kelas" id="kelas_ruang_select" required>
-                                                          
-                                                        </select>
-                                                        <label for="kelas_ruang_select" class="form-label">* Linen Untuk Kelas</label>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        <input type="number" min="1" class="form-control" name="jumlah_linen" placeholder="* Jumlah Linen" required>
-                                                    </div>
+                                                <div class="table-responsive" style="display: none" id="linen_rusak">
+                                                    <table id="table_user_list" class="table table-hover" style="width: 100%">
+                                                        <thead style="background-color: #eee;">
+                                                            <tr>
+                                                                <th style="width: 5%;" class="text-nowrap">Pilih</th>
+                                                                <th style="width: 30%;" class="text-nowrap">Nama Linen - Kategori</th>
+                                                                <th style="width: 15%;" class="text-nowrap">Kelas</th>
+                                                                <th style="width: 10%;" class="text-nowrap">Stok</th>
+                                                                <th style="width: 15%;" class="text-nowrap">Jumlah</th>
+                                                                <th style="width: 17%;">Status</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="table_linen">
+                                                            
+                                                        </tbody>
+                                                    </table>
                                                 </div>
                                                 <div class="form-group form-float">
                                                     <div class="form-line">
@@ -173,11 +159,6 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                             <?php } ?>
                                                         </select>
                                                         <label for="kategori" class="form-label">* Diajukan Oleh</label>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        <input type="text" class="form-control" name="keterangan" placeholder="* Keterangan Pengajuan" required>
                                                     </div>
                                                 </div>
                                         </div>
@@ -198,75 +179,35 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title" id="defaultModalLabel">EDIT PERMINTAAN LINEN BARU</h4>
+                                    <h4 class="modal-title" id="defaultModalLabel">EDIT LINEN HILANG & RUSAK</h4>
+                                    <small class="text-muted"><span class="nama_linen"></span> di <span class="update_ruang"></span>  <span class="update_kelas"></span></small>
                                 </div>
                                 <div class="modal-body">
                                     <!-- Basic Validation -->
                                     <div class="row clearfix">
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <form id="form_validation" action="<?php echo $base_url ?>controller/perawat/permintaan/linen/ubah/" method="POST">
+                                            <form id="form_validation" action="<?php echo $base_url ?>controller/perawat/linen-hilang/ubah/" method="POST">
                                                 <div class="form-group">
                                                     <div class="form-line">
-                                                        <input type="text" class="form-control" name="linen_baru" id="update_nama_linen" placeholder="* Nama Linen Baru" required>
-                                                        <input type="hidden" name="id_permintaan" id="update_id" value="" required>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group form-float">
-                                                    <div class="form-line">
-                                                        <select class="form-control show-tick m-t-20" name="kategori" id="update_kategori" required>
-                                                            <?php 
-                                                            $sqlKelas = mysqli_query($conn, "SELECT * FROM kategori WHERE 1 ORDER BY id_kategori ASC");
-                                                            while ($dataKelas = mysqli_fetch_assoc($sqlKelas)) {
-                                                             ?>
-                                                            <option value="<?=$dataKelas['id_kategori']?>"><?=$dataKelas['nama_kategori']?></option>
-                                                            <?php } ?>
-                                                        </select>
-                                                        <label for="kategori" class="form-label">* Pilih Kategori</label>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group form-float">
-                                                    <div class="form-line">
-                                                        <select class="form-control show-tick m-t-20 update_ruang" name="ruang" id="ruang_linen" required>
-                                                            <?php 
-                                                            $sqlKelas = mysqli_query($conn, "SELECT * FROM ruang WHERE 1 ORDER BY id_ruang ASC");
-                                                            while ($dataKelas = mysqli_fetch_assoc($sqlKelas)) {
-                                                             ?>
-                                                            <option value="<?=$dataKelas['id_ruang']?>"><?=$dataKelas['nama_ruang']?></option>
-                                                            <?php } ?>
-                                                        </select>
-                                                        <label for="ruang_linen" class="form-label">* Linen Untuk Ruang</label>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group form-float" id="kelas_linen_update" style="display: none;">
-                                                    <div class="form-line">
-                                                        <select class="form-control show-tick m-t-20 kelas_ruang_select" name="kelas" id="kelas_ruang_select_update">
-                                                          
-                                                        </select>
-                                                        <label for="kelas_ruang_select" class="form-label">* Linen Untuk Kelas</label>
+                                                        <!-- <input type="text" class="form-control" name="linen_baru" id="update_nama_linen" placeholder="* Nama Linen Baru" required> -->
+                                                        <input type="hidden" name="id_linen" class="id_linen_hilang" id="update_id" value="" required>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
+                                                    
                                                     <div class="form-line">
+                                                        <label for="update_jumlah" class="form-label text-muted">* Jumlah</label>
                                                         <input type="number" min="1" class="form-control" name="jumlah_linen" id="update_jumlah" placeholder="* Jumlah Linen" required>
+                                                        
                                                     </div>
                                                 </div>
                                                 <div class="form-group form-float">
                                                     <div class="form-line">
-                                                        <select class="form-control show-tick m-t-20" name="diajukan" id="update_kategori" id="kategori" required>
-                                                            <?php 
-                                                            $sqlPerawat = mysqli_query($conn, "SELECT `id_user`,`nama_user` FROM `user` WHERE `id_level`=4");
-                                                            while ($dataPerawat = mysqli_fetch_assoc($sqlPerawat)) {
-                                                             ?>
-
-                                                            <option value="<?=$dataPerawat['id_user']?>" <?php if($dataPerawat['id_user'] == $_SESSION['id_user']){ echo 'selected="true"';}?>><?=$dataPerawat['nama_user']?></option>
-                                                            <?php } ?>
+                                                        <select class="form-control show-tick m-t-20" name="status" id="update_status" required>
+                                                            <option value="hilang">Hilang</option>
+                                                            <option value="rusak">Rusak</option>
                                                         </select>
-                                                        <label for="kategori" class="form-label">* Diajukan Oleh</label>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        <input type="text" class="form-control" name="keterangan" id="update_keterangan" placeholder="* Keterangan Pengajuan" required>
+                                                        <label for="kategori" class="form-label">* Status</label>
                                                     </div>
                                                 </div>
                                         </div>
@@ -319,6 +260,34 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
             <script>
                 //memunculkan pilihan kelas
                 $('#ruang_linen').on('change', function(){
+                    $('#linen_rusak').show();
+
+                    var id_ruang = $('#ruang_linen').val();
+
+                    $.ajax({
+                        type : "POST",
+                        url : "<?=$base_url?>controller/laundry/linen-kotor/ambil_linen/",
+                        data : {'id_ruang' : id_ruang},
+                        async : false,
+                        dataType : "json",
+                        success : function(data){
+                            var html = '';
+                            var i;
+                            var no = 1;
+
+                            for(i=0; i<data.length; i++){
+                            html += '<tr><td> <input type="checkbox" name="ambil[]" id="ambil'+i+'" value="'+i+'" class="filled-in chk-col-pink"> <label for="ambil'+i+'"></label><input type="hidden" name="id_linen'+i+'" value="'+data[i].id_linen+'"></td><td>'+data[i].linen+' - '+data[i].kategori+'</td><td>'+data[i].kelas+'</td><td>'+data[i].jumlah+'</td><td><input type="number" class="form-control" name="jumlah'+i+'"></td><td><select name="status_hilang'+i+'" class="form-control"><option value="rusak">Rusak</option><option value="hilang">Hilang</option></select></td></tr>';
+                            }
+                            console.log(html);
+                            $(".table_linen").html(html);
+                        }
+                    })
+                });
+            </script>
+
+            <script>
+                //memunculkan pilihan kelas
+                $('#ruang_linen').on('change', function(){
                     $('#kelas_linen').show();
 
                     var id_ruang = $('#ruang_linen').val();
@@ -342,57 +311,6 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                     })
                 });
             </script>
-
-            <script>
-                //memunculkan pilihan kelas
-                $('.update_ruang').on('change', function(){
-                    $('#kelas_linen_update').show();
-
-                    var id_ruang = $('.update_ruang').val();
-
-                    $.ajax({
-                        type : "POST",
-                        url : "<?=$base_url?>controller/admin/linen/ambil_kelas/",
-                        data : {'id_ruang' : id_ruang},
-                        async : false,
-                        dataType : "json",
-                        success : function(data){
-                            var html = '';
-                            var i;
-
-                            for(i=0; i<data.length; i++){
-                            html += '<option value="'+data[i].id_kelas+'">'+data[i].kelas+'</option>';
-                            }
-                            console.log(html);
-                            $("#kelas_ruang_select_update").html(html);
-                        }
-                    })
-                });
-            </script>
-
-            <script>
-                function getKelas(id_ruang){
-                    console.log(id_ruang);
-                    $.ajax({
-                        type : "POST",
-                        url : "<?=$base_url?>controller/admin/linen/ambil_kelas/",
-                        data : {'id_ruang' : id_ruang},
-                        async : false,
-                        dataType : "json",
-                        success : function(data){
-                            var html = '';
-                            var i;
-
-                            for(i=0; i<data.length; i++){
-                            html += '<option value="'+data[i].id_kelas+'">'+data[i].kelas+'</option>';
-                            }
-                            console.log(html);
-                            $("#kelas_ruang_select_update").html(html);
-                        }
-                    })
-                };
-            </script>
-
 
             <script>
                 /* tabel */
@@ -419,7 +337,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                             $('.delete_permintaan').click(function() {
                                 var dataId = this.id;
                                 swal({
-                                    title: "Apakah benar akan menghapus data permintaan linen baru?",
+                                    title: "Apakah benar akan menghapus data linen hilang & rusak?",
                                     text: "Jika anda menekan Ya, Maka data akan terhapus secara permanen oleh sistem.",
                                     type: "warning",
                                     showCancelButton: true,
@@ -429,15 +347,15 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                 }, function() {
                                     $.ajax({
                                         type: "POST",
-                                        url: "<?= $base_url ?>controller/perawat/permintaan/linen/hapus_permintaan/",
+                                        url: "<?= $base_url ?>controller/perawat/linen-hilang/hapus/",
                                         data: {
-                                            'id_permintaan': dataId
+                                            'id_linen': dataId
                                         },
                                         success: function(respone) {
-                                            window.location.href = "<?= $base_url ?>perawat/permintaan/linen/?message_success";
+                                            window.location.href = "<?= $base_url ?>perawat/linen/hilang-rusak/?message_success";
                                         },
                                         error: function(request, error) {
-                                            window.location.href = "<?= $base_url ?>perawat/permintaan/linen/?message_failed";
+                                            window.location.href = "<?= $base_url ?>perawat/linen/hilang-rusak/?message_failed";
                                         },
                                     })
                                 });
@@ -455,16 +373,18 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
 
                     $.ajax({
                         type : "POST",
-                        url : "<?=$base_url?>controller/perawat/permintaan/linen/ambil_data_permintaan/",
-                        data : {'id_permintaan' : id_minta},
+                        url : "<?=$base_url?>controller/perawat/linen-hilang/ambil_linen_hilang/",
+                        data : {'id_linen_hilang' : id_minta},
                         dataType : "json",
                         success : function(data){
-                           $('#update_nama_linen').val(data.nama_linen);
-                           $('.update_ruang').val(data.id_ruang);
-                           $('#update_kategori').val(data.id_kategori);
+                            $('.id_linen_hilang').val(data.id);
+                           $('.nama_linen').text(data.nama_linen);
+                           $('.update_ruang').text(data.ruang);
+                           $('.update_kelas').text(data.kelas);
+                           $('#update_kategori').text(data.kategori);
                            $('#update_jumlah').val(data.jumlah);
-                           $('#update_keterangan').val(data.keterangan);
-                           $('#update_id').val(data.id);
+                           $('#update_status').val(data.status).trigger();
+                           
                         },
                     })
                 });

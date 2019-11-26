@@ -4,7 +4,6 @@ include 'librarys/functionFilter.php';
 
 $id_penerimaan = $_POST['id_penerimaan_linen'];
 
-var_dump($id_penerimaan);
 $jumlah = $_POST['jumlah_linen'];
 
 if (isset($_POST['id_penerimaan_linen']) && !empty($_POST['id_penerimaan_linen']) ) {

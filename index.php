@@ -191,6 +191,22 @@ switch ($uri[0]) {
 		require __DIR__ . '/views/perawat/hilangDanRusak/linen_hilang_rusak.php';
 		break;
 
+	case '/dev/controller/perawat/linen-hilang/tambah/':
+		require __DIR__ . '/controller/Perawat/add_linen_hilang.php';
+		break;
+
+	case '/dev/controller/perawat/linen-hilang/ambil_linen_hilang/':
+		require __DIR__ . '/controller/Perawat/get_linen_hilang.php';
+		break;
+
+	case '/dev/controller/perawat/linen-hilang/ubah/':
+		require __DIR__ . '/controller/Perawat/update_linen_hilang.php';
+		break;
+
+	case '/dev/controller/perawat/linen-hilang/hapus/':
+		require __DIR__ . '/controller/Perawat/delete_linen_hilang.php';
+		break;
+
 	/* end Perawat */
 
 	/* Laundry */
