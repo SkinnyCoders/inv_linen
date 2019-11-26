@@ -7,7 +7,6 @@ $jumlah = filterString($_POST['jumlah_perlengkapan']);
 $penerima = $_POST['id_penerima'];
 
 //get nama perlengkapan
-
 $sqlPermintaan = mysqli_query($conn, "SELECT `nama_perlengkapan` FROM `permintaan_perlengkapan` WHERE `id_permintaan_perlengkapan` = $id_permintaan");
 $perlengkapan = mysqli_fetch_assoc($sqlPermintaan);
 $nama_perlengkapan = $perlengkapan['nama_perlengkapan'];
@@ -19,12 +18,28 @@ $nama_perlengkapan = $perlengkapan['nama_perlengkapan'];
 		$id = $d[0];
 	}
 	if ($insertLinenPenerimaan) {
-		$insertPerlengkapan = mysqli_query($conn, "INSERT INTO `perlengkapan`(`nama_perlengkapan`, `jenis`, `jumlah`, `id_penerima`) VALUES ('$nama_perlengkapan', 'cair', $jumlah, $id)");
+		$cekPerlengkapan = mysqli_query($conn, "SELECT `nama_perlengkapan`,`jumlah` FROM `perlengkapan` WHERE `nama_perlengkapan` = '$nama_perlengkapan'");
+		if (mysqli_num_rows($cekPerlengkapan) > 0) {
+			//update jumlah stok
+			$jumlahStok = mysqli_fetch_assoc($cekPerlengkapan);
+			$jumlahStok = $jumlahStok['jumlah'];
+			$jumlahAkhir = $jumlahStok+$jumlah;
 
-		if ($insertPerlengkapan) {
-			header('location:'.$base_url.'laundry/penerimaan/perlengkapan/?message_success');
+			$sqlUpdateStok = mysqli_query($conn, "UPDATE `perlengkapan` SET `jumlah`=$jumlahAkhir WHERE `nama_perlengkapan` = '$nama_perlengkapan'");
+
+			if ($sqlUpdateStok) {
+				header('location:'.$base_url.'laundry/penerimaan/perlengkapan/?message_success');
+			}else{
+				header('location:'.$base_url.'laundry/penerimaan/perlengkapan/?message_failed'.mysqli_error($conn));
+			}
 		}else{
-			header('location:'.$base_url.'laundry/penerimaan/perlengkapan/?message_failed'.mysqli_error($conn));
+			$insertPerlengkapan = mysqli_query($conn, "INSERT INTO `perlengkapan`(`nama_perlengkapan`, `jenis`, `jumlah`, `id_penerima`) VALUES ('$nama_perlengkapan', 'cair', $jumlah, $id)");
+
+			if ($insertPerlengkapan) {
+				header('location:'.$base_url.'laundry/penerimaan/perlengkapan/?message_success');
+			}else{
+				header('location:'.$base_url.'laundry/penerimaan/perlengkapan/?message_failed'.mysqli_error($conn));
+			}
 		}
 	}else{
 		header('location:'.$base_url.'laundry/penerimaan/perlengkapan/?message_failed'.mysqli_error($conn));
