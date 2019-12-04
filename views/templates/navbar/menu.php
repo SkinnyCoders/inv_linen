@@ -11,27 +11,64 @@
             </li>
             <li>
                 <a href="javascript:void(0);" class="menu-toggle">
-                    <i class="material-icons">home</i>
-                    <span>Linen</span>
+                    <i class="material-icons">group</i>
+                    <span>Data Linen</span>
                 </a>
                 <ul class="ml-menu">
                     <li>
-                        <a href="javascript:void(0);" class="menu-toggle">
-                            <span>Cards</span>
-                        </a>
-                        <ul class="ml-menu">
-                            <li>
-                                <a href="pages/widgets/cards/basic.html">Basic</a>
-                            </li>
-                            <li>
-                                <a href="pages/widgets/cards/colored.html">Colored</a>
-                            </li>
-                            <li>
-                                <a href="pages/widgets/cards/no-header.html">No Header</a>
-                            </li>
-                        </ul>
+                        <a href="<?php echo $base_url ?>kepala-unit/linen/daftar-linen/">Daftar Linen</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $base_url ?>kepala-unit/linen/linen-hilang/">Linen Hilang & Rusak</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $base_url ?>kepala-unit/linen/permintaan/">Permintaan Linen</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $base_url ?>kepala-unit/linen/penerimaan/">Penerimaan Linen</a>
                     </li>
                 </ul>
+            </li>
+            <li>
+                <a href="javascript:void(0);" class="menu-toggle">
+                    <i class="material-icons">group</i>
+                    <span>Data Perlengkapan</span>
+                </a>
+                <ul class="ml-menu">
+                    <li>
+                        <a href="<?php echo $base_url ?>kepala-unit/perlengkapan/list/">Daftar Perlengkapan</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $base_url ?>kepala-unit/perlengkapan/permintaan/">Permintaan Perlengkapan</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $base_url ?>kepala-unit/perlengkapan/penerimaan/">Penerimaan Perlengkapan</a>
+                    </li>
+                </ul>
+            </li>
+            
+            <li>
+                <a href="javascript:void(0);" class="menu-toggle">
+                    <i class="material-icons">group</i>
+                    <span>Proses Pencucian</span>
+                </a>
+                <ul class="ml-menu">
+                    <li>
+                        <a href="<?php echo $base_url ?>kepala-unit/cuci/linen-kotor/">Pengambilan Linen Kotor</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $base_url ?>kepala-unit/cuci/dicuci/">Sedang dicuci</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $base_url ?>kepala-unit/cuci/linen-bersih">Linen Bersih</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="<?php echo $base_url ?>kepala-unit/pengguna/list/">
+                    <i class="material-icons">group</i>
+                    <span>Data Pengguna</span>
+                </a>
             </li>
         <?php
         //menu admin IT

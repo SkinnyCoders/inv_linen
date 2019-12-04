@@ -2,7 +2,7 @@
 session_start();
 
 if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
-    if (isset($_SESSION['role']) && $_SESSION['role'] == '3') {
+    if (isset($_SESSION['role']) && $_SESSION['role'] == '1') {
 
         include_once 'views/templates/head.php';
         require 'controller/config/connection.php';
@@ -87,6 +87,33 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="row">
+                <!-- Donut Chart -->
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>DONUT CHART</h2>
+                            <ul class="header-dropdown m-r--5">
+                                <li class="dropdown">
+                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                        <i class="material-icons">more_vert</i>
+                                    </a>
+                                    <ul class="dropdown-menu pull-right">
+                                        <li><a href="javascript:void(0);">Action</a></li>
+                                        <li><a href="javascript:void(0);">Another action</a></li>
+                                        <li><a href="javascript:void(0);">Something else here</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="body">
+                            <div id="donut_chart" class="graph"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- #END# Donut Chart -->
             </div>
             <!-- #END# Basic Validation -->
         </div>

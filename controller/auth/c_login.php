@@ -36,6 +36,8 @@ if (isset($_POST['auth'])) {
                 header('location:' . $base_url . 'laundry/dashboard/');
             }elseif ($data_user['id_level'] == '4') {
                 header('location:' . $base_url . 'perawat/dashboard/');
+            }elseif ($data_user['id_level'] == '1') {
+                header('location:'.$base_url.'kepala-unit/dashboard/');
             }
         } else {
             header('location:' . $base_url . 'login/?message_failed=Upss password salah');

@@ -352,6 +352,52 @@ switch ($uri[0]) {
 
 	/* end laundry */
 
+	/*kepala unit*/
+
+	case '/dev/kepala-unit/dashboard/':
+		require __DIR__ .'/views/kepala_unit/dashboard.php';
+		break;
+
+	case '/dev/kepala-unit/linen/daftar-linen/':
+		require __DIR__ . '/views/kepala_unit/linen/list_linen.php';
+		break;
+
+	case '/dev/kepala-unit/linen/linen-hilang/':
+		require __DIR__ . '/views/kepala_unit/linen/linen_hilang.php';
+		break;
+
+	case '/dev/kepala-unit/linen/permintaan/':
+		require __DIR__ . '/views/kepala_unit/linen/permintaan_linen.php';
+		break;
+
+	case '/dev/kepala-unit/linen/penerimaan/':
+		require __DIR__ . '/views/kepala_unit/linen/penerimaan_linen.php';
+		break;
+
+	case '/dev/kepala-unit/linen/permintaan/ambil_data_permintaan/':
+		require __DIR__ . '/controller/KepalaUnit/get_data_permintaan.php';
+		break;
+
+	case '/dev/controller/kepala-unit/linen/permintaan/konfirmasi/':
+		require __DIR__ . '/controller/KepalaUnit/konfirmasi_permintaan_linen.php';
+		break;
+
+	case '/dev/kepala-unit/perlengkapan/list/':
+		require __DIR__ . '/views/kepala_unit/perlengkapan/list_perlengkapan.php';
+		break;
+
+	case '/dev/kepala-unit/perlengkapan/penerimaan/':
+		require __DIR__ . '/views/kepala_unit/perlengkapan/penerimaan_perlengkapan.php';
+		break;
+
+
+
+	case '/dev/kepala-unit/pengguna/list/':
+		require __DIR__ . '/views/kepala_unit/user/list_user.php';
+		break;
+
+	/*End kepala unit*/
+
 		/* login page */
 	case '/dev/login/':
 		require __DIR__ . '/views/auth/v_login.php';
