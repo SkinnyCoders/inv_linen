@@ -15,16 +15,16 @@ if (isset($_POST['simpan'])) {
 	// cek ada datanya atau tidak
 	if ($cek_perlengkapan > 0) {
 		//kalo ada 
-		header('location:' . $base_url . 'admin/perlengkapan/?message_failed');
+		header('location:' . $base_url . 'laundry/perlengkapan/?message_failed');
 	}else{
 		//klo gk ada
 		$insert_data = $conn->prepare("INSERT INTO `perlengkapan`(`nama_perlengkapan`, `jenis`, `manfaat`, `jumlah`) VALUES (?,?,?,?)");
 		$insert_data->bind_param('ssss', $nama_perlengkapan, $jenis, $manfaat, $jumlah);
 		if ($insert_data->execute()) {
 			$insert_data->close();
-			header('location:' . $base_url . 'admin/perlengkapan/?message_success=Selamat, Data Perlengkapan berhasil ditambahkan!.');
+			header('location:' . $base_url . 'laundry/perlengkapan/?message_success=Selamat, Data Perlengkapan berhasil ditambahkan!.');
 		}else{
-			header('location:' . $base_url . 'admin/perlengkapan/?message_failed=Maaf, Data Perlengkapan gagal ditambahkan!, harap periksa lagi informasi yang diinputkan!.');
+			header('location:' . $base_url . 'laundry/perlengkapan/?message_failed=Maaf, Data Perlengkapan gagal ditambahkan!, harap periksa lagi informasi yang diinputkan!.');
 		}
 	}
 }
