@@ -19,6 +19,12 @@
   <!-- Multi Select Css -->
   <link href="<?= $base_url ?>vendors/plugins/multi-select/css/multi-select.css" rel="stylesheet">
 
+  <!-- Bootstrap Material Datetime Picker Css -->
+  <link href="<?= $base_url ?>vendors/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet" />
+
+  <!-- Bootstrap DatePicker Css -->
+  <link href="<?= $base_url ?>vendors/plugins/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+
   <!-- Waves Effect Css -->
   <link href="<?= $base_url ?>vendors/plugins/node-waves/waves.css" rel="stylesheet" />
 
