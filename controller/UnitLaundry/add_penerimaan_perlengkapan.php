@@ -7,9 +7,14 @@ $jumlah = filterString($_POST['jumlah_perlengkapan']);
 $penerima = $_POST['id_penerima'];
 
 //get nama perlengkapan
-$sqlPermintaan = mysqli_query($conn, "SELECT `nama_perlengkapan` FROM `permintaan_perlengkapan` WHERE `id_permintaan_perlengkapan` = $id_permintaan");
+$sqlPermintaan = mysqli_query($conn, "SELECT `nama_perlengkapan`,`jml_permintaan` FROM `permintaan_perlengkapan` WHERE `id_permintaan_perlengkapan` = $id_permintaan");
 $perlengkapan = mysqli_fetch_assoc($sqlPermintaan);
 $nama_perlengkapan = $perlengkapan['nama_perlengkapan'];
+$jumlah_permintaan = $perlengkapan['jml_permintaan'];
+
+if ($jumlah > $jumlah_permintaan) {
+	header('location:'.$base_url.'laundry/penerimaan/perlengkapan/?message_failed=jumlah tidak boleh melebihi yang diajukan';
+}else{
 
 	$insertLinenPenerimaan = mysqli_query($conn, "INSERT INTO `penerimaan_perlengkapan`(`id_permintaan_perlengkapan`, `jml_diterima`,`id_penerima`,`status`) VALUES ($id_permintaan, $jumlah,$penerima,'diterima')");
 	//mengambil id terakhir dari table penerimaan linen 
@@ -44,3 +49,4 @@ $nama_perlengkapan = $perlengkapan['nama_perlengkapan'];
 	}else{
 		header('location:'.$base_url.'laundry/penerimaan/perlengkapan/?message_failed'.mysqli_error($conn));
 	}
+}

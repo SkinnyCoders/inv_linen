@@ -6,6 +6,15 @@ $id_permintaan_linen = $_POST['id_permintaan_linen'];
 $jumlah = filterString($_POST['jumlah_linen']);
 $keterangan = trim(strtolower(filterString($_POST['keterangan'])));
 
+//get jumlah linen diminta
+$getJmlLinenMinta = mysqli_query($conn, "SELECT `jml_permintaan` FROM `permintaan_linen_baru` WHERE `id_permintaan_linen_baru` = $id_permintaan_linen");
+$jmlDiminta = mysqli_fetch_assoc($getJmlLinenMinta);
+$jmlDiminta = $jmlDiminta['jml_permintaan'];
+
+if ($jumlah > $jmlDiminta) {
+	header('location:'.$base_url.'perawat/penerimaan/linen/?message_failed');
+}else{
+
 	$insertLinenPengajuan = mysqli_query($conn, "INSERT INTO `penerimaan_linen_baru`(`id_permintaan_linen_baru`, `jml_diterima`,`keterangan`) VALUES ($id_permintaan_linen, $jumlah, '$keterangan')");
 
 	//mengambil id terakhir dari table penerimaan linen 
@@ -72,3 +81,4 @@ $keterangan = trim(strtolower(filterString($_POST['keterangan'])));
 	}else{
 		header('location:'.$base_url.'perawat/penerimaan/linen/?message_failed'.mysqli_error($conn));
 	}
+}
