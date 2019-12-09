@@ -32,8 +32,8 @@ if (isset($ambil)) {
 		}
 	}
 
-	header('location:'.$base_url.'perawat/linen/hilang-rusak/?message_success');
+	header('location:'.$base_url.'perawat/linen/hilang-rusak/?message_success=Selamat, Data Berhasil Ditambahkan!!!');
 }else{
-	header('location:'.$base_url.'perawat/linen/hilang-rusak/?message_failed');
+	header('location:'.$base_url.'perawat/linen/hilang-rusak/?message_failed=Maaf, Data Gagal Ditambahkan!!!');
 }
  ?>

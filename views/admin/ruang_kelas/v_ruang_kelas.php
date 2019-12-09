@@ -423,7 +423,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                             'id_ruang': dataId
                                         },
                                         success: function(respone) {
-                                            window.location.href = "<?= $base_url ?>admin/ruang_kelas/?message_success=Selamat, Data Ruang Berhasil Ditambahkan!.";
+                                            window.location.href = "<?= $base_url ?>admin/ruang_kelas/?message_success=Selamat, Data Ruang Berhasil Dihapus!!!.";
                                         },
                                         error: function(request, error) {
                                             window.location.href = "<?= $base_url ?>admin/ruang_kelas/?message_failed=Maaf Data Ruang Gagal Dihapus!.";

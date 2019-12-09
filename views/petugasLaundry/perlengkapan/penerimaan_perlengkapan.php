@@ -32,14 +32,14 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                             <!-- alert success -->
                             <div class="alert alert-success alert-dismissible" role="alert">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                Selamat, Data linen berhasil ditambahkan!
+                               <?php echo $_GET['message_success']; ?>
                             </div>
                             <!-- end alert success -->
                         <?php } elseif (isset($_GET['message_failed'])) { ?>
                             <!-- alert failed -->
                             <div class="alert alert-danger alert-dismissible" role="alert">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                Maaf, Data linen gagal ditambahkan!, harap periksa lagi informasi yang diinputkan!.
+                                <?php echo $_GET['message_failed']; ?>
                             </div>
                             <!-- end alert failed -->
                         <?php } ?>
