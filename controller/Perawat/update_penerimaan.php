@@ -22,13 +22,13 @@ if (isset($_POST['id_penerimaan_linen']) && !empty($_POST['id_penerimaan_linen']
 	 		$sqlUpdate = mysqli_query($conn, "UPDATE `linen` SET `jml_linen`=$jumlah WHERE `id_penerimaan_linen_baru` = $id_penerimaan");
 
 	 		if ($sqlUpdate) {
-	 			header('location:'.$base_url.'perawat/penerimaan/linen/?message_success');
+	 			header('location:'.$base_url.'perawat/penerimaan/linen/?message_success=Selamat, Data Penerimaan Linen Baru Berhasil Diedit!!!');
 	 		}else{
-	 			header('location:'.$base_url.'perawat/penerimaan/linen/?message_failed'); 
+	 			header('location:'.$base_url.'perawat/penerimaan/linen/?message_failed=Maaf, Data Penerimaan Linen Baru Gagal Diedit!!!'); 
 	 		}
 	 		
 	 	}else{
-	 		header('location:'.$base_url.'perawat/penerimaan/linen/?message_failed'); 
+	 		header('location:'.$base_url.'perawat/penerimaan/linen/?message_failed=Maaf, Data Penerimaan Linen Baru Gagal Diedit!!!'); 
 	 	}
 
 	 }

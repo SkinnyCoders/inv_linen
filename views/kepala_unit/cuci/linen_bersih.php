@@ -94,7 +94,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                         <td><?= $no++ ?></td>
                                                         <td><?= ucwords($data_linen['nama_linen']) . ' - ' . ucwords($data_linen['nama_kategori']); ?></td>
                                                         <td><?= ucwords($data_linen['nama_ruang']) ?> - <?=ucwords($data_linen['nama_kelas'])?></td>
-                                                        <td><?=$data_linen['jml_linen_bersih']?></td>
+                                                        <td><?=$data_linen['jumlah']?></td>
                                                         <td><?= $data_linen['jenis']?></td>
                                                         <td>#PROSES-<?=$data_linen['id_proses_cuci']?></td>
                                                         <!-- <td class="text-nowrap">

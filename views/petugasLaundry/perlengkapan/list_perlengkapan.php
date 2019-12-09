@@ -34,8 +34,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                 <?php echo $_GET['message_success']; ?>
                             </div>
                             <!-- end alert success -->
-                        <?php } elseif (isset($_GET['message_failed'
-                        ])) { ?>
+                        <?php } elseif (isset($_GET['message_failed'])) { ?>
                             <!-- alert failed -->
                             <div class="alert alert-danger alert-dismissible" role="alert">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>

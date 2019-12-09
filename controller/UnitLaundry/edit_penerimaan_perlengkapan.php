@@ -20,9 +20,9 @@ if (isset($_POST['simpan'])) {
 			//update ke table perlengkapan
 			$update = mysqli_query($conn, "UPDATE `perlengkapan` SET `jumlah`=$jumlah WHERE `id_penerima` = $id");
 			if ($update) {
-				header('location:'.$base_url.'laundry/penerimaan/perlengkapan/?message_success');
+				header('location:'.$base_url.'laundry/penerimaan/perlengkapan/?message_success=Selamat, Data Penerimaan Perlengkapan Berhasil Diedit!!!');
 			}else{
-				header('location:'.$base_url.'laundry/penerimaan/perlengkapan/?message_failed='.mysqli_error($conn));
+				header('location:'.$base_url.'laundry/penerimaan/perlengkapan/?message_failed=Maaf, Data Penerimaan Perlengkapan Gagal Diedit!!!'.mysqli_error($conn));
 			}
 		}else{
 			header('location:'.$base_url.'laundry/penerimaan/perlengkapan/?message_failed='.mysqli_error($conn));

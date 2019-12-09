@@ -28,17 +28,17 @@ $nama_perlengkapan = $perlengkapan['nama_perlengkapan'];
 			$sqlUpdateStok = mysqli_query($conn, "UPDATE `perlengkapan` SET `jumlah`=$jumlahAkhir WHERE `nama_perlengkapan` = '$nama_perlengkapan'");
 
 			if ($sqlUpdateStok) {
-				header('location:'.$base_url.'laundry/penerimaan/perlengkapan/?message_success');
+				header('location:'.$base_url.'laundry/penerimaan/perlengkapan/?message_success=Selamat, Data Penerimaan Perlengkapan Berhasil Ditambahkan!!!');
 			}else{
-				header('location:'.$base_url.'laundry/penerimaan/perlengkapan/?message_failed'.mysqli_error($conn));
+				header('location:'.$base_url.'laundry/penerimaan/perlengkapan/?message_failed=Maaf, Data Penerimaan Perlengkapan Gagal Ditambahkan!!!'.mysqli_error($conn));
 			}
 		}else{
 			$insertPerlengkapan = mysqli_query($conn, "INSERT INTO `perlengkapan`(`nama_perlengkapan`, `jenis`, `jumlah`, `id_penerima`) VALUES ('$nama_perlengkapan', 'cair', $jumlah, $id)");
 
 			if ($insertPerlengkapan) {
-				header('location:'.$base_url.'laundry/penerimaan/perlengkapan/?message_success');
+				header('location:'.$base_url.'laundry/penerimaan/perlengkapan/?message_success=Selamat, Data Penerimaan Perlengkapan Berhasil Ditambahkan!!!');
 			}else{
-				header('location:'.$base_url.'laundry/penerimaan/perlengkapan/?message_failed'.mysqli_error($conn));
+				header('location:'.$base_url.'laundry/penerimaan/perlengkapan/?message_failed=Maaf, Data Penerimaan Perlengkapan Gagal Ditambahkan!!!'.mysqli_error($conn));
 			}
 		}
 	}else{

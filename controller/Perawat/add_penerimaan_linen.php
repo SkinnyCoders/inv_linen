@@ -44,13 +44,13 @@ $keterangan = trim(strtolower(filterString($_POST['keterangan'])));
 				//update permintaan
 				$sqlUpdatePermintaan = mysqli_query($conn, "UPDATE permintaan_linen_baru SET status = 'diterima' WHERE id_permintaan_linen_baru = $id_permintaan_linen");
 				if ($sqlUpdatePermintaan) {
-					header('location:'.$base_url.'perawat/penerimaan/linen/?message_success');
+					header('location:'.$base_url.'perawat/penerimaan/linen/?message_success=Selamat, Data Penerimaan Linen Baru Berhasil Ditambahkan!!!');
 				}else{
-					header('location:'.$base_url.'perawat/penerimaan/linen/?message_failed');
+					header('location:'.$base_url.'perawat/penerimaan/linen/?message_failed=Maaf, Data Penerimaan Linen Baru Gagal Ditambahkan!!!');
 				}
 				
 			}else{
-				header('location:'.$base_url.'perawat/penerimaan/linen/?message_failed');
+				header('location:'.$base_url.'perawat/penerimaan/linen/?message_failed=Maaf, Data Penerimaan Linen Baru Gagal Ditambahkan!!!');
 			}
 		}else{
 			//insert data baru jika tidak ada data yang sesuai dengan linen yang diterima
@@ -59,12 +59,12 @@ $keterangan = trim(strtolower(filterString($_POST['keterangan'])));
 				//update permintaan
 				$sqlUpdatePermintaan = mysqli_query($conn, "UPDATE permintaan_linen_baru SET status = 'diterima' WHERE id_permintaan_linen_baru = $id_permintaan_linen");
 				if ($sqlUpdatePermintaan) {
-					header('location:'.$base_url.'perawat/penerimaan/linen/?message_success');
+					header('location:'.$base_url.'perawat/penerimaan/linen/?message_success=Selamat, Data Penerimaan Linen Baru Berhasil Ditambahkan!!!');
 				}else{
-					header('location:'.$base_url.'perawat/penerimaan/linen/?message_failed');
+					header('location:'.$base_url.'perawat/penerimaan/linen/?message_failed=Maaf, Data Penerimaan Linen Baru Gagal Ditambahkan!!!');
 				}
 			}else{
-				header('location:'.$base_url.'perawat/penerimaan/linen/?message_failed');
+				header('location:'.$base_url.'perawat/penerimaan/linen/?message_failed=Maaf, Data Penerimaan Linen Baru Gagal Ditambahkan!!!');
 			}
 
 		}
