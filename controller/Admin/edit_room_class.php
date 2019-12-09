@@ -14,9 +14,9 @@ if (!empty($_POST['id_ruang'])) {
 			$insert = mysqli_query($conn, "INSERT INTO ruang_kelas (`id_kelas`, `id_ruang`) VALUES ($kelas, $id_ruang)");
 		}
 
-		header('location:'.$base_url.'admin/ruang_kelas/?message_success');
+		header('location:'.$base_url.'admin/ruang_kelas/?message_success=Data Ruang Kelas Berhasil Diedit!!!');
 	}else{
-		header('location:'.$base_url.'admin/ruang_kelas/?message_failed');
+		header('location:'.$base_url.'admin/ruang_kelas/?message_failed=Maaf, data ruang kelas gagal diedit!!!');
 	}
 }
 
