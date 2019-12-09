@@ -398,6 +398,9 @@ switch ($uri[0]) {
 		require __DIR__ . '/views/kepala_unit/cuci/linen_bersih.php';
 		break;
 
+	case '/dev/kepala-unit/cuci/pengguna-perlengkapan/':
+		require __DIR__ . '/views/kepala_unit/cuci/penggunaan_perlengkapan.php';
+		break;
 
 
 	case '/dev/kepala-unit/pengguna/list/':

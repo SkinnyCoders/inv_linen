@@ -27,20 +27,21 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                             <li><a href="javascript:void(0);">Dashboard</a></li>
                             <li><a href="javascript:void(0);">Kepala Unit</a></li>
                             <li><a href="javascript:void(0);">Perlengkapan</a></li>
-                            <li class="active">Penerimaan Perlengkapan</li>
+                            <li class="active">List Perlengkapan</li>
                         </ol>
                         <?php if (isset($_GET['message_success'])) { ?>
                             <!-- alert success -->
                             <div class="alert alert-success alert-dismissible" role="alert">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                Selamat, Data linen berhasil ditambahkan!
+                                <?php echo $_GET['message_success']; ?>
                             </div>
                             <!-- end alert success -->
-                        <?php } elseif (isset($_GET['message_failed'])) { ?>
+                        <?php } elseif (isset($_GET['message_failed'
+                        ])) { ?>
                             <!-- alert failed -->
                             <div class="alert alert-danger alert-dismissible" role="alert">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                Maaf, Data linen gagal ditambahkan!, harap periksa lagi informasi yang diinputkan!.
+                                  <?php echo $_GET['message_failed']; ?>
                             </div>
                             <!-- end alert failed -->
                         <?php } ?>
@@ -50,9 +51,9 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="card">
                                 <div class="header">
-                                    <a href="javascript:void(0)" class="btn btn-primary waves-effect pull-right" data-toggle="modal" data-target="#modalAdd">Cari Perlengkapan</a>
+                              
                                     <h2>
-                                        DAFTAR PENERIMAAN PERLENGKAPAN
+                                        DAFTAR PENGGUNAAN PERLENGKAPAN
                                     </h2>
                                 </div>
                                 <div class="body">
@@ -60,38 +61,30 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                         <table id="table_user_list" class="table table-striped table-hover" style="width: 100%">
                                             <thead>
                                                 <tr>
-                                                    <th style="width: 3%;" class="text-nowrap">No</th>
-                                                    <th style="width: 27%;" class="text-nowrap">Nama Perlengkapan</th>
-                                                    <th style="width: 20%;" class="text-nowrap">Tanggal</th>
-                                                    <th style="width: 20%;" class="text-nowrap">Diterima Oleh</th>
-                                                    <th style="width: 10%;" class="text-nowrap">jumlah</th>
-                                                    <!-- <th style="width: 15%;" class="text-nowrap">Aksi</th> -->
+                                                    <th class="text-nowrap">No</th>
+                                                    <th class="text-nowrap">Nama Perlengkapan</th>
+                                                    <th class="text-nowrap">Proses Cuci</th>
+                                                    <th class="text-nowrap">Tanggal</th>
+                                                    <th class="text-nowrap">Jenis Cuci</th>
+                                                    <th class="text-nowrap">Jumlah</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php
                                                 $no = 1;
-                                                if (isset($_GET['tanggal']) && !empty($_GET['tanggal'])) {
-                                                    $date_sort = $_GET['tanggal'];
-                                                    $where = "penerimaan_perlengkapan.status = 'diterima' AND DATE(tgl_penerimaan) = '$date_sort'";
-                                                }else{
-                                                    $where = "penerimaan_perlengkapan.status = 'diterima'";
-                                                }
-
-
-                                                    $getLinen = mysqli_query($conn, "SELECT penerimaan_perlengkapan.id_penerimaan_perlengkapan AS id , permintaan_perlengkapan.nama_perlengkapan, `jml_diterima`, `tgl_penerimaan`, user.nama_user FROM `penerimaan_perlengkapan` INNER JOIN permintaan_perlengkapan ON permintaan_perlengkapan.id_permintaan_perlengkapan=penerimaan_perlengkapan.id_permintaan_perlengkapan INNER JOIN user ON user.id_user=penerimaan_perlengkapan.id_penerima WHERE ".$where);
-                                                    while ($data_linen = mysqli_fetch_assoc($getLinen)) {
-
-                                                        $tgl = DateTime::createFromFormat('Y-m-d H:i:s', $data_linen['tgl_penerimaan'])->format('d F Y');
+                                                    $getPerlengkapan = mysqli_query($conn, "SELECT jumlah_proses_pencucian.id_proses_cuci, perlengkapan.nama_perlengkapan, jumlah_proses_pencucian.tanggal_cuci, jumlah_proses_pencucian.jenis_pencucian, penggunaan_perlengkapan.jml_penggunaan FROM `penggunaan_perlengkapan` INNER JOIN jumlah_proses_pencucian ON jumlah_proses_pencucian.id_jumlah_proses_pencucian=penggunaan_perlengkapan.id_jumlah_proses_pencucian INNER JOIN perlengkapan ON perlengkapan.id_perlengkapan=penggunaan_perlengkapan.id_perlengkapan WHERE 1 ORDER BY tanggal_cuci ASC");
+                                                    while ($data_perlengkapan = mysqli_fetch_assoc($getPerlengkapan)) {
+                                                        $tanggal_cuci = DateTime::CreateFromFormat('Y-m-d H:i:s', $data_perlengkapan['tanggal_cuci'])->format('d F Y');
                                                 ?>
                                                     <tr>
                                                         <td><?= $no++ ?></td>
-                                                        <td><?= ucwords($data_linen['nama_perlengkapan']) ?></td>
-                                                        <td><?= ucwords($tgl) ?></td>
-                                                        <td><?= ucwords($data_linen['nama_user']) ?></td>
-                                                        <td><?= $data_linen['jml_diterima']?></td>
-                                                       <!--  <td class="text-nowrap"><a href="javascript:void(0)" onclick='getKelas("<?=$data_linen['id']?>")' id="<?=$data_linen['id']?>" data-toggle="modal" data-target="#modalEdit" class="btn btn-info waves-effect m-r-20 edit_perlengkapan"> EDIT</a>
-                                                            <a href="javascript:void(0)" id="<?=$data_linen['id']?>" class="btn btn-danger waves-effect delete_penerimaan">HAPUS</a></td> -->
+                                                        <td><?= ucwords($data_perlengkapan['nama_perlengkapan']) ?></td>
+                                                        <td>#ID <?= $data_perlengkapan['id_proses_cuci'] ?></td>
+                                                        <td><?= $tanggal_cuci ?></td>
+                                                        <td><?= $data_perlengkapan['jenis_pencucian'] ?></td>
+                                                        <td><?= $data_perlengkapan['jml_penggunaan'] ?></td>
+                                                       <!--  <td class="text-nowrap"><a href="javascript:void(0)" id="<?=$data_perlengkapan['id_perlengkapan']?>" data-toggle="modal" data-target="#modalEdit" class="btn btn-info waves-effect m-r-20 edit"> EDIT</a>
+                                                            <a href="javascript:void(0)" id="<?=$data_perlengkapan['id_perlengkapan']?>" class="btn btn-danger waves-effect delete_perlengkapan">HAPUS</a></td> -->
                                                     </tr>
                                                 <?php
                                                     }
@@ -106,37 +99,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                     </div>
                     <!-- #END# Basic Examples -->
 
-                    <!-- Default Size -->
-                    <div class="modal fade" id="modalAdd" tabindex="-1" role="dialog">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title" id="defaultModalLabel">CARI PERLENGKAPAN</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <!-- Basic Validation -->
-                                    <div class="row clearfix">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <form id="form_validation" action="" method="GET">
-                                               
-                                                <div class="form-group">
-                                                    <label>Tanggal</label>
-                                                    <div class="form-line">
-                                                        <input type="date" name="tanggal" class="datepicker form-control" placeholder="Pilih tanggal">
-                                                    </div>
-                                                </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                                <button type="submit" class="btn btn-primary waves-effect">CARI</button>
-                                            </form>
-                                    <button type="button" class="btn btn-link waves-effect waves-red" data-dismiss="modal" style="color:red">TUTUP</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end modal -->
+                  
                 </div>
             </section>
 
@@ -183,6 +146,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
             <!-- Demo Js -->
             <script src="<?= $base_url ?>vendors/js/demo.js"></script>
 
+
             <script>
                 /* tabel */
                 $(document).ready(function() {
@@ -191,14 +155,14 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                         responsive: true,
                         buttons: [{
                               extend: 'pdfHtml5',
-                              title: 'Data Linen' 
+                              title: 'Data Perlengkapan' 
                             },{
                                 extend: 'excel',
-                                title: 'Data Linen'
+                                title: 'Data Perlengkapan'
                             },
                             {
                                 extend: 'print',
-                                title: 'Data Linen'
+                                title: 'Data Perlengkapan'
                             }
                         ],
                         'order': [
@@ -219,12 +183,11 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                     "use strict";
                     var SweetAlert = function() {};
                     SweetAlert.prototype.init = function() {
-                            $('.delete_penerimaan').click(function() {
+                            $('.delete_perlengkapan').click(function() {
                                 var dataId = this.id;
-                                console.log(dataId);
                                 swal({
-                                    title: "Apakah benar akan menghapus data penerimaan linen?",
-                                    text: "Jika anda menekan Ya, Maka data linen dan data penerimaan linen akan terhapus secara permanen oleh sistem.",
+                                    title: "Apakah benar akan menghapus data kategori?",
+                                    text: "Jika anda menekan Ya, Maka data akan terhapus secara permanen oleh sistem.",
                                     type: "warning",
                                     showCancelButton: true,
                                     confirmButtonColor: "#ef5350",
@@ -233,15 +196,15 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                 }, function() {
                                     $.ajax({
                                         type: "POST",
-                                        url: "<?= $base_url ?>controller/laundry/penerimaan/perlengkapan/hapus_penerimaan/?id="+dataId,
+                                        url: "<?= $base_url ?>controller/laundry/perlengkapan/delete_perlengkapan/",
                                         data: {
-                                            'id_penerimaan': dataId
+                                            'id_perlengkapan': dataId
                                         },
                                         success: function(respone) {
-                                            window.location.href = "<?= $base_url ?>laundry/penerimaan/perlengkapan/?message_success";
+                                            window.location.href = "<?= $base_url ?>laundry/perlengkapan/?message_success=Selamat, Data Perlengkapan Berhasil Dihapus!.";
                                         },
                                         error: function(request, error) {
-                                            window.location.href = "<?= $base_url ?>laundry/penerimaan/perlengkapan/?message_failed";
+                                            window.location.href = "<?= $base_url ?>laundry/perlengkapan/?message_failed=Maaf, Data Perlengkapan Gagal Dihapus!.";
                                         },
                                     })
                                 });
@@ -254,24 +217,23 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                     $.SweetAlert.init()
                 }(window.jQuery);
 
-                $('.edit_perlengkapan').on('click', function(){
-                    var id_perlengkapan = this.id;
-
+                $('.edit').on('click', function(){
+                    var perlengkapan_id = this.id;
                     $.ajax({
                         type : "POST",
-                        url : "<?=$base_url?>controller/laundry/penerimaan/perlengkapan/ambil_permintaan_edit/",
-                        data : {'id_penerimaan' : id_perlengkapan},
+                        url : "<?=$base_url?>controller/laundry/perlengkapan/ambil_perlengkapan/",
+                        data : {'id_perlengkapan' : perlengkapan_id},
                         dataType : "json",
                         success : function(data){
-                            $('#id_perlengkapan').val(data.id);
+                            $('#id_perlengkapan').val(data.id_perlengkapan);
                             $('#nama_perlengkapan').val(data.perlengkapan);
-                            $('.jumlah').val(data.jumlah);
-                            $('.diterima').val(data.penerima);
+                            $('#jenis-update').val(data.jenis);
+                            $('#manfaat-update').val(data.manfaat);
+                            $('#jumlah-update').val(data.jumlah);
+                        
                         },
                     })
-                });
-
-                
+                })
             </script>
 
         </body>
