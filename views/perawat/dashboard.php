@@ -9,23 +9,34 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
         $role = $_SESSION['role'];
         $nama = $_SESSION['nama_user'];
 
-        $date_now = date('Y-m-d');
+        if (isset($_GET['tanggal']) && !empty($_GET['tanggal'])) {
+            $date_now = $_GET['tanggal'];
+        }else{
+            $date_now = date('Y-m-d');
+        }
 
-        $sqlLinenKotor = mysqli_query($conn, "SELECT linen.nama_linen, kategori.nama_kategori, ruang.nama_ruang, kelas.nama_kelas, linen_kotor.status, jenis_linen_kotor.jumlah FROM `linen_kotor` INNER JOIN linen ON linen.id_linen=linen_kotor.id_linen INNER JOIN ruang ON ruang.id_ruang=linen.id_ruang INNER JOIN kelas ON kelas.id_kelas=linen.id_kelas INNER JOIN kategori ON kategori.id_kategori=linen.id_kategori INNER JOIN jenis_linen_kotor ON jenis_linen_kotor.id_linen_kotor=linen_kotor.id_linen_kotor WHERE DATE(linen_kotor.tgl_pengambilan) = '$date_now'");
+        if (isset($_GET['ruang']) && !empty($_GET['ruang'])) {
+            $ruang = $_GET['ruang'];
+            $where = " AND ruang.nama_ruang='$ruang'";
+        }else{
+            $where = "";
+        }
+
+        $sqlLinenKotor = mysqli_query($conn, "SELECT linen.nama_linen, kategori.nama_kategori, ruang.nama_ruang, kelas.nama_kelas, linen_kotor.status, jenis_linen_kotor.jumlah FROM `linen_kotor` INNER JOIN linen ON linen.id_linen=linen_kotor.id_linen INNER JOIN ruang ON ruang.id_ruang=linen.id_ruang INNER JOIN kelas ON kelas.id_kelas=linen.id_kelas INNER JOIN kategori ON kategori.id_kategori=linen.id_kategori INNER JOIN jenis_linen_kotor ON jenis_linen_kotor.id_linen_kotor=linen_kotor.id_linen_kotor WHERE DATE(linen_kotor.tgl_pengambilan) = '$date_now'".$where);
         if (mysqli_num_rows($sqlLinenKotor) > 0) {
             while ($dataKotor = mysqli_fetch_assoc($sqlLinenKotor)) {
                 $kotor[] = $dataKotor;
             }
         }
 
-        $sqlLinenCuci = mysqli_query($conn, "SELECT linen.nama_linen, kategori.nama_kategori, ruang.nama_ruang, kelas.nama_kelas, pencucian.status, jenis_linen_kotor.jumlah FROM `pencucian` INNER JOIN linen_kotor ON linen_kotor.id_linen_kotor=pencucian.id_linen_kotor INNER JOIN linen ON linen.id_linen=linen_kotor.id_linen INNER JOIN ruang ON ruang.id_ruang=linen.id_ruang INNER JOIN kelas ON kelas.id_kelas=linen.id_kelas INNER JOIN kategori ON kategori.id_kategori=linen.id_kategori INNER JOIN jenis_linen_kotor ON jenis_linen_kotor.id_jenis_linen_kotor=pencucian.id_jenis_linen_kotor WHERE pencucian.status = 'cuci' AND DATE(pencucian.tgl_cuci) = '$date_now'");
+        $sqlLinenCuci = mysqli_query($conn, "SELECT linen.nama_linen, kategori.nama_kategori, ruang.nama_ruang, kelas.nama_kelas, pencucian.status, jenis_linen_kotor.jumlah FROM `pencucian` INNER JOIN linen_kotor ON linen_kotor.id_linen_kotor=pencucian.id_linen_kotor INNER JOIN linen ON linen.id_linen=linen_kotor.id_linen INNER JOIN ruang ON ruang.id_ruang=linen.id_ruang INNER JOIN kelas ON kelas.id_kelas=linen.id_kelas INNER JOIN kategori ON kategori.id_kategori=linen.id_kategori INNER JOIN jenis_linen_kotor ON jenis_linen_kotor.id_jenis_linen_kotor=pencucian.id_jenis_linen_kotor WHERE pencucian.status = 'cuci' AND DATE(pencucian.tgl_cuci) = '$date_now'".$where);
         if (mysqli_num_rows($sqlLinenCuci) > 0) {
             while ($dataCuci = mysqli_fetch_assoc($sqlLinenCuci)) {
                 $cuci[] = $dataCuci;
             }
         }
 
-        $sqlLinenBersih = mysqli_query($conn, "SELECT linen.nama_linen, kategori.nama_kategori, ruang.nama_ruang, kelas.nama_kelas, linen_bersih.status, linen_bersih.jumlah FROM `linen_bersih` INNER JOIN pencucian ON pencucian.id_pencucian=linen_bersih.id_pencucian INNER JOIN linen_kotor ON linen_kotor.id_linen_kotor=pencucian.id_linen_kotor INNER JOIN linen ON linen.id_linen=linen_kotor.id_linen INNER JOIN ruang ON ruang.id_ruang=linen.id_ruang INNER JOIN kelas ON kelas.id_kelas=linen.id_kelas INNER JOIN kategori ON kategori.id_kategori=linen.id_kategori WHERE DATE(linen_bersih.tgl) = '$date_now'");
+        $sqlLinenBersih = mysqli_query($conn, "SELECT linen.nama_linen, kategori.nama_kategori, ruang.nama_ruang, kelas.nama_kelas, linen_bersih.status, linen_bersih.jumlah FROM `linen_bersih` INNER JOIN pencucian ON pencucian.id_pencucian=linen_bersih.id_pencucian INNER JOIN linen_kotor ON linen_kotor.id_linen_kotor=pencucian.id_linen_kotor INNER JOIN linen ON linen.id_linen=linen_kotor.id_linen INNER JOIN ruang ON ruang.id_ruang=linen.id_ruang INNER JOIN kelas ON kelas.id_kelas=linen.id_kelas INNER JOIN kategori ON kategori.id_kategori=linen.id_kategori WHERE DATE(linen_bersih.tgl) = '$date_now'".$where);
         if (mysqli_num_rows($sqlLinenBersih) > 0) {
             while ($dataBersih = mysqli_fetch_assoc($sqlLinenBersih)) {
                 $bersih[] = $dataBersih;
@@ -84,6 +95,10 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
             $sqlPenerimaan = mysqli_query($conn, "SELECT `id_penerimaan_linen_baru` FROM `penerimaan_linen_baru` WHERE 1");
             $totalPenerimaan = mysqli_num_rows($sqlPenerimaan);
 
+            //get linen bersih
+            $sqlBersih = mysqli_query($conn,"SELECT `id_linen_bersih` FROM `linen_bersih` WHERE DATE(`tgl`) = '$date_now'");
+            $totalLinenBersih = mysqli_num_rows($sqlBersih);
+
              ?>
 
 
@@ -117,7 +132,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                         </div>
                         <div class="content">
                             <div class="text">LINEN BERSIH</div>
-                            <div class="number">20</div>
+                            <div class="number"><?=$totalLinenBersih?></div>
                         </div>
                     </div>
                 </div>
@@ -185,6 +200,52 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                         </div>
                     </div>
                     <!-- #END# Basic Examples -->
+
+                    <!-- Default Size -->
+                    <div class="modal fade" id="modalAdd" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="defaultModalLabel">CARI LINEN KOTOR</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Basic Validation -->
+                                    <div class="row clearfix">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <form id="form_validation" action="" method="GET">
+                                               
+                                                <div class="form-group">
+                                                    <label>Tanggal</label>
+                                                    <div class="form-line">
+                                                        <input type="date" name="tanggal" class="datepicker form-control" placeholder="Pilih tanggal">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <select class="form-control show-tick m-t-20" name="ruang" id="ruang_linen" required>
+                                                            
+                                                            <?php 
+                                                            $sqlKelas = mysqli_query($conn, "SELECT * FROM ruang WHERE 1 ORDER BY id_ruang ASC");
+                                                            while ($dataKelas = mysqli_fetch_assoc($sqlKelas)) {
+                                                             ?>
+                                                            <option value="<?=$dataKelas['nama_ruang']?>"><?=$dataKelas['nama_ruang']?></option>
+                                                            <?php } ?>
+                                                        </select>
+                                                        <label for="ruang_linen" class="form-label">Pilih Ruang</label>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary waves-effect">CARI</button>
+                                            </form>
+                                    <button type="button" class="btn btn-link waves-effect waves-red" data-dismiss="modal" style="color:red">TUTUP</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end modal -->
         </div>
     </section>
 

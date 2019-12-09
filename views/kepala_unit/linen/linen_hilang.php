@@ -50,6 +50,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="card">
                                 <div class="header">
+                                    <a href="javascript:void(0)" class="btn btn-primary waves-effect pull-right" data-toggle="modal" data-target="#modalAdd">Cari Linen Hilang</a>
                                     <h2>
                                         DAFTAR LINEN HILANG & RUSAK
                                     </h2>
@@ -71,7 +72,14 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                             <tbody>
                                                 <?php
                                                 $no = 1;
-                                                    $getLinen = mysqli_query($conn, "SELECT linen_hilang.id_linen_hilang AS id,linen.nama_linen, kategori.nama_kategori, ruang.nama_ruang, kelas.nama_kelas, linen_hilang.jumlah, linen_hilang.status FROM `linen_hilang` INNER JOIN linen ON linen.id_linen=linen_hilang.id_linen INNER JOIN kategori ON kategori.id_kategori=linen.id_kategori INNER JOIN ruang ON ruang.id_ruang=linen.id_ruang INNER JOIN kelas ON kelas.id_kelas=linen.id_kelas WHERE 1 ORDER BY tanggal DESC");
+
+                                                if (isset($_GET['ruang']) && !empty($_GET['ruang'])) {
+                                                    $ruang = $_GET['ruang'];
+                                                    $where = "ruang.nama_ruang = '$ruang' ORDER BY tanggal DESC";
+                                                }else{
+                                                    $where = "1 ORDER BY tanggal DESC";
+                                                }
+                                                    $getLinen = mysqli_query($conn, "SELECT linen_hilang.id_linen_hilang AS id,linen.nama_linen, kategori.nama_kategori, ruang.nama_ruang, kelas.nama_kelas, linen_hilang.jumlah, linen_hilang.status FROM `linen_hilang` INNER JOIN linen ON linen.id_linen=linen_hilang.id_linen INNER JOIN kategori ON kategori.id_kategori=linen.id_kategori INNER JOIN ruang ON ruang.id_ruang=linen.id_ruang INNER JOIN kelas ON kelas.id_kelas=linen.id_kelas WHERE ".$where);
                                                     while ($data_linen = mysqli_fetch_assoc($getLinen)) {
                                                         if ($data_linen['status'] == 'hilang') {
                                                             $style = "label-danger";
@@ -102,6 +110,45 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                         </div>
                     </div>
                     <!-- #END# Basic Examples -->
+
+                    <!-- Default Size -->
+                    <div class="modal fade" id="modalAdd" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="defaultModalLabel">CARI LINEN HILANG</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Basic Validation -->
+                                    <div class="row clearfix">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <form id="form_validation" action="" method="GET">
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <select class="form-control show-tick m-t-20" name="ruang" id="ruang_linen" required>
+                                                            <option>Pilih Ruang</option>
+                                                            <?php 
+                                                            $sqlKelas = mysqli_query($conn, "SELECT * FROM ruang WHERE 1 ORDER BY id_ruang ASC");
+                                                            while ($dataKelas = mysqli_fetch_assoc($sqlKelas)) {
+                                                             ?>
+                                                            <option value="<?=$dataKelas['nama_ruang']?>"><?=$dataKelas['nama_ruang']?></option>
+                                                            <?php } ?>
+                                                        </select>
+                                                        <label for="ruang_linen" class="form-label">Pilih Ruang</label>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary waves-effect">CARI</button>
+                                            </form>
+                                    <button type="button" class="btn btn-link waves-effect waves-red" data-dismiss="modal" style="color:red">TUTUP</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end modal -->
                 </div>
             </section>
 

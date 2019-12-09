@@ -4,7 +4,7 @@
         <?php
         if ($role == 1) { ?>
             <li>
-                <a href="index.html">
+                <a href="<?=$base_url?>kepala-unit/dashboard/">
                     <i class="material-icons">home</i>
                     <span>Dashboard</span>
                 </a>

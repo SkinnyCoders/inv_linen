@@ -87,7 +87,15 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                 }else{
                                                     $tanggal = date('Y-m-d'); 
                                                 }
-                                                    $getLinenKotor = mysqli_query($conn, "SELECT bersih.id_linen_bersih AS id, linen.nama_linen, kategori.nama_kategori, kelas.nama_kelas, ruang.nama_ruang, bersih.jumlah, jenis_linen_kotor.jenis, pencucian.id_proses_cuci FROM linen_bersih AS bersih INNER JOIN pencucian ON pencucian.id_pencucian=bersih.id_pencucian INNER JOIN linen_kotor AS kotor ON kotor.id_linen_kotor=pencucian.id_linen_kotor INNER JOIN linen ON linen.id_linen=kotor.id_linen INNER JOIN kelas ON kelas.id_kelas=linen.id_kelas INNER JOIN ruang ON ruang.id_ruang=linen.id_ruang INNER JOIN kategori ON kategori.id_kategori=linen.id_kategori INNER JOIN jenis_linen_kotor ON jenis_linen_kotor.id_jenis_linen_kotor=pencucian.id_jenis_linen_kotor WHERE DATE(bersih.tgl) = '$tanggal' AND bersih.status = 'bersih' ORDER BY linen.nama_linen ASC");
+
+                                                if (isset($_GET['ruang']) && !empty($_GET['ruang'])) {
+                                                    $ruang = $_GET['ruang'];
+                                                    $where = "DATE(bersih.tgl) = '$tanggal' AND bersih.status = 'bersih' AND ruang.nama_ruang = '$ruang' ORDER BY linen.nama_linen ASC";
+                                                }else{
+                                                    $where = "DATE(bersih.tgl) = '$tanggal' AND bersih.status = 'bersih' ORDER BY linen.nama_linen ASC";
+                                                }
+
+                                                    $getLinenKotor = mysqli_query($conn, "SELECT bersih.id_linen_bersih AS id, linen.nama_linen, kategori.nama_kategori, kelas.nama_kelas, ruang.nama_ruang, bersih.jumlah, jenis_linen_kotor.jenis, pencucian.id_proses_cuci FROM linen_bersih AS bersih INNER JOIN pencucian ON pencucian.id_pencucian=bersih.id_pencucian INNER JOIN linen_kotor AS kotor ON kotor.id_linen_kotor=pencucian.id_linen_kotor INNER JOIN linen ON linen.id_linen=kotor.id_linen INNER JOIN kelas ON kelas.id_kelas=linen.id_kelas INNER JOIN ruang ON ruang.id_ruang=linen.id_ruang INNER JOIN kategori ON kategori.id_kategori=linen.id_kategori INNER JOIN jenis_linen_kotor ON jenis_linen_kotor.id_jenis_linen_kotor=pencucian.id_jenis_linen_kotor WHERE ".$where);
                                                     while ($data_linen = mysqli_fetch_assoc($getLinenKotor)) {
                                                 ?>
                                                     <tr>
@@ -128,8 +136,22 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                 <div class="form-group">
                                                     <label>Tanggal</label>
                                                     <div class="form-line">
-                                            <input type="date" name="tanggal" class="datepicker form-control" placeholder="Pilih tanggal">
-                                        </div>
+                                                        <input type="date" name="tanggal" class="datepicker form-control" placeholder="Pilih tanggal">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <select class="form-control show-tick m-t-20" name="ruang" id="ruang_linen" required>
+                                                            
+                                                            <?php 
+                                                            $sqlKelas = mysqli_query($conn, "SELECT * FROM ruang WHERE 1 ORDER BY id_ruang ASC");
+                                                            while ($dataKelas = mysqli_fetch_assoc($sqlKelas)) {
+                                                             ?>
+                                                            <option value="<?=$dataKelas['nama_ruang']?>"><?=$dataKelas['nama_ruang']?></option>
+                                                            <?php } ?>
+                                                        </select>
+                                                        <label for="ruang_linen" class="form-label">Pilih Ruang</label>
+                                                    </div>
                                                 </div>
                                         </div>
                                     </div>

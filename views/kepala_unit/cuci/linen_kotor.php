@@ -55,7 +55,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                     <a href="javascript:void(0)" class="btn btn-primary waves-effect pull-right" data-toggle="modal" data-target="#modalAdd">Cari Linen Kotor</a>
                                     <h2>
                                         <?php 
-                                        if (isset($_GET['tanggal'])) {
+                                        if (isset($_GET['tanggal']) && !empty($_GET['tanggal'])) {
                                             $tanggalKet = Datetime::createFromFormat('Y-m-d', $_GET['tanggal'])->format('d F Y');
                                         }else{
                                             $tanggalKet = date('d F Y');
@@ -88,8 +88,15 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                 }else{
                                                     $tanggal = date('Y-m-d'); 
                                                 }
+
+                                                if (isset($_GET['ruang']) && !empty($_GET['ruang'])) {
+                                                    $ruang = $_GET['ruang'];
+                                                    $where = "`status` = 'kotor' AND DATE(tgl_pengambilan) = '$tanggal' AND ruang.nama_ruang = '$ruang' ORDER BY linen.nama_linen ASC";
+                                                }else{
+                                                    $where = "`status` = 'kotor' AND DATE(tgl_pengambilan) = '$tanggal' AND ruang.nama_ruang = 'anak' ORDER BY linen.nama_linen ASC";
+                                                }
                                                 
-                                                    $getLinenKotor = mysqli_query($conn, "SELECT kotor.id_linen_kotor AS id, linen.nama_linen, kategori.nama_kategori, ruang.nama_ruang, kelas.nama_kelas, jenis.jumlah, jenis.jenis FROM `linen_kotor` as kotor INNER JOIN jenis_linen_kotor AS jenis ON jenis.id_linen_kotor=kotor.id_linen_kotor INNER JOIN linen ON linen.id_linen=kotor.id_linen INNER JOIN kategori ON kategori.id_kategori=linen.id_kategori INNER JOIN ruang ON ruang.id_ruang=linen.id_ruang INNER JOIN kelas on kelas.id_kelas=linen.id_kelas WHERE `status` = 'kotor' AND DATE(tgl_pengambilan) = '$tanggal' ORDER BY linen.nama_linen ASC");
+                                                    $getLinenKotor = mysqli_query($conn, "SELECT kotor.id_linen_kotor AS id, linen.nama_linen, kategori.nama_kategori, ruang.nama_ruang, kelas.nama_kelas, jenis.jumlah, jenis.jenis FROM `linen_kotor` as kotor INNER JOIN jenis_linen_kotor AS jenis ON jenis.id_linen_kotor=kotor.id_linen_kotor INNER JOIN linen ON linen.id_linen=kotor.id_linen INNER JOIN kategori ON kategori.id_kategori=linen.id_kategori INNER JOIN ruang ON ruang.id_ruang=linen.id_ruang INNER JOIN kelas on kelas.id_kelas=linen.id_kelas WHERE ".$where);
                                                     while ($data_linen = mysqli_fetch_assoc($getLinenKotor)) {
                                                 ?>
                                                     <tr>
@@ -130,8 +137,22 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                 <div class="form-group">
                                                     <label>Tanggal</label>
                                                     <div class="form-line">
-                                            <input type="date" name="tanggal" class="datepicker form-control" placeholder="Pilih tanggal">
-                                        </div>
+                                                        <input type="date" name="tanggal" class="datepicker form-control" placeholder="Pilih tanggal">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <select class="form-control show-tick m-t-20" name="ruang" id="ruang_linen" required>
+                                                            
+                                                            <?php 
+                                                            $sqlKelas = mysqli_query($conn, "SELECT * FROM ruang WHERE 1 ORDER BY id_ruang ASC");
+                                                            while ($dataKelas = mysqli_fetch_assoc($sqlKelas)) {
+                                                             ?>
+                                                            <option value="<?=$dataKelas['nama_ruang']?>"><?=$dataKelas['nama_ruang']?></option>
+                                                            <?php } ?>
+                                                        </select>
+                                                        <label for="ruang_linen" class="form-label">Pilih Ruang</label>
+                                                    </div>
                                                 </div>
                                         </div>
                                     </div>
