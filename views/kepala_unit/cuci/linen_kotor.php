@@ -93,7 +93,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                     $ruang = $_GET['ruang'];
                                                     $where = "`status` = 'kotor' AND DATE(tgl_pengambilan) = '$tanggal' AND ruang.nama_ruang = '$ruang' ORDER BY linen.nama_linen ASC";
                                                 }else{
-                                                    $where = "`status` = 'kotor' AND DATE(tgl_pengambilan) = '$tanggal' AND ruang.nama_ruang = 'anak' ORDER BY linen.nama_linen ASC";
+                                                    $where = "`status` = 'kotor' AND DATE(tgl_pengambilan) = '$tanggal' ORDER BY linen.nama_linen ASC";
                                                 }
                                                 
                                                     $getLinenKotor = mysqli_query($conn, "SELECT kotor.id_linen_kotor AS id, linen.nama_linen, kategori.nama_kategori, ruang.nama_ruang, kelas.nama_kelas, jenis.jumlah, jenis.jenis FROM `linen_kotor` as kotor INNER JOIN jenis_linen_kotor AS jenis ON jenis.id_linen_kotor=kotor.id_linen_kotor INNER JOIN linen ON linen.id_linen=kotor.id_linen INNER JOIN kategori ON kategori.id_kategori=linen.id_kategori INNER JOIN ruang ON ruang.id_ruang=linen.id_ruang INNER JOIN kelas on kelas.id_kelas=linen.id_kelas WHERE ".$where);
