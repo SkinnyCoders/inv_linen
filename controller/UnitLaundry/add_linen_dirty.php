@@ -5,7 +5,8 @@ include 'librarys/functionFilter.php';
 $petugas = $_POST['id_petugas'];
 $ruang = $_POST['ruang'];
 $ambil = $_POST['ambil'];
-$ketepatan = $_POST['tepat'];
+$ampas = $_POST['tepat'];
+
 
 if (isset($ambil)) {
 	foreach ($ambil as $a) {
@@ -35,8 +36,8 @@ if (isset($ambil)) {
 	}
 
 	//insert ketepatan
-	if (!empty($ketepatan)) {
-		$insertKetepatan = mysqli_query($conn, "INSERT INTO `ketepatan`(`id_ruang`, `status`,`id_petugas`) VALUES ($ruang, '$ketepatan', $petugas)");
+	if ($ampas == 'tepat') {
+		$insertKetepatan = mysqli_query($conn, "INSERT INTO `ketepatan`(`id_ruang`,`id_petugas`) VALUES ('$ruang', '$petugas')");
 	}else{
 		$status = "tidak tepat";
 		$insertKetepatan = mysqli_query($conn, "INSERT INTO `ketepatan`(`id_ruang`, `status`,`id_petugas`) VALUES ($ruang, '$status', $petugas)");

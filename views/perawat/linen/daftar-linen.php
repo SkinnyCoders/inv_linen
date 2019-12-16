@@ -1,9 +1,8 @@
 <?php
 session_start();
-date_default_timezone_set('Asia/Jakarta');
 
 if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
-    if (isset($_SESSION['role']) && $_SESSION['role'] == '3') {
+    if (isset($_SESSION['role']) && $_SESSION['role'] == '4') {
 
         include_once 'views/templates/head.php';
         require 'controller/config/connection.php';
@@ -23,24 +22,24 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
             <section class="content">
                 <div class="container-fluid">
                     <div class="block-header">
-                        <h2>LINEN KOTOR</h2>
+                        <h2>LINEN</h2>
                         <ol class="breadcrumb align-right">
                             <li><a href="javascript:void(0);">Dashboard</a></li>
-                            <li><a href="javascript:void(0);">Linen Kotor</a></li>
-                            <li class="active">Daftar Linen Kotor</li>
+                            <li><a href="javascript:void(0);">Linen</a></li>
+                            <li class="active">Daftar Linen</li>
                         </ol>
                         <?php if (isset($_GET['message_success'])) { ?>
                             <!-- alert success -->
                             <div class="alert alert-success alert-dismissible" role="alert">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <?php echo $_GET['message_success']; ?>
+                                <?php echo $_GET['message_success']?>
                             </div>
                             <!-- end alert success -->
                         <?php } elseif (isset($_GET['message_failed'])) { ?>
                             <!-- alert failed -->
                             <div class="alert alert-danger alert-dismissible" role="alert">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                               <?php echo $_GET['message_failed']; ?>
+                                <?php echo $_GET['message_failed'] ?>
                             </div>
                             <!-- end alert failed -->
                         <?php } ?>
@@ -50,9 +49,9 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="card">
                                 <div class="header">
-                                    <a href="javascript:void(0)" class="btn btn-primary waves-effect pull-right" data-toggle="modal" data-target="#modalAdd">Tambah Linen Kotor</a>
+                                    <a href="javascript:void(0)" class="btn btn-primary waves-effect pull-right" data-toggle="modal" data-target="#modalAdd">Tambah Linen</a>
                                     <h2>
-                                        DAFTAR LINEN KOTOR - <?=date('d F Y')?>
+                                        DAFTAR LINEN
                                     </h2>
                                 </div>
                                 <div class="body">
@@ -61,28 +60,30 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                             <thead>
                                                 <tr>
                                                     <th style="width: 5%;" class="text-nowrap">No</th>
-                                                    <th style="width: 30%;" class="text-nowrap">Nama Linen - Kategori</th>
-                                                    <th style="width: 25%;" class="text-nowrap">Ruang - Kelas</th>
+                                                    <th style="width: 30%;" class="text-nowrap">Nama Linen</th>
+                                                    <th style="width: 20%;" class="text-nowrap">Kategori</th>
+                                                    <th style="width: 30%;" class="text-nowrap">Ruang - Kelas</th>
                                                     <th style="width: 10%;" class="text-nowrap">jumlah</th>
-                                                    <th style="width: 20%;">Jenis Linen</th>
-                                                    <th style="width: 1%;" class="text-nowrap">Aksi</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php
                                                 $no = 1;
-                                                $tanggal = date('Y-m-d');
-                                                    $getLinenKotor = mysqli_query($conn, "SELECT kotor.id_linen_kotor AS id, linen.nama_linen, kategori.nama_kategori, ruang.nama_ruang, kelas.nama_kelas, jenis.jumlah, jenis.jenis FROM `linen_kotor` as kotor INNER JOIN jenis_linen_kotor AS jenis ON jenis.id_linen_kotor=kotor.id_linen_kotor INNER JOIN linen ON linen.id_linen=kotor.id_linen INNER JOIN kategori ON kategori.id_kategori=linen.id_kategori INNER JOIN ruang ON ruang.id_ruang=linen.id_ruang INNER JOIN kelas on kelas.id_kelas=linen.id_kelas WHERE `status` = 'kotor' AND DATE(tgl_pengambilan) = '$tanggal' ORDER BY linen.nama_linen ASC");
-                                                    while ($data_linen = mysqli_fetch_assoc($getLinenKotor)) {
+                                                if (isset($_GET['ruang']) && !empty($_GET['ruang'])) {
+                                                    $ruang = $_GET['ruang'];
+                                                    $where = "ruang.nama_ruang = '$ruang' ORDER BY nama_linen ASC";
+                                                }else{
+                                                    $where = "1 ORDER BY nama_linen ASC";
+                                                }
+                                                    $getLinen = mysqli_query($conn, "SELECT id_linen, nama_linen, linen.id_ruang, kelas.nama_kelas, ruang.nama_ruang, kategori.nama_kategori, linen.jml_linen FROM `linen` JOIN kelas ON kelas.id_kelas=linen.id_kelas JOIN ruang ON ruang.id_ruang=linen.id_ruang JOIN kategori ON kategori.id_kategori=linen.id_kategori WHERE ".$where);
+                                                    while ($data_linen = mysqli_fetch_assoc($getLinen)) {
                                                 ?>
                                                     <tr>
                                                         <td><?= $no++ ?></td>
-                                                        <td><?= ucwords($data_linen['nama_linen']) . ' - ' . ucwords($data_linen['nama_kategori']); ?></td>
+                                                        <td><?= ucwords($data_linen['nama_linen']) ?></td>
+                                                        <td><?= ucwords($data_linen['nama_kategori']) ?></td>
                                                         <td><?= ucwords($data_linen['nama_ruang']) ?> - <?=ucwords($data_linen['nama_kelas'])?></td>
-                                                        <td><?=$data_linen['jumlah']?></td>
-                                                        <td><?= $data_linen['jenis']?></td>
-                                                        <td class="text-nowrap"><!-- <a href="javascript:void(0)" onclick='getKelas("<?=$data_linen['id_ruang']?>")' id="<?=$data_linen['id']?>" data-toggle="modal" data-target="#modalEdit" class="btn btn-info waves-effect m-r-20 edit_linen"> EDIT</a> -->
-                                                            <a href="javascript:void(0)" id="<?=$data_linen['id']?>" class="btn btn-danger waves-effect delete_linen">HAPUS</a></td>
+                                                        <td><?= $data_linen['jml_linen']?></td>
                                                     </tr>
                                                 <?php
                                                     }
@@ -99,68 +100,35 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
 
                     <!-- Default Size -->
                     <div class="modal fade" id="modalAdd" tabindex="-1" role="dialog">
-                        <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title" id="defaultModalLabel">AMBIL LINEN KOTOR</h4>
+                                    <h4 class="modal-title" id="defaultModalLabel">CARI DATA LINEN</h4>
                                 </div>
                                 <div class="modal-body">
                                     <!-- Basic Validation -->
                                     <div class="row clearfix">
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <form id="form_validation" action="<?php echo $base_url ?>controller/laundry/linen-kotor/tambah_linen_kotor/" method="POST">
-                                                <div class="form-group form-float">
-                                                    <div class="form-line">
-                                                        <select class="form-control show-tick m-t-20" name="id_petugas" id="petugas" required>
-                                                            <?php 
-                                                            $sqlPetugas = mysqli_query($conn, "SELECT `id_user`,`nama_user` FROM `user` WHERE `id_level` = 3 ORDER BY nama_user ASC");
-                                                            while ($dataPetugas = mysqli_fetch_assoc($sqlPetugas)) {
-                                                             ?>
-                                                            <option value="<?=$dataPetugas['id_user']?>"><?=$dataPetugas['nama_user']?></option>
-                                                            <?php } ?>
-                                                        </select>
-                                                        <label for="petugas" class="form-label">Pilih Petugas</label>
-                                                    </div>
-                                                </div>
+                                            <form id="form_validation" action="" method="get">
+                                                
                                                 <div class="form-group form-float">
                                                     <div class="form-line">
                                                         <select class="form-control show-tick m-t-20" name="ruang" id="ruang_linen" required>
-                                                            <option>Pilih Ruang</option>
                                                             <?php 
                                                             $sqlKelas = mysqli_query($conn, "SELECT * FROM ruang WHERE 1 ORDER BY id_ruang ASC");
                                                             while ($dataKelas = mysqli_fetch_assoc($sqlKelas)) {
                                                              ?>
-                                                            <option value="<?=$dataKelas['id_ruang']?>"><?=$dataKelas['nama_ruang']?></option>
+                                                            <option value="<?=$dataKelas['nama_ruang']?>"><?=$dataKelas['nama_ruang']?></option>
                                                             <?php } ?>
                                                         </select>
                                                         <label for="ruang_linen" class="form-label">Pilih Ruang</label>
                                                     </div>
                                                 </div>
-                                                <div class="table-responsive" style="display: none" id="linen_kotor">
-                                                <table id="table_user_list" class="table table-hover" style="width: 100%">
-                                                    <thead style="background-color: #eee;">
-                                                        <tr>
-                                                            <th style="width: 5%;" class="text-nowrap">Ambil</th>
-                                                            <th style="width: 30%;" class="text-nowrap">Nama Linen - Kategori</th>
-                                                            <th style="width: 15%;" class="text-nowrap">Kelas</th>
-                                                            <th style="width: 10%;" class="text-nowrap">jumlah</th>
-                                                            <th style="width: 17%;">Inveksius</th>
-                                                            <th style="width: 17%">Non Inveksius</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody class="table_kotor">
-                                                        
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                            <div class="form-group form-float">
-                                                <input type="checkbox" name="tepat" id="tepat" value="tepat" class="filled-in chk-col-blue"> <label for="tepat">Ketepatan Pengambilan (<b>Tepat</b>)</label>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                                <button type="submit" name="simpan" class="btn btn-primary waves-effect">SIMPAN</button>
+                                                <button type="submit" class="btn btn-primary waves-effect">CARI</button>
                                             </form>
                                     <button type="button" class="btn btn-link waves-effect waves-red" data-dismiss="modal" style="color:red">TUTUP</button>
                                 </div>
@@ -169,41 +137,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                     </div>
                     <!-- end modal -->
 
-                    <!-- Default Size -->
-                    <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title" id="defaultModalLabel">UBAH <span id="nama_kotor"></span> <span id="kelas_kotor"></span></h4>
-                                </div>
-                                <div class="modal-body">
-                                    <!-- Basic Validation -->
-                                    <div class="row clearfix">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <form id="form_validation" action="<?php echo $base_url ?>controller/laundry/linen-kotor/update/" method="POST">
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        <input type="hidden" name="id_linen" id="id_linen_update" value="" required>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Jumlah Pengambilan</label>
-                                                    <div class="form-line">
-                                                        <input type="number" id="jml_linen" min="5" class="form-control jumlah" name="jumlah_linen" placeholder="Jumlah Linen" required>
-                                                    </div>
-                                                </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                                <button type="submit" name="simpan" class="btn btn-primary waves-effect">SIMPAN</button>
-                                            </form>
-                                    <button type="button" class="btn btn-link waves-effect waves-red" data-dismiss="modal" style="color:red">TUTUP</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end modal -->
+                    
                 </div>
             </section>
 
@@ -242,30 +176,76 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
             <script>
                 //memunculkan pilihan kelas
                 $('#ruang_linen').on('change', function(){
-                    $('#linen_kotor').show();
+                    $('#kelas_linen').show();
 
                     var id_ruang = $('#ruang_linen').val();
 
                     $.ajax({
                         type : "POST",
-                        url : "<?=$base_url?>controller/laundry/linen-kotor/ambil_linen/",
+                        url : "<?=$base_url?>controller/admin/linen/ambil_kelas/",
                         data : {'id_ruang' : id_ruang},
                         async : false,
                         dataType : "json",
                         success : function(data){
                             var html = '';
                             var i;
-                            var no = 1;
 
                             for(i=0; i<data.length; i++){
-                            html += '<tr><td> <input type="checkbox" name="ambil[]" id="ambil'+i+'" value="'+i+'" class="filled-in chk-col-pink"> <label for="ambil'+i+'"></label><input type="hidden" name="id_linen'+i+'" value="'+data[i].id_linen+'"></td><td>'+data[i].linen+' - '+data[i].kategori+'</td><td>'+data[i].kelas+'</td><td>'+data[i].jumlah+'</td><td><input type="number" class="form-control" name="infeksius'+i+'"></td><td><input type="number" class="form-control" name="noninfeksius'+i+'"></td></tr>';
+                            html += '<option value="'+data[i].id_kelas+'">'+data[i].kelas+'</option>';
                             }
                             console.log(html);
-                            $(".table_kotor").html(html);
+                            $("#kelas_ruang_select").html(html);
                         }
                     })
                 });
             </script>
+
+            <script>
+                function getKelas(id_ruang){
+                    console.log(id_ruang);
+                    $.ajax({
+                        type : "POST",
+                        url : "<?=$base_url?>controller/admin/linen/ambil_kelas/",
+                        data : {'id_ruang' : id_ruang},
+                        async : false,
+                        dataType : "json",
+                        success : function(data){
+                            var html = '';
+                            var i;
+
+                            for(i=0; i<data.length; i++){
+                            html += '<option value="'+data[i].id_kelas+'">'+data[i].kelas+'</option>';
+                            }
+                            console.log(html);
+                            $("#kelas_ruang_select_update").html(html);
+                        }
+                    })
+                };
+
+                //memunculkan pilihan kelas
+                $('#ruang_linen_update').on('change', function(){
+
+                    var id_ruang = $('#ruang_linen_update').val();
+
+                    $.ajax({
+                        type : "POST",
+                        url : "<?=$base_url?>controller/admin/linen/ambil_kelas/",
+                        data : {'id_ruang' : id_ruang},
+                        async : false,
+                        dataType : "json",
+                        success : function(data){
+                            var html = '';
+                            var i;
+
+                            for(i=0; i<data.length; i++){
+                            html += '<option value="'+data[i].id_kelas+'">'+data[i].kelas+'</option>';
+                            }
+                            $("#kelas_ruang_select_update").html(html);
+                        }
+                    })
+                });
+            </script>
+
 
             <script>
                 /* tabel */
@@ -292,7 +272,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                             $('.delete_linen').click(function() {
                                 var dataId = this.id;
                                 swal({
-                                    title: "Apakah benar akan menghapus data Linen Kotor?",
+                                    title: "Apakah benar akan menghapus data Linen?",
                                     text: "Jika anda menekan Ya, Maka data akan terhapus secara permanen oleh sistem.",
                                     type: "warning",
                                     showCancelButton: true,
@@ -302,15 +282,15 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                 }, function() {
                                     $.ajax({
                                         type: "POST",
-                                        url: "<?= $base_url ?>controller/laundry/linen-kotor/hapus/",
+                                        url: "<?= $base_url ?>controller/admin/linen/delete_linen/",
                                         data: {
-                                            'id_linen_kotor': dataId
+                                            'id_linen': dataId
                                         },
                                         success: function(respone) {
-                                            window.location.href = "<?= $base_url ?>laundry/linen-kotor/?message_success=Selamat, Data Linen Kotor Berhasil Dihapus!!!";
+                                            window.location.href = "<?= $base_url ?>admin/linen/list/?message_success=Linen Berhasil Dihapus!!!";
                                         },
                                         error: function(request, error) {
-                                            window.location.href = "<?= $base_url ?>laundry/linen-kotor/?message_failed=Maaf, Data Linen Kotor Gagal Dihapus!!!";
+                                            window.location.href = "<?= $base_url ?>admin/linen/list/?message_failed=Linen Gagal Dihapus!!!";
                                         },
                                     })
                                 });
@@ -328,19 +308,16 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
 
                     $.ajax({
                         type : "POST",
-                        url : "<?=$base_url?>controller/laundry/linen-kotor/ambil_linen-kotor/",
+                        url : "<?=$base_url?>controller/admin/linen/ambil_linen/",
                         data : {'id_linen' : id_linen},
                         dataType : "json",
                         success : function(data){
-                            $('#id_linen_update').val(data.id_linen);
-                            $('#nama_kotor').text(data.nama_linen);
-                            $('#kelas_kotor').text(data.ruang_kelas);
+                            $('#id_linen').val(data.id_linen);
+                            $('#nama_linen').val(data.nama_linen);
                             $('.jumlah').val(data.jumlah);
-                            if (data.jenis == 'infeksius') {
-                                $('#infek_update').prop("checked", true);
-                            }else{
-                                $('#noninfek_update').prop("checked", true);
-                            }
+                            $('.id_ruang1').val(data.id_ruang);
+                            $('.id_kelas').val(data.id_kelas);
+                            $('.id_kategori').val(data.id_kategori).trigger();
                         },
                     })
                 });

@@ -138,7 +138,9 @@ switch ($uri[0]) {
 	case '/dev/perawat/dashboard/':
 		require __DIR__ . '/views/perawat/dashboard.php';
 		break;
-
+   case '/dev/perawat/linen/daftar-linen/':
+   		require __DIR__ . '/views/perawat/linen/daftar-linen.php';
+   		break;
 	case '/dev/perawat/permintaan/linen/':
 		require __DIR__ . '/views/perawat/permintaan/permintaan_linen.php';
 		break;
@@ -205,6 +207,10 @@ switch ($uri[0]) {
 
 	case '/dev/controller/perawat/linen-hilang/hapus/':
 		require __DIR__ . '/controller/Perawat/delete_linen_hilang.php';
+		break;
+
+	case '/dev/controller/perawat/permintaan/linen/cancel_sisa/':
+		require __DIR__ . '/controller/Perawat/cancel_stok.php';
 		break;
 
 	/* end Perawat */
@@ -372,6 +378,10 @@ switch ($uri[0]) {
 
 	case '/dev/kepala-unit/linen/penerimaan/':
 		require __DIR__ . '/views/kepala_unit/linen/penerimaan_linen.php';
+		break;
+
+	case '/dev/kepala-unit/linen/ketepatan/':
+		require __DIR__ . '/views/kepala_unit/linen/ketepatan.php';
 		break;
 
 	case '/dev/kepala-unit/linen/permintaan/ambil_data_permintaan/':
