@@ -11,9 +11,9 @@ $getJmlLinenMinta = mysqli_query($conn, "SELECT `jml_permintaan` FROM `permintaa
 $jmlDiminta = mysqli_fetch_assoc($getJmlLinenMinta);
 $jmlDiminta = $jmlDiminta['jml_permintaan'];
 
-if ($jumlah > $jmlDiminta) {
-	header('location:'.$base_url.'perawat/penerimaan/linen/?message_failed');
-}else{
+// if ($jumlah > $jmlDiminta) {
+// 	header('location:'.$base_url.'perawat/penerimaan/linen/?message_failed');
+// }else{
 
 	$insertLinenPengajuan = mysqli_query($conn, "INSERT INTO `penerimaan_linen_baru`(`id_permintaan_linen_baru`, `jml_diterima`,`keterangan`) VALUES ($id_permintaan_linen, $jumlah, '$keterangan')");
 
@@ -81,4 +81,4 @@ if ($jumlah > $jmlDiminta) {
 	}else{
 		header('location:'.$base_url.'perawat/penerimaan/linen/?message_failed'.mysqli_error($conn));
 	}
-}
+//}
