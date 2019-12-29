@@ -99,6 +99,9 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
             $sqlBersih = mysqli_query($conn,"SELECT `id_linen_bersih` FROM `linen_bersih` WHERE DATE(`tgl`) = '$date_now'");
             $totalLinenBersih = mysqli_num_rows($sqlBersih);
 
+            $sqlLinenHilang = mysqli_query($conn, "SELECT `id_linen_hilang` FROM `linen_hilang` WHERE 1");
+            $totalLinenHilang = mysqli_num_rows($sqlLinenHilang);
+
              ?>
 
 
@@ -131,11 +134,12 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                             <i class="material-icons">watch_later</i>
                         </div>
                         <div class="content">
-                            <div class="text">LINEN BERSIH</div>
-                            <div class="number"><?=$totalLinenBersih?></div>
+                            <div class="text">LINEN HILANG & RUSAK</div>
+                            <div class="number"><?=$totalLinenHilang?></div>
                         </div>
                     </div>
                 </div>
+                
             </div>
             <!-- #END# Basic Validation -->
 

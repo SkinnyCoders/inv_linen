@@ -9,6 +9,7 @@ $perlengkapan = $_POST['perlengkapan'];
 $id_formula = $_POST['formula'];
 $ambil = $_POST['ambil'];
 
+
 //get id perlengkapan dan jumlah dalam takaran untuk dikurangi dengan stok perlengkapan
 $sqlPerlengkapan = mysqli_query($conn, "SELECT id_perlengkapan, jumlah FROM takaran_formula WHERE id_formula = $id_formula");
 if (mysqli_num_rows($sqlPerlengkapan) > 0) {
@@ -33,10 +34,22 @@ if (isset($ambil)) {
 		//inser ke proses pencucian
 		$insertProses = mysqli_query($conn, "INSERT INTO `jumlah_proses_pencucian`(`id_proses_cuci`, `jenis_pencucian`,`id_formula`) VALUES ($id_proses, '$jenis_cuci', $id_formula)");
 		//get last insert id
-		// $lastId = mysqli_query($conn, "SELECT LAST_INSERT_ID()");
-		// while ($d = mysqli_fetch_array($lastId)) {
-		// 	$id = $d[0];
-		// }
+		$lastId = mysqli_query($conn, "SELECT LAST_INSERT_ID()");
+		while ($d = mysqli_fetch_array($lastId)) {
+			$id = $d[0];
+		}
+
+	
+		//get id perlengkapan berdasarkan formula
+		$sqlGetidPerlengkapan = mysqli_query($conn, "SELECT `id_perlengkapan`,`jumlah` FROM `takaran_formula` WHERE `id_formula` = $id_formula");
+		if (mysqli_num_rows($sqlGetidPerlengkapan) > 0) {
+			while ($dataPerlengkapan = mysqli_fetch_assoc($sqlGetidPerlengkapan)) {
+				$id_perlengkapan = $dataPerlengkapan['id_perlengkapan'];
+				$jumlah = $dataPerlengkapan['jumlah'];
+				//input penggunaan linen
+				$insertPenggunaan = mysqli_query($conn, "INSERT INTO `penggunaan_perlengkapan`(`id_jumlah_proses_pencucian`, `id_perlengkapan`, `jml_penggunaan`) VALUES ($id,$id_perlengkapan,$jumlah)");
+			}
+		}
 
 		if ($insertProses) {
 			//pengurangan stok perlengkapan
@@ -53,6 +66,9 @@ if (isset($ambil)) {
 			}
 
 			header('location:'.$base_url.'laundry/pencucian/?message_success');
+
+			//insert penggunaan perlengkapan
+			
 		}else{
 			header('location:'.$base_url.'laundry/pencucian/?message_failed');
 		}

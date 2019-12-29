@@ -24,6 +24,8 @@
     <!-- Jquery DataTable Plugin Js -->
     <script src="<?= $base_url ?>vendors/DataTables/datatables.min.js"></script>
 
+    <script src="<?= $base_url ?>vendors/plugins/chartjs/Chart.bundle.js"></script>
+
     <!-- Custom Js -->
     <script src="<?= $base_url ?>vendors/js/admin.js"></script>
     <script src="<?= $base_url ?>vendors/js/pages/tables/jquery-datatable.js"></script>

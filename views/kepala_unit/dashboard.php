@@ -91,10 +91,10 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
 
             <div class="row">
                 <!-- Donut Chart -->
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="header">
-                            <h2>DONUT CHART</h2>
+                            <h2>Penggunaan Perlengkapan</h2>
                             <ul class="header-dropdown m-r--5">
                                 <li class="dropdown">
                                     <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -109,17 +109,111 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                             </ul>
                         </div>
                         <div class="body">
-                            <div id="donut_chart" class="graph"></div>
+                            <canvas id="bar_chart" height="150"></canvas>
                         </div>
                     </div>
                 </div>
                 <!-- #END# Donut Chart -->
             </div>
-            <!-- #END# Basic Validation -->
+            
+            <div class="row">
+                <!-- Donut Chart -->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>Penggunaan Perlengkapan</h2>
+                            <ul class="header-dropdown m-r--5">
+                                <li class="dropdown">
+                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                        <i class="material-icons">more_vert</i>
+                                    </a>
+                                    <ul class="dropdown-menu pull-right">
+                                        <li><a href="javascript:void(0);">Action</a></li>
+                                        <li><a href="javascript:void(0);">Another action</a></li>
+                                        <li><a href="javascript:void(0);">Something else here</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="body">
+                            <canvas id="pie_chart" height="150"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <!-- #END# Donut Chart -->
+            </div>
         </div>
     </section>
 
     <?php include_once 'views/templates/footer.php' ?>
+
+    <script>
+        $(function () {
+            new Chart(document.getElementById("bar_chart").getContext("2d"), getChartJs('bar'));
+            new Chart(document.getElementById("pie_chart").getContext("2d"), getChartJs('pie'));
+        });
+
+        function getChartJs(type) {
+            var config = null;
+            if(type === 'bar'){
+                config = {
+                    type: 'bar',
+                    data: {
+                        labels: ["Januari","Februari", "Maret"],
+                        datasets: [{
+                            label: "data 1",
+                            data: [100, 30,70],
+                            backgroundColor: 'rgba(233, 30, 99, 0.8)'
+                        }, {
+                            label: "data 2",
+                            data: [28, 40, 50],
+                            backgroundColor: 'rgb(139, 195, 74)'
+                        },{
+                            label: "data 3",
+                            data: [90,60,70],
+                            backgroundColor: 'rgba(0, 188, 212, 0.8)'
+                        },{
+                            label: "data 4",
+                            data: [50,70,30],
+                            backgroundColor: 'rgb(255, 193, 7)'
+                        }
+                            ]
+                    },
+                    options: {
+                        responsive: true,
+                        legend: false
+                    }
+                }
+            }else if(type === 'pie'){
+                config = {
+                    type: 'pie',
+                    data: {
+                        datasets: [{
+                            data: [225, 50, 100, 40],
+                            backgroundColor: [
+                                "rgb(233, 30, 99)",
+                                "rgb(255, 193, 7)",
+                                "rgb(0, 188, 212)",
+                                "rgb(139, 195, 74)"
+                            ],
+                        }],
+                        labels: [
+                            "Pink",
+                            "Amber",
+                            "Cyan",
+                            "Light Green"
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        legend: false
+                    }
+                }
+            }
+            return config;
+
+        }
+    </script>
 
     <?php
     } else {

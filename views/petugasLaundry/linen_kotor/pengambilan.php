@@ -248,14 +248,14 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
 
                     $.ajax({
                         type : "POST",
-                        url : "<?=$base_url?>",
+                        url : "<?=$base_url?>controller/laundry/linen-kotor/ambil_linen/",
                         data : {'id_ruang' : id_ruang},
                         async : false,
                         dataType : "json",
                         success : function(data){
                             var html = '';
                             var i;
-controller/laundry/linen-kotor/ambil_linen/                            var no = 1;
+                            var no = 1;
 
                             for(i=0; i<data.length; i++){
                             html += '<tr><td> <input type="checkbox" name="ambil[]" id="ambil'+i+'" value="'+i+'" class="filled-in chk-col-pink"> <label for="ambil'+i+'"></label><input type="hidden" name="id_linen'+i+'" value="'+data[i].id_linen+'"></td><td>'+data[i].linen+' - '+data[i].kategori+'</td><td>'+data[i].kelas+'</td><td>'+data[i].jumlah+'</td><td><input type="number" class="form-control" name="infeksius'+i+'"></td><td><input type="number" class="form-control" name="noninfeksius'+i+'"></td></tr>';
