@@ -352,10 +352,10 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                             'id_linen': dataId
                                         },
                                         success: function(respone) {
-                                            window.location.href = "<?= $base_url ?>perawat/linen/hilang-rusak/?message_success=Selamat, Data Berhasil Dihapus!!!";
+                                            window.location.href = "<?= $base_url ?>perawat/linen/hilang-rusak/?message_success=Selamat, Data Linen Hilang/Rusak Berhasil Dihapus!!!";
                                         },
                                         error: function(request, error) {
-                                            window.location.href = "<?= $base_url ?>perawat/linen/hilang-rusak/?message_failed=Maaf, Data Gagal Dihapus!!!";
+                                            window.location.href = "<?= $base_url ?>perawat/linen/hilang-rusak/?message_failed=Maaf, Data Linen Hilang/Rusak Gagal Dihapus!!!";
                                         },
                                     })
                                 });

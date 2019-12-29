@@ -16,9 +16,9 @@ if (isset($_POST['simpan'])) {
 		//jika belum disetujui
 		$sqlUpdate = mysqli_query($conn, "UPDATE `permintaan_perlengkapan` SET `nama_perlengkapan`='$nama_perlengkapan',`id_user`=$diajukan,`jml_permintaan`=$jumlah,`keterangan`='$keterangan' WHERE `id_permintaan_perlengkapan` = $id");
 		if ($sqlUpdate) {
-			header('location:'.$base_url.'laundry/permintaan/perlengkapan/?message_success');
+			header('location:'.$base_url.'laundry/permintaan/perlengkapan/?message_success= Selamat, data permintaan perlengkapan berhasil diedit!!!');
 		}else{
-			header('location:'.$base_url.'laundry/permintaan/perlengkapan/?message_failed');
+			header('location:'.$base_url.'laundry/permintaan/perlengkapan/?message_failed=Maaf, data permintaan perlengkapan gagal diedit!!!');
 		}
 	}else{
 		header('location:'.$base_url.'laundry/permintaan/perlengkapan/?message_failed=Sudah tidak dapat diubah');

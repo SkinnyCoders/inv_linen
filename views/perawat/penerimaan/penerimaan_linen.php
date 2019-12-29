@@ -51,7 +51,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                 <div class="header">
                                     <a href="javascript:void(0)" class="btn btn-primary waves-effect pull-right" data-toggle="modal" data-target="#modalAdd">Tambah Data</a>
                                     <h2>
-                                        DAFTAR PERMINTAAN LINEN
+                                        DAFTAR PENERIMAAN LINEN
                                     </h2>
                                 </div>
                                 <div class="body">
@@ -391,7 +391,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
 
                                 swal({
                                     title: "Data linen yang diterima melebihi dari jumlah yang diminta!",
-                                    text: "Jika anda menekan Ya, Maka data linen dan data penerimaan linen akan terhapus secara permanen oleh sistem.",
+                                    text: "Jika anda menekan Ya, Maka data sisa linen akan dikembalikan ke bagian Logistik dan data akan terhapus secara permanen oleh sistem.",
                                     type: "warning",
                                     showCancelButton: true,
                                     confirmButtonColor: "#ef5350",
