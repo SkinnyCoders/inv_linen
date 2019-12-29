@@ -27,6 +27,9 @@
                     <li>
                         <a href="<?php echo $base_url ?>kepala-unit/linen/penerimaan/">Penerimaan Linen</a>
                     </li>
+                    <li>
+                        <a href="<?php echo $base_url ?>kepala-unit/linen/ketepatan/">Ketepatan Linen</a>
+                    </li>
                 </ul>
             </li>
             <li>
@@ -165,6 +168,12 @@
                 <a href="<?=$base_url?>perawat/dashboard/">
                     <i class="material-icons">home</i>
                     <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="<?php echo $base_url ?>perawat/linen/daftar-linen/">
+                    <i class="material-icons">menu</i>
+                    <span>Data Linen<span>
                 </a>
             </li>
             <li>

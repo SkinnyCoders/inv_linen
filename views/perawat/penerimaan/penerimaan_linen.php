@@ -64,14 +64,22 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                     <th style="width: 15%;" class="text-nowrap">Kategori</th>
                                                     <th style="width: 25%;" class="text-nowrap">Ruang - Kelas</th>
                                                     <th style="width: 10%;" class="text-nowrap">jumlah</th>
+                                                    <th style="width: 10%;" class="text-nowrap">Sisa</th>
                                                     <th style="width: 15%;" class="text-nowrap">Aksi</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php
                                                 $no = 1;
-                                                    $getLinen = mysqli_query($conn, "SELECT id_penerimaan_linen_baru AS id, nama_linen_baru, nama_ruang, nama_kelas, nama_kategori, jml_diterima FROM penerimaan_linen_baru JOIN permintaan_linen_baru ON permintaan_linen_baru.id_permintaan_linen_baru=penerimaan_linen_baru.id_permintaan_linen_baru JOIN ruang ON ruang.id_ruang=permintaan_linen_baru.id_ruang JOIN kelas ON kelas.id_kelas=permintaan_linen_baru.id_kelas JOIN kategori ON kategori.id_kategori=permintaan_linen_baru.id_kategori WHERE penerimaan_linen_baru.`status` = 'diterima'");
+                                                    $getLinen = mysqli_query($conn, "SELECT id_penerimaan_linen_baru AS id, nama_linen_baru, nama_ruang, nama_kelas, nama_kategori, jml_diterima, permintaan_linen_baru.jml_permintaan FROM penerimaan_linen_baru JOIN permintaan_linen_baru ON permintaan_linen_baru.id_permintaan_linen_baru=penerimaan_linen_baru.id_permintaan_linen_baru JOIN ruang ON ruang.id_ruang=permintaan_linen_baru.id_ruang JOIN kelas ON kelas.id_kelas=permintaan_linen_baru.id_kelas JOIN kategori ON kategori.id_kategori=permintaan_linen_baru.id_kategori WHERE penerimaan_linen_baru.`status` = 'diterima'");
                                                     while ($data_linen = mysqli_fetch_assoc($getLinen)) {
+                                                        if ($data_linen['jml_diterima'] > $data_linen['jml_permintaan']) {
+                                                            $sisa = $data_linen['jml_diterima'] - $data_linen['jml_permintaan'];
+                                                            $id = $data_linen['id'];
+                                                            $btn = '<a href="javascript:void(0)" id="'.$id.'" class="btn btn-warning waves-effect m-r-20 batal_sisa"> LEBIH '.$sisa.'</a>';
+                                                        }else{
+                                                            $btn = "-";
+                                                        }
                                                 ?>
                                                     <tr>
                                                         <td><?= $no++ ?></td>
@@ -79,6 +87,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                         <td><?= ucwords($data_linen['nama_kategori']) ?></td>
                                                         <td><?= ucwords($data_linen['nama_ruang']) ?> - <?=ucwords($data_linen['nama_kelas'])?></td>
                                                         <td><?= $data_linen['jml_diterima']?></td>
+                                                        <td><?=$btn?></td>
                                                         <td class="text-nowrap"><a href="javascript:void(0)" onclick='getKelas("<?=$data_linen['id']?>")' id="<?=$data_linen['id']?>" data-toggle="modal" data-target="#modalEdit" class="btn btn-info waves-effect m-r-20 edit_linen"> EDIT</a>
                                                             <a href="javascript:void(0)" id="<?=$data_linen['id']?>" class="btn btn-danger waves-effect delete_penerimaan">HAPUS</a></td>
                                                     </tr>
@@ -366,6 +375,34 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                         url: "<?= $base_url ?>controller/perawat/permintaan/linen/hapus_penerimaan/",
                                         data: {
                                             'id_penerimaan': dataId
+                                        },
+                                        success: function(respone) {
+                                            window.location.href = "<?= $base_url ?>perawat/penerimaan/linen/?message_success=Selamat, Data Penerimaan Linen Baru Berhasil Dihapus!!!";
+                                        },
+                                        error: function(request, error) {
+                                            window.location.href = "<?= $base_url ?>perawat/penerimaan/linen/?message_failed=Maaf, Data Penerimaan Linen Baru Berhasil Dihapus!!!";
+                                        },
+                                    })
+                                });
+                            });
+
+                             $('.batal_sisa').click(function() {
+                                var dataIdSisa = this.id;
+
+                                swal({
+                                    title: "Data linen yang diterima melebihi dari jumlah yang diminta!",
+                                    text: "Jika anda menekan Ya, Maka data linen dan data penerimaan linen akan terhapus secara permanen oleh sistem.",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonColor: "#ef5350",
+                                    confirmButtonText: "Ya, hapus!",
+                                    cancelButtonText: "Batal"
+                                }, function() {
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "<?= $base_url ?>controller/perawat/permintaan/linen/cancel_sisa/?id="+dataIdSisa,
+                                        data: {
+                                            'id_penerimaan': dataIdSisa
                                         },
                                         success: function(respone) {
                                             window.location.href = "<?= $base_url ?>perawat/penerimaan/linen/?message_success=Selamat, Data Penerimaan Linen Baru Berhasil Dihapus!!!";

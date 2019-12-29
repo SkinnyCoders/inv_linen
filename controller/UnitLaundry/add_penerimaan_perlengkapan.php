@@ -13,7 +13,7 @@ $nama_perlengkapan = $perlengkapan['nama_perlengkapan'];
 $jumlah_permintaan = $perlengkapan['jml_permintaan'];
 
 if ($jumlah > $jumlah_permintaan) {
-	header('location:'.$base_url.'laundry/penerimaan/perlengkapan/?message_failed=jumlah tidak boleh melebihi yang diajukan';
+	header('location:'.$base_url.'laundry/penerimaan/perlengkapan/?message_failed=jumlah tidak boleh melebihi yang diajukan');
 }else{
 
 	$insertLinenPenerimaan = mysqli_query($conn, "INSERT INTO `penerimaan_perlengkapan`(`id_permintaan_perlengkapan`, `jml_diterima`,`id_penerima`,`status`) VALUES ($id_permintaan, $jumlah,$penerima,'diterima')");
