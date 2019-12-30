@@ -22,7 +22,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
             <section class="content">
                 <div class="container-fluid">
                     <div class="block-header">
-                        <h2>PENGGUNA</h2>
+                        <h2>DATA KATEGORI</h2>
                         <ol class="breadcrumb align-right">
                             <li><a href="javascript:void(0);">Dashboard</a></li>
                             <li><a href="javascript:void(0);">Linen</a></li>
@@ -226,10 +226,10 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                             'id_kategori': dataId
                                         },
                                         success: function(respone) {
-                                            window.location.href = "<?= $base_url ?>admin/linen/kategori/?message_success";
+                                            window.location.href = "<?= $base_url ?>admin/linen/kategori/?message_success=Selamat, data kategori berhasil dihapus!!!";
                                         },
                                         error: function(request, error) {
-                                            window.location.href = "<?= $base_url ?>admin/linen/kategori/?message_failed";
+                                            window.location.href = "<?= $base_url ?>admin/linen/kategori/?message_failed=Maaf, data kategori gagal dihapus!!!";
                                         },
                                     })
                                 });

@@ -19,8 +19,8 @@ foreach ($nama_perlengkapan as $perlengkapan) {
 }
 
 if ($insertLinenPengajuan) {
-	header('location:'.$base_url.'laundry/permintaan/perlengkapan/?message_success');
+	header('location:'.$base_url.'laundry/permintaan/perlengkapan/?message_success=Selamat, data permintaan perlengkapan berhasil ditambahkan!!!');
 }else{
-	header('location:'.$base_url.'laundry/permintaan/perlengkapan/?message_failed'.mysqli_error($conn));
+	header('location:'.$base_url.'laundry/permintaan/perlengkapan/?message_failed= Maaf, data permintaan perlengkapan gagal ditambahkan!!!'.mysqli_error($conn));
 }
 	

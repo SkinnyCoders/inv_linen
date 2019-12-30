@@ -33,14 +33,14 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                             <!-- alert success -->
                             <div class="alert alert-success alert-dismissible" role="alert">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                Selamat, Data linen bersih berhasil ditambahkan!
+                                <?php echo $_GET ['message_success']; ?>
                             </div>
                             <!-- end alert success -->
                         <?php } elseif (isset($_GET['message_failed'])) { ?>
                             <!-- alert failed -->
                             <div class="alert alert-danger alert-dismissible" role="alert">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                Maaf, Data linen bersih gagal ditambahkan!, harap periksa lagi informasi yang diinputkan!.
+                                <?php echo $_GET['message_failed']; ?>
                             </div>
                             <!-- end alert failed -->
                         <?php } ?>
@@ -358,10 +358,10 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                             'id_linen_kotor': dataId
                                         },
                                         success: function(respone) {
-                                            window.location.href = "<?= $base_url ?>laundry/linen-kotor/?message_success";
+                                            window.location.href = "<?= $base_url ?>laundry/linen-kotor/?message_success=Selamat, data linen bersih berhasil dihapus!!!";
                                         },
                                         error: function(request, error) {
-                                            window.location.href = "<?= $base_url ?>laundry/linen-kotor/?message_failed";
+                                            window.location.href = "<?= $base_url ?>laundry/linen-kotor/?message_failed=Maaf, data linen bersih gagal dihapus!!!";
                                         },
                                     })
                                 });

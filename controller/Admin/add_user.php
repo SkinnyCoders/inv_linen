@@ -17,10 +17,10 @@ if (isset($_POST['add_user'])) {
     $rows_cek_user = mysqli_num_rows($sql_cek_user);
 
     if ($rows_cek_user > 0) {
-        header('location:' . $base_url . 'admin/user/add_new/?message_failed');
+        header('location:' . $base_url . 'admin/user/tambah/?message_failed=Maaf, Data Pengguna Gagal Ditambahkan!. Harap periksa lagi informasi yang diinputkan!');
     } else {
         if ($password !== $password_confirm) {
-            header('location:' . $base_url . 'admin/user/add_new/?message_failed');
+            header('location:' . $base_url . 'admin/user/tambah/?message_failed=Maaf, Data Pengguna Gagal Ditambahkan!. Harap periksa lagi informasi yang diinputkan!');
         } else {
             //encrypt password
             $encypt_password = password_hash($password, PASSWORD_DEFAULT);

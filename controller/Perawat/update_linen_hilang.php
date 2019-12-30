@@ -41,9 +41,9 @@ if (isset($_POST['simpan'])) {
 			$sqlUpdateLinen = mysqli_query($conn, "UPDATE `linen` SET `jml_linen`=$jumlahAkhir WHERE `id_linen` = $id_linen");
 
 			if ($sqlUpdateLinen) {
-				header('location:'.$base_url.'perawat/linen/hilang-rusak/?message_success=Selamat, Data Berhasil Diedit!!!');
+				header('location:'.$base_url.'perawat/linen/hilang-rusak/?message_success=Selamat, Data Linen Hilang/Rusak Berhasil Diedit!!!');
 			}else{
-				header('location:'.$base_url.'perawat/linen/hilang-rusak/?message_failed2=Maaf, Data Gagal Diedit!!!');
+				header('location:'.$base_url.'perawat/linen/hilang-rusak/?message_failed2=Maaf, Data Linen Hilang/Rusak Gagal Diedit!!!');
 			}
 		}
 	}

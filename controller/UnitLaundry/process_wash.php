@@ -65,7 +65,7 @@ if (isset($ambil)) {
 				$sqlUpdatePerlengkapan = mysqli_query($conn, "UPDATE `perlengkapan` SET `jumlah`=$jumlahTotal WHERE `id_perlengkapan` = $id_perlengkapan_takar");
 			}
 
-			header('location:'.$base_url.'laundry/pencucian/?message_success');
+			header('location:'.$base_url.'laundry/pencucian/?message_success=Selamat, proses pencucian berhasil ditambahkan!!!');
 
 			//insert penggunaan perlengkapan
 			
