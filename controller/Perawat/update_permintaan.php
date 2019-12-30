@@ -14,9 +14,9 @@ $id_permintaan = $_POST['id_permintaan'];
 if (isset($_POST['kelas']) && !empty($_POST['kelas']) ) {
 	echo 'ada';
 	$id_kelas = $_POST['kelas'];
-	$update_permintaan = mysqli_query($conn, "UPDATE `permintaan_linen_baru` SET `nama_linen_baru`='$nama_linen',`id_user`=$diajukan,`id_ruang`=$id_ruang,`id_kelas`=$id_kelas,`jml_permintaan`=$jumlah,`id_kategori`=$id_kategori,`keterangan`=$keterangan WHERE `id_permintaan_linen_baru`= $id_permintaan");
+	$update_permintaan = mysqli_query($conn, "UPDATE `permintaan_linen_baru` SET `nama_linen_baru`='$nama_linen',`id_user`=$diajukan,`id_ruang`=$id_ruang,`id_kelas`=$id_kelas,`jml_permintaan`=$jumlah,`id_kategori`=$id_kategori,`keterangan`='$keterangan' WHERE `id_permintaan_linen_baru`= $id_permintaan");
 	if ($update_permintaan) {
-		header('location:'.$base_url.'perawat/permintaan/linen/?message_success');
+		header('location:'.$base_url.'perawat/permintaan/linen/?message_success=Selamat, Permintaan Linen Baru Berhasil diedit!!!');
 	}else{
 		header('location:'.$base_url.'perawat/permintaan/linen/?message_failed'.mysqli_error($conn));
 	}

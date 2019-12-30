@@ -43,8 +43,8 @@ if (isset($ambil)) {
 		$insertKetepatan = mysqli_query($conn, "INSERT INTO `ketepatan`(`id_ruang`, `status`,`id_petugas`) VALUES ($ruang, '$status', $petugas)");
 	}
 
-	header('location:'.$base_url.'laundry/linen-kotor/?message_success');
+	header('location:'.$base_url.'laundry/linen-kotor/?message_success=Selamat, data linen kotor berhasil ditambahkan!!!');
 }else{
-	header('location:'.$base_url.'laundry/linen-kotor/?message_failed');
+	header('location:'.$base_url.'laundry/linen-kotor/?message_failed=Maaf, data linen kotor gagal ditambahkan!!!');
 }
  ?>

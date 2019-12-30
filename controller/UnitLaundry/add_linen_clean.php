@@ -18,8 +18,8 @@ if (isset($ambil)) {
 			$updateBersih = mysqli_query($conn, "UPDATE `pencucian` SET `status`='$status' WHERE `id_pencucian`=$id_cuci");
 		}
 	}
-	header('location:'.$base_url.'laundry/linen-bersih/?message_success');
+	header('location:'.$base_url.'laundry/linen-bersih/?message_success=Selamat, data linen bersih berhasil ditambahkan!!!');
 }else{
-	header('location:'.$base_url.'laundry/linen-bersih/?message_failed');
+	header('location:'.$base_url.'laundry/linen-bersih/?message_failed=Maaf, data linen bersih gagal ditambahkan!!!');
 }
  ?>
