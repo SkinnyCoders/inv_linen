@@ -12,7 +12,7 @@ if (isset($_POST['simpan'])) {
 	// cek ada datanya atau tidak
 	if ($cek_kategori > 0) {
 		//kalo ada 
-		header('location:' . $base_url . 'admin/linen/kategori/?message_failed');
+		header('location:' . $base_url . 'admin/linen/kategori/?message_failed=Maaf, Data Perlengkapan gagal ditambahkan!, harap periksa lagi informasi yang diinputkan!.');
 	}else{
 		//klo gk ada
 		$insert_data = $conn->prepare("INSERT INTO `kategori`(`nama_kategori`) VALUES (?)");

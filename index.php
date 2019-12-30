@@ -433,6 +433,10 @@ switch ($uri[0]) {
 		require __DIR__ . '/views/kepala_unit/user/list_user.php';
 		break;
 
+	case '/dev/kepala-unit/chart/':
+		require __DIR__ . '/controller/KepalaUnit/get_data_chart.php';
+		break;
+
 	/*End kepala unit*/
 
 		/* login page */

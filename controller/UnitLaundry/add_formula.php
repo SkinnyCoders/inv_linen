@@ -35,9 +35,9 @@ if (isset($_POST['simpan'])) {
 		}
 
 		if ($insertTakaran) {
-			header('location:'.$base_url.'laundry/formula/?message_success');
+			header('location:'.$base_url.'laundry/formula/?message_success=Selamat, formula perlengkapan berhasil ditambahkan!!!');
 		}else{
-			header('location:'.$base_url.'laundry/formula/?message_failed');
+			header('location:'.$base_url.'laundry/formula/?message_failed=Maaf, formula perlengkapan gagal ditambahkan!!!');
 		}
 	}else{
 		header('location:'.$base_url.'laundry/formula/?message_failed');

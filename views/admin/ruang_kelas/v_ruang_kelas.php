@@ -19,7 +19,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
             <section class="content">
                 <div class="container-fluid">
                     <div class="block-header">
-                        <h2>PENGGUNA</h2>
+                        <h2>DATA RUANG KELAS</h2>
                         <ol class="breadcrumb align-right">
                             <li><a href="javascript:void(0);">Dashboard</a></li>
                             <li><a href="javascript:void(0);">Ruang & Kelas</a></li>

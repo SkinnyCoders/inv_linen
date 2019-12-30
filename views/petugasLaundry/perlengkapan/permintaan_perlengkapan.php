@@ -347,10 +347,10 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                             'id_permintaan': dataId
                                         },
                                         success: function(respone) {
-                                            window.location.href = "<?= $base_url ?>laundry/permintaan/perlengkapan/?message_success";
+                                            window.location.href = "<?= $base_url ?>laundry/permintaan/perlengkapan/?message_success=Selamat, data permintaan perlengkapan berhasil dihapus!!!";
                                         },
                                         error: function(request, error) {
-                                            window.location.href = "<?= $base_url ?>laundry/permintaan/perlengkapan/?message_failed";
+                                            window.location.href = "<?= $base_url ?>laundry/permintaan/perlengkapan/?message_failed=Maaf, data permintaan perlengkapan gagal dihapus!!!";
                                         },
                                     })
                                 });
