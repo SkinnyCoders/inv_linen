@@ -41,52 +41,54 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                     <!-- end alert failed -->
                 <?php } ?>
             </div>
+
+            <?php 
+            $sqlLinen = mysqli_query($conn, "SELECT id_linen FROM linen WHERE 1");
+            $totalLinen = mysqli_num_rows($sqlLinen);
+
+            $sqlUser = mysqli_query($conn, "SELECT `id_user` FROM `user` WHERE 1");
+            $totalUser = mysqli_num_rows($sqlUser);
+
+            $sqlPerlengkapan = mysqli_query($conn, "SELECT id_perlengkapan FROM perlengkapan WHERE 1");
+            $totalPerlengkapan = mysqli_num_rows($sqlPerlengkapan);
+
+             ?>
             <!-- Basic Validation -->
             <div class="row clearfix">
-               <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="info-box bg-pink hover-expand-effect">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <div class="info-box-3 bg-orange hover-zoom-effect">
                         <div class="icon">
-                            <i class="material-icons">playlist_add_check</i>
+                            <i class="material-icons">pan_tool</i>
                         </div>
                         <div class="content">
-                            <div class="text">NEW TASKS</div>
-                            <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20"></div>
+                            <div class="text">JUMLAH LINEN</div>
+                            <div class="number"><?=$totalLinen?></div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="info-box bg-cyan hover-expand-effect">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <div class="info-box-3 bg-blue hover-zoom-effect">
                         <div class="icon">
-                            <i class="material-icons">help</i>
+                            <i class="material-icons">cached</i>
                         </div>
                         <div class="content">
-                            <div class="text">NEW TICKETS</div>
-                            <div class="number count-to" data-from="0" data-to="257" data-speed="1000" data-fresh-interval="20"></div>
+                            <div class="text">PERLENGKAPAN</div>
+                            <div class="number"><?=$totalPerlengkapan?></div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="info-box bg-light-green hover-expand-effect">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <div class="info-box-3 bg-gray hover-zoom-effect">
                         <div class="icon">
-                            <i class="material-icons">forum</i>
+                            <i class="material-icons">watch_later</i>
                         </div>
                         <div class="content">
-                            <div class="text">NEW COMMENTS</div>
-                            <div class="number count-to" data-from="0" data-to="243" data-speed="1000" data-fresh-interval="20"></div>
+                            <div class="text">PENGGUNA</div>
+                            <div class="number"><?=$totalUser?></div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="info-box bg-orange hover-expand-effect">
-                        <div class="icon">
-                            <i class="material-icons">person_add</i>
-                        </div>
-                        <div class="content">
-                            <div class="text">NEW VISITORS</div>
-                            <div class="number count-to" data-from="0" data-to="1225" data-speed="1000" data-fresh-interval="20"></div>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
 
             <div class="row">
@@ -115,70 +117,88 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                 </div>
                 <!-- #END# Donut Chart -->
             </div>
-            
-            <div class="row">
-                <!-- Donut Chart -->
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="card">
-                        <div class="header">
-                            <h2>Penggunaan Perlengkapan</h2>
-                            <ul class="header-dropdown m-r--5">
-                                <li class="dropdown">
-                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                        <i class="material-icons">more_vert</i>
-                                    </a>
-                                    <ul class="dropdown-menu pull-right">
-                                        <li><a href="javascript:void(0);">Action</a></li>
-                                        <li><a href="javascript:void(0);">Another action</a></li>
-                                        <li><a href="javascript:void(0);">Something else here</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="body">
-                            <canvas id="pie_chart" height="150"></canvas>
-                        </div>
-                    </div>
-                </div>
-                <!-- #END# Donut Chart -->
-            </div>
+        
         </div>
     </section>
 
     <?php include_once 'views/templates/footer.php' ?>
 
+    <?php 
+    $bulan = date('m')+1;
+
+
+    for ($i=0; $i <=2 ; $i++) { 
+        
+        $bulan = $bulan -1;
+
+        $sqlPerlengkapan = mysqli_query($conn, "SELECT perlengkapan.nama_perlengkapan, SUM(jml_penggunaan) AS jumlah FROM `penggunaan_perlengkapan` JOIN jumlah_proses_pencucian ON jumlah_proses_pencucian.id_jumlah_proses_pencucian=penggunaan_perlengkapan.id_jumlah_proses_pencucian INNER JOIN perlengkapan ON perlengkapan.id_perlengkapan=penggunaan_perlengkapan.id_perlengkapan WHERE MONTH(jumlah_proses_pencucian.tanggal_cuci) = $bulan GROUP BY perlengkapan.id_perlengkapan");
+
+            $flag = mysqli_num_rows($sqlPerlengkapan);
+            
+
+            while ($dataAda = mysqli_fetch_assoc($sqlPerlengkapan)) {
+                $namaPerlengkapan[] = $dataAda['nama_perlengkapan'];
+                $jumlah[] = $dataAda['jumlah'];
+
+            }
+        
+            if ($flag > 0) {
+                for ($j=0; $j < count($jumlah) ; $j++) { 
+                    $total[] = $jumlah[$j];
+                }
+                
+            }else{
+                for ($j=0; $j < count($jumlah) ; $j++) { 
+                    $total[] = 0;
+                }
+            }
+    } 
+
+    for($k=0;$k<count($namaPerlengkapan); $k++){
+
+        $dataset[] =
+                [
+                    'label' => $namaPerlengkapan[$k],
+                    'data' => [40,50,30],
+                    'backgroundColor' => 'rgba(233, 30, 99, 0.8)'
+                ];
+    }
+    
+
+        $dataFix = [
+                'labels' => ['Januari', 'Februari', 'Maret'],
+                'datasets' => $dataset
+                
+        ];
+
+        $dataaa = json_encode($dataFix, true);
+
+     ?>
+
     <script>
         $(function () {
             new Chart(document.getElementById("bar_chart").getContext("2d"), getChartJs('bar'));
-            new Chart(document.getElementById("pie_chart").getContext("2d"), getChartJs('pie'));
         });
 
         function getChartJs(type) {
-            var config = null;
+            var config = '';
+
+            var chartType = 'bar';
+            $.ajax({
+                type : 'POST',
+                url : "<?=$base_url?>kepala-unit/chart/",
+                data :{'type' : chartType},
+                dataType : "json",
+                success : function(data){
+                    config.setData(data);
+                }
+            });
+
+            console.log(config);
             if(type === 'bar'){
                 config = {
                     type: 'bar',
-                    data: {
-                        labels: ["Januari","Februari", "Maret"],
-                        datasets: [{
-                            label: "data 1",
-                            data: [100, 30,70],
-                            backgroundColor: 'rgba(233, 30, 99, 0.8)'
-                        }, {
-                            label: "data 2",
-                            data: [28, 40, 50],
-                            backgroundColor: 'rgb(139, 195, 74)'
-                        },{
-                            label: "data 3",
-                            data: [90,60,70],
-                            backgroundColor: 'rgba(0, 188, 212, 0.8)'
-                        },{
-                            label: "data 4",
-                            data: [50,70,30],
-                            backgroundColor: 'rgb(255, 193, 7)'
-                        }
-                            ]
-                    },
+                    data: <?php echo $dataaa; ?>,
                     options: {
                         responsive: true,
                         legend: false
@@ -213,6 +233,20 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
             return config;
 
         }
+
+
+        $(document).ready(function(){
+            var chartType = 'bar';
+            $.ajax({
+                type : 'POST',
+                url : "<?=$base_url?>kepala-unit/chart/",
+                data :{'type' : chartType},
+                dataType : "json",
+                success : function(data){
+                    config.setData(data);
+                }
+            });
+        });
     </script>
 
     <?php
