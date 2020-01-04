@@ -23,6 +23,18 @@ if (!empty($_POST['gender'])) {
         $insert_new_user->bind_param('ssssss', $full_name, $user_name, $email, $as_user, $gender, $id_user);
         if ($insert_new_user->execute()) {
             $insert_new_user->close();
+
+            $sqlPerawat = mysqli_query($conn, "SELECT * FROM user WHERE id_user = $id_user AND id_level = 4");
+
+            if (mysqli_num_rows($sqlPerawat) > 0) {
+                $id_ruang = $_POST['ruang'];
+                $sqlUpdateRuang = mysqli_query($conn,"UPDATE `perawat_ruang` SET `id_ruang`= $id_ruang WHERE `id_perawat` = $id_user");
+                if ($sqlUpdateRuang) {
+                    header('location:' . $base_url . 'admin/user/list/?message_success=Data Pengguna Berhasi Diedit!.');
+                }else{
+                    header('location:' . $base_url . 'admin/user/list/?message_failed=Data Pengguna Gagal Diedit!.');
+                }
+            }
             header('location:' . $base_url . 'admin/user/list/?message_success=Data Pengguna Berhasi Diedit!.');
         } else {
             header('location:' . $base_url . 'admin/user/list/?message_failed=Data Pengguna Gagal Diedit!.');

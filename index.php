@@ -131,6 +131,10 @@ switch ($uri[0]) {
 		require __DIR__ . '/controller/Admin/edit_linen.php';
 		break;
 
+	case '/dev/admin/perawat_ruang/':
+		require __DIR__ . '/views/admin/perawat/konfigurasi.php';
+		break;
+
 	/* end admin */
 
 	/* Perawat */

@@ -52,7 +52,32 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
             $sqlPerlengkapan = mysqli_query($conn, "SELECT id_perlengkapan FROM perlengkapan WHERE 1");
             $totalPerlengkapan = mysqli_num_rows($sqlPerlengkapan);
 
+            //cek permintaan belum dikonfirmasi
+            $sqlCekPermintaanLinen = mysqli_query($conn, "SELECT COUNT(`id_permintaan_linen_baru`) AS minta FROM `permintaan_linen_baru` WHERE `status` = 'belum'");
+            $dataMintaLinen = mysqli_fetch_assoc($sqlCekPermintaanLinen);
+            $dataMintaLinen = $dataMintaLinen['minta'];
+
+            $sqlCekPermintaanPerlengkapan = mysqli_query($conn, "SELECT COUNT(`id_permintaan_perlengkapan`) AS minta FROM `permintaan_perlengkapan` WHERE `status` = 'belum'");
+            $dataMintaPerlengkapan = mysqli_fetch_assoc($sqlCekPermintaanPerlengkapan);
+            $dataMintaPerlengkapan = $dataMintaPerlengkapan['minta'];
+
              ?>
+             <div class="row clearfix">
+                <div class="col-md-12">
+                    <?php if ($dataMintaLinen > 0) {
+                        echo '<div class="alert alert-danger">
+                        <strong>Ada '.$dataMintaLinen.'</strong> Permintaan Linen yang belum dikonfirmasi! <a class="btn btn-sm btn-warning" href="'.$base_url.'kepala-unit/linen/permintaan/">Lihat Disini</a>
+                    </div>';
+                    }
+                    if($dataMintaPerlengkapan > 0){
+                        echo '<div class="alert alert-danger">
+                        <strong>Ada '.$dataMintaPerlengkapan.'</strong> Permintaan Perlengkapan yang belum dikonfirmasi! <a class="btn btn-sm btn-warning" href="'.$base_url.'kepala-unit/perlengkapan/permintaan/">Lihat Disini</a>
+                    </div>';
+                    } ?>
+                    
+                </div>
+            </div>
+
             <!-- Basic Validation -->
             <div class="row clearfix">
                 <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
@@ -88,8 +113,9 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                         </div>
                     </div>
                 </div>
-                
             </div>
+
+            
 
             <div class="row">
                 <!-- Donut Chart -->
@@ -135,23 +161,27 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
 
             $flag = mysqli_num_rows($sqlPerlengkapan);
             
+            if (mysqli_num_rows($sqlPerlengkapan) > 0) {
+                while ($dataAda = mysqli_fetch_assoc($sqlPerlengkapan)) {
+                    $namaPerlengkapan[] = $dataAda['nama_perlengkapan'];
+                    $jumlah[] = $dataAda['jumlah'];
 
-            while ($dataAda = mysqli_fetch_assoc($sqlPerlengkapan)) {
-                $namaPerlengkapan[] = $dataAda['nama_perlengkapan'];
-                $jumlah[] = $dataAda['jumlah'];
-
-            }
-        
-            if ($flag > 0) {
-                for ($j=0; $j < count($jumlah) ; $j++) { 
-                    $total[] = $jumlah[$j];
                 }
-                
+            
+                if ($flag > 0) {
+                    for ($j=0; $j < count($jumlah) ; $j++) { 
+                        $total[] = $jumlah[$j];
+                    }
+                    
+                }else{
+                    for ($j=0; $j < count($jumlah) ; $j++) { 
+                        $total[] = 0;
+                    }
+                }
             }else{
-                for ($j=0; $j < count($jumlah) ; $j++) { 
-                    $total[] = 0;
-                }
+                $namaPerlengkapan[] = [];
             }
+            
     } 
 
     for($k=0;$k<count($namaPerlengkapan); $k++){
@@ -181,20 +211,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
         });
 
         function getChartJs(type) {
-            var config = '';
-
-            var chartType = 'bar';
-            $.ajax({
-                type : 'POST',
-                url : "<?=$base_url?>kepala-unit/chart/",
-                data :{'type' : chartType},
-                dataType : "json",
-                success : function(data){
-                    config.setData(data);
-                }
-            });
-
-            console.log(config);
+            var config = null;
             if(type === 'bar'){
                 config = {
                     type: 'bar',
@@ -233,20 +250,6 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
             return config;
 
         }
-
-
-        $(document).ready(function(){
-            var chartType = 'bar';
-            $.ajax({
-                type : 'POST',
-                url : "<?=$base_url?>kepala-unit/chart/",
-                data :{'type' : chartType},
-                dataType : "json",
-                success : function(data){
-                    config.setData(data);
-                }
-            });
-        });
     </script>
 
     <?php

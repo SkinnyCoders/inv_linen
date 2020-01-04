@@ -71,7 +71,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                             <tbody>
                                                 <?php
                                                 $no = 1;
-                                                    $getLinen = mysqli_query($conn, "SELECT linen_hilang.id_linen_hilang AS id,linen.nama_linen, kategori.nama_kategori, ruang.nama_ruang, kelas.nama_kelas, linen_hilang.jumlah, linen_hilang.status FROM `linen_hilang` INNER JOIN linen ON linen.id_linen=linen_hilang.id_linen INNER JOIN kategori ON kategori.id_kategori=linen.id_kategori INNER JOIN ruang ON ruang.id_ruang=linen.id_ruang INNER JOIN kelas ON kelas.id_kelas=linen.id_kelas WHERE 1 ORDER BY tanggal DESC");
+                                                    $getLinen = mysqli_query($conn, "SELECT linen_hilang.id_linen_hilang AS id,linen.nama_linen, kategori.nama_kategori, ruang.nama_ruang, kelas.nama_kelas, linen_hilang.jumlah, linen_hilang.status FROM `linen_hilang` INNER JOIN linen ON linen.id_linen=linen_hilang.id_linen INNER JOIN kategori ON kategori.id_kategori=linen.id_kategori INNER JOIN ruang ON ruang.id_ruang=linen.id_ruang INNER JOIN kelas ON kelas.id_kelas=linen.id_kelas WHERE ruang.id_ruang =".$_SESSION['id_ruang']);
                                                     while ($data_linen = mysqli_fetch_assoc($getLinen)) {
                                                         if ($data_linen['status'] == 'hilang') {
                                                             $style = "label-danger";

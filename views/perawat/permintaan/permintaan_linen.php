@@ -72,7 +72,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                             <tbody>
                                                 <?php
                                                 $no = 1;
-                                                    $getLinen = mysqli_query($conn, "SELECT id_permintaan_linen_baru, nama_linen_baru, kategori.nama_kategori, ruang.nama_ruang, kelas.nama_kelas, user.nama_user, jml_permintaan, permintaan.status FROM `permintaan_linen_baru` AS permintaan INNER JOIN user ON user.id_user=permintaan.id_user INNER JOIN ruang ON ruang.id_ruang=permintaan.id_ruang INNER JOIN kelas ON kelas.id_kelas=permintaan.id_kelas INNER JOIN kategori ON kategori.id_kategori=permintaan.id_kategori WHERE permintaan.status != 'diterima'");
+                                                    $getLinen = mysqli_query($conn, "SELECT id_permintaan_linen_baru, nama_linen_baru, kategori.nama_kategori, ruang.nama_ruang, kelas.nama_kelas, user.nama_user, jml_permintaan, permintaan.status FROM `permintaan_linen_baru` AS permintaan INNER JOIN user ON user.id_user=permintaan.id_user INNER JOIN ruang ON ruang.id_ruang=permintaan.id_ruang INNER JOIN kelas ON kelas.id_kelas=permintaan.id_kelas INNER JOIN kategori ON kategori.id_kategori=permintaan.id_kategori WHERE permintaan.status != 'diterima' AND ruang.id_ruang =".$_SESSION['id_ruang']);
                                                     while ($data_linen = mysqli_fetch_assoc($getLinen)) {
                                                         if ($data_linen['status'] == 'tidak setuju') {
                                                             $style = "label-danger";

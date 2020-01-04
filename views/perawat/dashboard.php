@@ -22,21 +22,23 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
             $where = "";
         }
 
-        $sqlLinenKotor = mysqli_query($conn, "SELECT linen.nama_linen, kategori.nama_kategori, ruang.nama_ruang, kelas.nama_kelas, linen_kotor.status, jenis_linen_kotor.jumlah FROM `linen_kotor` INNER JOIN linen ON linen.id_linen=linen_kotor.id_linen INNER JOIN ruang ON ruang.id_ruang=linen.id_ruang INNER JOIN kelas ON kelas.id_kelas=linen.id_kelas INNER JOIN kategori ON kategori.id_kategori=linen.id_kategori INNER JOIN jenis_linen_kotor ON jenis_linen_kotor.id_linen_kotor=linen_kotor.id_linen_kotor WHERE DATE(linen_kotor.tgl_pengambilan) = '$date_now'".$where);
+        $session_id_ruang = $_SESSION['id_ruang'];
+
+        $sqlLinenKotor = mysqli_query($conn, "SELECT linen.nama_linen, kategori.nama_kategori, ruang.nama_ruang, kelas.nama_kelas, linen_kotor.status, jenis_linen_kotor.jumlah FROM `linen_kotor` INNER JOIN linen ON linen.id_linen=linen_kotor.id_linen INNER JOIN ruang ON ruang.id_ruang=linen.id_ruang INNER JOIN kelas ON kelas.id_kelas=linen.id_kelas INNER JOIN kategori ON kategori.id_kategori=linen.id_kategori INNER JOIN jenis_linen_kotor ON jenis_linen_kotor.id_linen_kotor=linen_kotor.id_linen_kotor WHERE DATE(linen_kotor.tgl_pengambilan) = '$date_now' AND ruang.id_ruang = $session_id_ruang ".$where);
         if (mysqli_num_rows($sqlLinenKotor) > 0) {
             while ($dataKotor = mysqli_fetch_assoc($sqlLinenKotor)) {
                 $kotor[] = $dataKotor;
             }
         }
 
-        $sqlLinenCuci = mysqli_query($conn, "SELECT linen.nama_linen, kategori.nama_kategori, ruang.nama_ruang, kelas.nama_kelas, pencucian.status, jenis_linen_kotor.jumlah FROM `pencucian` INNER JOIN linen_kotor ON linen_kotor.id_linen_kotor=pencucian.id_linen_kotor INNER JOIN linen ON linen.id_linen=linen_kotor.id_linen INNER JOIN ruang ON ruang.id_ruang=linen.id_ruang INNER JOIN kelas ON kelas.id_kelas=linen.id_kelas INNER JOIN kategori ON kategori.id_kategori=linen.id_kategori INNER JOIN jenis_linen_kotor ON jenis_linen_kotor.id_jenis_linen_kotor=pencucian.id_jenis_linen_kotor WHERE pencucian.status = 'cuci' AND DATE(pencucian.tgl_cuci) = '$date_now'".$where);
+        $sqlLinenCuci = mysqli_query($conn, "SELECT linen.nama_linen, kategori.nama_kategori, ruang.nama_ruang, kelas.nama_kelas, pencucian.status, jenis_linen_kotor.jumlah FROM `pencucian` INNER JOIN linen_kotor ON linen_kotor.id_linen_kotor=pencucian.id_linen_kotor INNER JOIN linen ON linen.id_linen=linen_kotor.id_linen INNER JOIN ruang ON ruang.id_ruang=linen.id_ruang INNER JOIN kelas ON kelas.id_kelas=linen.id_kelas INNER JOIN kategori ON kategori.id_kategori=linen.id_kategori INNER JOIN jenis_linen_kotor ON jenis_linen_kotor.id_jenis_linen_kotor=pencucian.id_jenis_linen_kotor WHERE pencucian.status = 'cuci' AND DATE(pencucian.tgl_cuci) = '$date_now' AND ruang.id_ruang = $session_id_ruang ".$where);
         if (mysqli_num_rows($sqlLinenCuci) > 0) {
             while ($dataCuci = mysqli_fetch_assoc($sqlLinenCuci)) {
                 $cuci[] = $dataCuci;
             }
         }
 
-        $sqlLinenBersih = mysqli_query($conn, "SELECT linen.nama_linen, kategori.nama_kategori, ruang.nama_ruang, kelas.nama_kelas, linen_bersih.status, linen_bersih.jumlah FROM `linen_bersih` INNER JOIN pencucian ON pencucian.id_pencucian=linen_bersih.id_pencucian INNER JOIN linen_kotor ON linen_kotor.id_linen_kotor=pencucian.id_linen_kotor INNER JOIN linen ON linen.id_linen=linen_kotor.id_linen INNER JOIN ruang ON ruang.id_ruang=linen.id_ruang INNER JOIN kelas ON kelas.id_kelas=linen.id_kelas INNER JOIN kategori ON kategori.id_kategori=linen.id_kategori WHERE DATE(linen_bersih.tgl) = '$date_now'".$where);
+        $sqlLinenBersih = mysqli_query($conn, "SELECT linen.nama_linen, kategori.nama_kategori, ruang.nama_ruang, kelas.nama_kelas, linen_bersih.status, linen_bersih.jumlah FROM `linen_bersih` INNER JOIN pencucian ON pencucian.id_pencucian=linen_bersih.id_pencucian INNER JOIN linen_kotor ON linen_kotor.id_linen_kotor=pencucian.id_linen_kotor INNER JOIN linen ON linen.id_linen=linen_kotor.id_linen INNER JOIN ruang ON ruang.id_ruang=linen.id_ruang INNER JOIN kelas ON kelas.id_kelas=linen.id_kelas INNER JOIN kategori ON kategori.id_kategori=linen.id_kategori WHERE DATE(linen_bersih.tgl) = '$date_now' AND ruang.id_ruang = $session_id_ruang ".$where);
         if (mysqli_num_rows($sqlLinenBersih) > 0) {
             while ($dataBersih = mysqli_fetch_assoc($sqlLinenBersih)) {
                 $bersih[] = $dataBersih;
@@ -52,6 +54,8 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
         }elseif (!empty($kotor) && !empty($cuci)) {
             $data = array_merge($kotor, $cuci);
         }
+
+
         ?>
 
 <body class="theme-blue">

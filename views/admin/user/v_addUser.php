@@ -101,6 +101,21 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                         <label for="as_user" class="form-label">Tambahkan pengguna sebagai</label>
                                     </div>
                                 </div>
+                                <div class="form-group" id="form-perawat" style="display: none;">
+                                    <div class="form-line">
+                                        <select class="form-control show-tick m-t-20" name="ruang" id="as_user">
+                                            <?php 
+                                            $sqlRuang = mysqli_query($conn, "SELECT * FROM ruang WHERE 1");
+                                            while ($dataRuang = mysqli_fetch_assoc($sqlRuang)) :
+                                             ?>
+                                            <option value="<?=$dataRuang['id_ruang']?>"><?=ucwords($dataRuang['nama_ruang'])?></option>
+                                            <?php 
+                                            endwhile;
+                                             ?>
+                                        </select>
+                                        <label for="as_user" class="form-label">Pilih Ruang</label>
+                                    </div>
+                                </div>
                                 <!-- <div class="form-group">
                                     <input type="checkbox" id="checkbox" name="agree">
                                     <label for="checkbox">Data diatas benar dan dapat dipertanggung jawabkan</label>
@@ -116,6 +131,17 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
     </section>
 
     <?php include_once 'views/templates/footer.php' ?>
+
+    <script>
+        $('#as_user').on('change', function(){
+            var user = this.value;
+            if (user == 4) {
+                $('#form-perawat').show();
+            }else{
+                $('#form-perawat').hide();
+            }
+        })
+    </script>
 
     <?php
     } else {

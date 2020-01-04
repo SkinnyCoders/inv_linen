@@ -9,6 +9,8 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
         $role = $_SESSION['role'];
         $nama = $_SESSION['nama_user'];
 
+        $id_ruang = $_SESSION['id_ruang'];
+
         ?>
 
         <body class="theme-blue">
@@ -64,6 +66,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                     <th style="width: 20%;" class="text-nowrap">Kategori</th>
                                                     <th style="width: 30%;" class="text-nowrap">Ruang - Kelas</th>
                                                     <th style="width: 10%;" class="text-nowrap">jumlah</th>
+                                                    <th class="text-nowrap">Aksi</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -71,11 +74,13 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                 $no = 1;
                                                 if (isset($_GET['ruang']) && !empty($_GET['ruang'])) {
                                                     $ruang = $_GET['ruang'];
-                                                    $where = "ruang.nama_ruang = '$ruang' ORDER BY nama_linen ASC";
+                                                    $where = "AND ruang.nama_ruang = '$ruang' ORDER BY nama_linen ASC";
                                                 }else{
-                                                    $where = "1 ORDER BY nama_linen ASC";
+                                                    $where = "AND 1 ORDER BY nama_linen ASC";
                                                 }
-                                                    $getLinen = mysqli_query($conn, "SELECT id_linen, nama_linen, linen.id_ruang, kelas.nama_kelas, ruang.nama_ruang, kategori.nama_kategori, linen.jml_linen FROM `linen` JOIN kelas ON kelas.id_kelas=linen.id_kelas JOIN ruang ON ruang.id_ruang=linen.id_ruang JOIN kategori ON kategori.id_kategori=linen.id_kategori WHERE ".$where);
+                                                    $getLinen = mysqli_query($conn, "SELECT id_linen, nama_linen, linen.id_ruang, kelas.nama_kelas, ruang.nama_ruang, kategori.nama_kategori, linen.jml_linen FROM `linen` JOIN kelas ON kelas.id_kelas=linen.id_kelas JOIN ruang ON ruang.id_ruang=linen.id_ruang JOIN kategori ON kategori.id_kategori=linen.id_kategori WHERE linen.id_ruang = $id_ruang ".$where);
+                                                    if (mysqli_num_rows($getLinen) > 0) {
+                                                    
                                                     while ($data_linen = mysqli_fetch_assoc($getLinen)) {
                                                 ?>
                                                     <tr>
@@ -84,9 +89,11 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                         <td><?= ucwords($data_linen['nama_kategori']) ?></td>
                                                         <td><?= ucwords($data_linen['nama_ruang']) ?> - <?=ucwords($data_linen['nama_kelas'])?></td>
                                                         <td><?= $data_linen['jml_linen']?></td>
+                                                        <td><a href="javascript:void(0)" data-toggle="modal" data-target="#modalAdd1" class="btn btn-primary">Minta</a></td>
                                                     </tr>
                                                 <?php
                                                     }
+                                                }
                                                     
                                                 ?>
                                             </tbody>
@@ -129,6 +136,94 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                 </div>
                                 <div class="modal-footer">
                                                 <button type="submit" class="btn btn-primary waves-effect">CARI</button>
+                                            </form>
+                                    <button type="button" class="btn btn-link waves-effect waves-red" data-dismiss="modal" style="color:red">TUTUP</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end modal -->
+
+                    <!-- Modal add data -->
+                    <div class="modal fade" id="modalAdd1" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="defaultModalLabel">PERMINTAAN LINEN BARU</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Basic Validation -->
+                                    <div class="row clearfix">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <form id="form_validation" action="<?php echo $base_url ?>controller/perawat/permintaan/linen/tambah/" method="POST">
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        <input type="text" class="form-control" name="linen_baru" placeholder="* Nama Linen Baru" required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <select class="form-control show-tick m-t-20" name="kategori" id="kategori" required>
+                                                            <?php 
+                                                            $sqlKelas = mysqli_query($conn, "SELECT * FROM kategori WHERE 1 ORDER BY id_kategori ASC");
+                                                            while ($dataKelas = mysqli_fetch_assoc($sqlKelas)) {
+                                                             ?>
+                                                            <option value="<?=$dataKelas['id_kategori']?>"><?=$dataKelas['nama_kategori']?></option>
+                                                            <?php } ?>
+                                                        </select>
+                                                        <label for="kategori" class="form-label">* Pilih Kategori</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <select class="form-control show-tick m-t-20" name="ruang" id="ruang_linen" required>
+                                                            <?php 
+                                                            $sqlKelas = mysqli_query($conn, "SELECT * FROM ruang WHERE 1 ORDER BY id_ruang ASC");
+                                                            while ($dataKelas = mysqli_fetch_assoc($sqlKelas)) {
+                                                             ?>
+                                                            <option value="<?=$dataKelas['id_ruang']?>"><?=$dataKelas['nama_ruang']?></option>
+                                                            <?php } ?>
+                                                        </select>
+                                                        <label for="ruang_linen" class="form-label">* Linen Untuk Ruang</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group form-float" id="kelas_linen" style="display: none;">
+                                                    <div class="form-line">
+                                                        <select class="form-control show-tick m-t-20 kelas_ruang_select" name="kelas" id="kelas_ruang_select" required>
+                                                          
+                                                        </select>
+                                                        <label for="kelas_ruang_select" class="form-label">* Linen Untuk Kelas</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        <input type="number" min="1" class="form-control" name="jumlah_linen" placeholder="* Jumlah Linen" required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <select class="form-control show-tick m-t-20" name="diajukan" id="kategori" required>
+                                                            <?php 
+                                                            $sqlPerawat = mysqli_query($conn, "SELECT `id_user`,`nama_user` FROM `user` WHERE `id_level`=4");
+                                                            while ($dataPerawat = mysqli_fetch_assoc($sqlPerawat)) {
+                                                             ?>
+
+                                                            <option value="<?=$dataPerawat['id_user']?>" <?php if($dataPerawat['id_user'] == $_SESSION['id_user']){ echo 'selected="true"';}?>><?=$dataPerawat['nama_user']?></option>
+                                                            <?php } ?>
+                                                        </select>
+                                                        <label for="kategori" class="form-label">* Diajukan Oleh</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        <input type="text" class="form-control" name="keterangan" placeholder="* Keterangan Pengajuan" required>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                                <button type="submit" name="simpan" class="btn btn-primary waves-effect">SIMPAN</button>
                                             </form>
                                     <button type="button" class="btn btn-link waves-effect waves-red" data-dismiss="modal" style="color:red">TUTUP</button>
                                 </div>

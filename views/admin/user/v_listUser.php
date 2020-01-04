@@ -62,6 +62,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                     <th class="row-nama text-nowrap">Name</th>
                                                     <th class="row-posisi text-nowrap">Posisi</th>
                                                     <th class="row-gender text-nowrap">Jenis Kelamin</th>
+                                                    <th class="text-nowrap">Ruang</th>
                                                     <th class="row-aksi text-nowrap">Aksi</th>
                                                 </tr>
                                             </thead>
@@ -75,11 +76,21 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                             $gender = 'Perempuan';
                                                         }
 
+                                                        if ($data_user['nama_level'] == 'perawat') {
+                                                            $id_user = $data_user['id_user'];
+                                                            $sqlGetRuang = mysqli_query($conn, "SELECT ruang.`id_ruang`, ruang.nama_ruang FROM `perawat_ruang` INNER JOIN ruang ON ruang.id_ruang=perawat_ruang.id_ruang WHERE `id_perawat` = $id_user");
+                                                            $data_ruang = mysqli_fetch_assoc($sqlGetRuang);
+                                                            $data_ruang = $data_ruang['nama_ruang'];
+                                                        }else{
+                                                            $data_ruang = '-';
+                                                        }
+
                                                 ?>
                                                     <tr>
                                                         <td><?= ucwords($data_user['nama_user']) ?></td>
                                                         <td><?= ucwords($data_user['nama_level']) ?></td>
                                                         <td><?= ucwords($gender) ?></td>
+                                                        <td><?= ucwords($data_ruang)?></td>
                                                         <td class="text-nowrap"><a href="javascript:void(0)" id="<?=$data_user['id_user']?>" data-toggle="modal" data-target="#modalEdit" class="btn btn-info waves-effect m-r-20 edit"> EDIT</a>
                                                             <a href="javascript:void(0)" id="<?= $data_user['id_user'] ?>" class="btn btn-danger waves-effect edit_user">HAPUS</a></td>
                                                     </tr>
@@ -144,6 +155,21 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                                                             <option value="4">Perawat</option>
                                                         </select>
                                                         <label for="as_user" class="form-label">Tambahkan pengguna sebagai</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group" id="form-perawat" style="display: none;">
+                                                    <div class="form-line">
+                                                        <select class="form-perawat form-control show-tick m-t-20" name="ruang">
+                                                            <?php 
+                                                            $sqlRuang = mysqli_query($conn, "SELECT * FROM ruang WHERE 1");
+                                                            while ($dataRuang = mysqli_fetch_assoc($sqlRuang)) :
+                                                             ?>
+                                                            <option value="<?=$dataRuang['id_ruang']?>"><?=ucwords($dataRuang['nama_ruang'])?></option>
+                                                            <?php 
+                                                            endwhile;
+                                                             ?>
+                                                        </select>
+                                                        <label for="as_user" class="form-label">Pilih Ruang</label>
                                                     </div>
                                                 </div>
                                         </div>
@@ -257,12 +283,17 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'punten') {
                         data : {'id_user' : user_id},
                         dataType : "json",
                         success : function(data){
+                            if (data.id_level == 4) {
+                                $('#form-perawat').show();
+                                $('.form-perawat').val(data.nama_ruang);
+                            }else{
+                                $('#form-perawat').hide();
+                            }
                             $('#id_user').val(data.id_user);
                             $('#nama_user').val(data.nama);
                             $('#username').val(data.username);
                             $('#email').val(data.email);
                             $('#as_user').val(data.id_level).trigger();
-                            $("input[name='gender'][value='"+data.gender+"']").prop('checked');
                             
                         },
                     })

@@ -35,6 +35,11 @@ if (isset($_POST['auth'])) {
             }elseif ($data_user['id_level'] == '3') {
                 header('location:' . $base_url . 'laundry/dashboard/');
             }elseif ($data_user['id_level'] == '4') {
+                //sql get id ruang
+                $sqlRuang = mysqli_query($conn, "SELECT id_ruang FROM perawat_ruang WHERE id_perawat =".$data_user['id_user']);
+                $dataRuang = mysqli_fetch_assoc($sqlRuang);
+
+                $_SESSION['id_ruang'] = $dataRuang['id_ruang'];
                 header('location:' . $base_url . 'perawat/dashboard/');
             }elseif ($data_user['id_level'] == '1') {
                 header('location:'.$base_url.'kepala-unit/dashboard/');
