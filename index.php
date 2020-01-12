@@ -217,6 +217,14 @@ switch ($uri[0]) {
 		require __DIR__ . '/controller/Perawat/cancel_stok.php';
 		break;
 
+	case '/dev/controller/perawat/permintaan/ambil_data/':
+		require __DIR__ . '/controller/Perawat/getDataLinen.php';
+		break;
+
+	case '/dev/controller/perawat/permintaan/linen/tambah2/':
+		require __DIR__ . '/controller/Perawat/add_permintaan_linen_op.php';
+		break;
+
 	/* end Perawat */
 
 	/* Laundry */
